@@ -1,0 +1,43 @@
+
+<% include public/header %>
+<div class="login-box">
+    <h3>用户登录</h3>
+    <p id="loginError" class="hide text-center blod white"></p>
+    <form id="loginForm">
+		<div>
+			<input type="text" name="login" placeholder="请输入用户名" required autofocus>
+			<i class="iconfont icon-user"></i>
+		</div>
+		<div>
+			<input type="password" name="pwd" placeholder="请输入密码" required>
+			<i class="iconfont icon-lock1"></i>
+		</div>
+		<div>
+			<input type="text" name="vnum" placeholder="请输入验证码" required>
+			<img id="vcode" src="/vnum">
+		</div>
+		<div class="text-right">
+			<input type="button" value="登录">
+		</div>
+	</form>
+</div>
+<% include public/footer %>
+
+
+<script type="text/javascript">
+    R.enterMove('#loginForm');
+    R.enterEvent('input[name=vnum]', dologin);
+    R('input[type=button]').onclick=function(){dologin()}
+    function dologin() {
+        R.post('/doLogin', R.fd('#loginForm'), function(r) {
+            if (r === "success") {
+                window.location = R.url().target || "/user/";
+            }else{
+                R("#loginError").textContent = r;
+                R("#loginError").className = 'block';
+                R('#vcode').setAttribute('src', '/vnum?r=' + Math.random());
+            }
+        });
+    }
+
+</script>

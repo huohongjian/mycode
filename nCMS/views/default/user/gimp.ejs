@@ -1,0 +1,35 @@
+<link rel="stylesheet" type="text/css" href="/stylesheets/gimp.css">
+<header class="article-edit">
+<!-- 	<i class="iconfont icon-more" onclick="more()"></i> -->
+	<i class="iconfont icon-save3" onclick="save()"></i>
+	<i class="iconfont icon-desktop1" onclick="window.open(canvas.getDataURL(pos.x, pos.y, pos.w, pos.h))"></i>
+	<i class="iconfont icon-rotate-left"  onclick="canvas.rotate(-90)"></i>
+	<i class="iconfont icon-rotate-right" onclick="canvas.rotate(90)"></i>
+	<i class="iconfont icon-jian" onclick="canvas.zoom(-0.1)"></i>
+	<i class="iconfont icon-quan" onclick="canvas.reset()"></i>
+	<i class="iconfont icon-xinjianxiangmu"  onclick="canvas.zoom(0.1)"></i>
+	<i class="iconfont icon-font1" onclick="font()"></i>
+	<i class="iconfont icon-caijian" onclick="showStretch()"></i>
+	<i class="iconfont icon-iconf-unlock" onclick="fix(this)"></i>
+	<i class="iconfont icon-gear1" onclick="gear()"></i>
+</header>
+
+<form class="flex">
+	<div class="a-1-2">
+		<input type="file" name="file" id='file' onchange="canvas.loadFile(this.files[0])" />
+	</div>
+	<div class="a-1-4">
+		<input type="range" name="rotate" min="0" max="360" value="0" onchange="canvas.rotate(this.value,true)">
+	</div>
+	<div class="a-1-4">
+		<input type="range" name="zoom" min="0" max="100" value="100" onchange="canvas.zoom(this.value/100,true)">
+	</div>
+</form>
+
+<div id="canvas"></div>
+
+<script type="text/javascript" src="/my/R.js"></script>
+<script type="text/javascript" src="/my/Panel.js"></script>
+<script type="text/javascript" src="/my/Stretch.js"></script>
+<script type="text/javascript" src="/my/Canvas.js"></script>
+<script type="text/javascript" src="/javascripts/gimp.js"></script>

@@ -1,0 +1,59 @@
+<style type="text/css">
+
+	body {overflow-y: scroll; margin: 0;}
+
+	.shadow {
+		box-shadow: 0 0 400px #CCC;
+		-webkit-box-shadow: 0 0 40px #CCC;
+		-moz-box-shadow: 0 0 40px #CCC;
+		borderight: 1px solid #BBB;
+		overflow-y: auto;
+	}
+
+	.menu {
+		position: fixed;
+		right:5px;
+		top:5px;
+		cursor: pointer;
+		font-size: 25px;
+		color:#ff9900;
+	}
+
+</style>
+
+<div class="flex">
+	<div class="a-1-1 c-1-4 d-1-4">
+		<div class="post c-fixed shadow">
+			<article class="a-p-5 c-p-5 e-p-10 article lh-18">
+				<h2 class="article-title">
+					<a href="/ebook/<%= article._id %>/">
+						<%= article.title %>
+					</a>
+				</h2>
+				<ul class="article-meta">
+					<li><i class="iconfont icon-user"></i><%= article.user.name %></li>
+					<li><i class="iconfont icon-date2"></i><time datetime="<%= article.date %>" pubdate><%= article.date.toLocaleDateString() %></time></li>
+					<li><i class="iconfont icon-yuedu"></i>阅读(<%=article.click%>)</li>
+					<% if (user && user._id==article.user._id) { %>
+					<li><i class="iconfont icon-edit"></i><a href="/user/edit/<%= article._id %>" target="_blank">编辑</a>
+					</li>
+					<% } %>
+				</ul>
+				<div class="article-content"><%- mdToHtml(article.content)%></div>
+			</article>
+		</div>
+	</div>
+
+	<div class="a-1-1 c-3-4 d-3-4">
+		<article id="doc" class="a-p-5 c-p-10 e-p-20 article lh-18">
+			<div class="article-content">
+				<%- mdToHtml(article.abstract) %>
+			</div>
+		</article>
+	</div>
+
+	<div class="menu"><b>≡</b></div>
+
+</div>
+
+<script type="text/javascript" src="/javascripts/ebook.js"></script>

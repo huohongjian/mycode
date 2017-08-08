@@ -1,0 +1,10 @@
+
+<% if (users.length>0) { %>
+<ul>
+    <% users.forEach(function(user) { %>
+    <li><%= user.login %></li>
+    <% }) %>
+</ul>
+<% } else { %>
+<div>暂无用户</div>
+<% } %>

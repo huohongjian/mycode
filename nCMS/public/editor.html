@@ -1,0 +1,58 @@
+<!DOCTYPE HTML>
+<html>
+<meta charset="UTF-8" />
+<head>
+	<link rel="stylesheet" href="/stylesheets/nCMS.css" />
+	<link rel="stylesheet" href="/plugins/editormd/css/editormd.css" />
+	<link rel="stylesheet" href="/plugins/font-awesome/css/font-awesome.min.css" />
+	
+	<style type="text/css">
+		.editormd-preview-close-btn {
+			display: none;
+		}
+		.editormd .CodeMirror pre,
+		.editormd-preview-container {
+			font-size: 16px;
+		}
+		.markdown-body h1,
+		.markdown-body h2,
+		.markdown-body h3 {
+			border-bottom-width: 0;
+		}
+	
+
+.message{width: 300px; height: 150px; background-color: #ffffff; border-radius: 8px; border: solid 1px gray;
+        z-index: 99; display: none; position: absolute; margin: auto; top: 100px; right: 0; bottom_: 0; left: 0;}
+.message > div:last-child { padding: 10px; text-align: center;}
+.message > div:first-child { border-top-left-radius: 8px; border-top-right-radius: 8px; padding: 5px 10px; background-color: #eee;}
+.message li {list-style: none; cursor: pointer; float: left; margin-right: 10px;}
+
+
+		.editormd-opt-dialog input[type=text] {width:300px;}
+		.editormd-opt-dialog label {display: block; width: 80px; text-align: right;}
+		.editormd-opt-dialog textarea {width: 400px; height: 80px; font-size: 13px;}
+		.editormd-opt-dialog ul {margin: 0; padding: 0;}
+		.editormd-opt-dialog li {margin: 7px 10px; float: left; cursor: pointer; list-style-type: none;}
+		.editormd-opt-dialog li.selected {color: red; font-weight: 700;}
+
+	</style>
+</head>
+<body>
+	<div id="myEditormd" class="editormd-fullscreen">
+		<textarea id="content" style="display:none;"></textarea>
+	</div>
+	<div class="message">
+		<div>提示信息：</div>
+		<div>ok</div>
+	</div>
+
+<script type="text/javascript" src="/plugins/jquery-2.1.3.min.js"></script>
+<script type="text/javascript" src="/plugins/editormd/editormd.min.js" ></script>
+<script type="text/javascript" src="/javascripts/R.js"></script>
+<script type="text/javascript" src="/javascripts/editor.js"></script>
+<script type="text/javascript">
+
+	
+</script>
+</body>
+</html>

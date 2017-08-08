@@ -1,0 +1,71 @@
+<link rel="stylesheet" href="/stylesheets/edit.css">
+
+<header class="article-edit">
+	<i title="更多" class="iconfont icon-more"></i>
+	<i title="保存" class="iconfont icon-save3"></i>
+	<i title="预览" class="iconfont icon-desktop1"></i>
+	<i title="新建" class="iconfont icon-xinjian1"></i>
+
+	<i title="3号标题">H3</i>
+	<i title="4号标题">H4</i>
+	<i title="5号标题">H5</i>
+
+	<i title="图片" class="iconfont icon-chatimage"></i>
+	<i title="表格" class="iconfont icon-icon"></i>
+	<i title="缩进" class="iconfont icon-indent1"></i>
+	<i title="伸出" class="iconfont icon-outdent1"></i>
+
+	<i title="合并段间空行" 	class="iconfont icon-029suoxiaoxingjianju"></i>
+	<i title="段间插入空行" 	class="iconfont icon-hangjianju"></i>
+	<i title="上传附件" 	class="iconfont icon-fujian"></i>
+	<i title="插入全角空格" 	class="iconfont icon-icon-kongge"></i>
+	<i title="插入4个空格">::::</i>
+	<i title="半角空格转全角">:<b>:</b></i>
+	<i title="全角空格转半角"><b>:</b>:</i>
+	<i title="合并全角空格"><b>::</b></i>
+	<i title="合并半角空格">::</i>
+<!-- 	<i title="插入字符#">#</i> -->
+	<i title="插入字符*">*</i>
+	<i title="插入字符-">-</i>
+	<i title="插入字符`">`</i>
+	<i title="插入字符|">Ⅰ</i>
+
+	<i title="添加至电子书" class="iconfont icon-iconfontbook"></i>
+</header>
+<form class="flex" id="editForm" onsubmit="return false;">
+	<div class="a-1-1">
+		<label onclick="getTitle()">标题:</label>
+		<input type="text" name="title" autofocus value="<%= article.title %>">
+	</div>
+	<div class="b-3-4">
+		<label onclick="getAbstract()">摘要: </label><textarea name="abstract"><%= article.abstract %></textarea>
+		<div>
+			<label>类别: </label>
+			<select id="category" name="category">
+				<% var cs=locals.cats; if(mycats){cs=cs.concat(mycats)}
+				if (cs) { for (var i=0; i<cs.length; i++) { %>
+				<option value="<%= cs[i] %>"
+					<% if(cs[i]==article.category){ %> selected="selected"  <%}%> >
+					<%= cs[i] %>
+				</option>
+				<% }} %>
+			</select>
+			<label>状态: </label>
+			<% include ../public/articleStatus %>
+		</div>
+	</div>
+	<div class="b-1-4">
+		<img id="thumb" src="<%= article.image %>">
+	</div>
+	<div class="a-1-1">
+		<textarea name="content"><%= article.content %></textarea>
+	</div>
+
+	<input type="hidden" id="articleid" name="_id" value="<%= article._id %>">
+	<input type="hidden" name="old_status" value="<%= article.status %>">
+</form>
+
+<script src="/javascripts/edit.js"></script>
+<script>
+	R('[name=status]').value = "<%= article.status %>";
+</script>

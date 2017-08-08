@@ -1,0 +1,72 @@
+<link rel="stylesheet" href="/stylesheets/admin.css">
+
+<div class="flex">
+	<div class="a-1-1 c-1-4 d-1-5">
+		<div class="c-fixed">
+			<% include public/aside %>
+		</div>
+	</div>
+
+	<div class="a-1-1 c-3-4 d-4-5">
+		<% include public/header %>
+		<form>
+			<% include ../public/articleStatus %>
+		</form>
+		<% include ../public/searchForm %>
+
+		<form id="lists">
+			<% include ../public/articles %>
+		</form>
+		<% include ../public/pagination %>
+	</div>
+</div>
+
+<script>
+
+	R.id('section-2').checked = 'checked';
+	var oSelectAll = R.id('selectAll');
+
+	if (oSelectAll) {
+		oSelectAll.addEventListener('change', function(){
+			var o = this;
+			R.ALL('input[name=_ids]').each(function(a){
+				a.checked = o.checked;
+			});
+		});
+	}
+	
+
+	var searchStatus = R('.searchForm [name=status]');
+	searchStatus.insertBefore(R.ce('option', {
+		value: '0',
+		innerHTML: '--状态--',
+		selected: 'selected'}), searchStatus.firstChild);
+	
+
+	var oStatus = R('select[name=status]');
+	oStatus.insertBefore(R.ce('option', {
+		value:'0',
+		innerHTML:'状态设置',
+		selected: "selected"}), oStatus.firstChild);
+	oStatus.addEventListener('change', setStatus, false);
+
+	function setStatus(o) {
+		var v = this.value;
+		if (v=='0') {
+			message('请选择操作命令!', 1000);
+		} else {
+			var oIds = R.all('input[name=_ids]:checked');
+
+			R.post('/admin/setStatus', R.fd('#lists', {status: v}), function(r){
+				message(r, 1000);
+				R.ALL(oIds).each(function(a){
+					a.checked=false;
+					R.parent(a, 'tr').cells[4].innerHTML = R('option:checked',oStatus).innerHTML;
+				});
+				if (oSelectAll) oSelectAll.checked = false;
+			});
+		}
+	}
+
+
+</script>

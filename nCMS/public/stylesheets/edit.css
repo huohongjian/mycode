@@ -1,0 +1,15 @@
+#editForm {
+	margin-top:45px;
+}
+input[name=title] {width:85%;}
+
+textarea[name=abstract] {width:79%; height:20px; padding:3px; line-height:1.2; margin:5px 0; vertical-align:middle;}
+
+textarea[name=content] {width:98%; height:380px; margin-top:5px; line-height: 1.6;}
+select {width:32%; height:28px;}
+img {max-width:85px; max-height:58px; margin:2px; cursor:pointer;}
+
+
+#attach{margin:10px; width: 90%;}
+.panel button {margin: 10px;}
+#ebook select{width:85%; margin: 20px;}

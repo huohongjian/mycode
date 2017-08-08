@@ -1,0 +1,16 @@
+<div class="newItemList">
+	<h3>电子书</h3>
+	<ul>
+		<%if(ebooks.length>0){%>
+			<%ebooks.forEach(function(book){%>
+			<li class="ellipsis">
+			<a href="/ebook/<%=book._id%>/" target="_blank"><%=book.title%></a>
+			</li>
+			<%})%>
+		<%}else{%>
+		<li class="text-center">暂无内容...</li>
+		<%}%>
+
+	</ul>
+
+</div>

@@ -1,0 +1,48 @@
+ <!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>MarkdownIME on Web</title>
+    <link rel="stylesheet" href="http://laobubu.net/MarkdownIME/demo.css">
+</head>
+
+  <body>
+
+<section id="s1">
+    <h1 class="hide">MarkdownIME</h1>
+    <p class="subtitle hide">一种全新的Web富文本输入方式</p>
+
+    <div id="editor" contenteditable="true" spellcheck="false" class="hide"></div>
+    <button onclick="hhj()">save</button>
+</section>
+
+
+<section id="s2" class="toc-source">
+
+
+<p style="text-align:center"><a title="加载 MarkdownIME" class="button" id="bookmarklet">载入 MarkdownIME</a></p>
+
+
+</section>
+
+<script>
+    var demotext = ["# 你好世界 8-)","在这里 **直接输入** 你的 *Markdown* 文字， `*例如这样*` ，然后按下空格或回车。",""];
+    demotext.pop();
+    
+    function hhj(){
+        var h = document.getElementById('editor').innerHTML;
+        alert(h);
+    }
+</script>
+<script src="https://twemoji.maxcdn.com/twemoji.min.js" async></script>
+<script id="s_mdime" src="http://build.laobubu.net/MarkdownIME/MarkdownIME.min.js" async></script>
+<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+<script src="http://laobubu.net/MarkdownIME/demo.js"></script>
+<script src="http://laobubu.net/MarkdownIME/toc.js"></script>
+
+  </body>
+  
+
+</html>
+

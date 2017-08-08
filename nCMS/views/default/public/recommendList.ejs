@@ -1,0 +1,16 @@
+<!--近期文章模块-->
+<div class="recommendList">
+    <h3>推荐文章</h3>
+    <ul>
+        <%if(recommends.length>0){%>
+            <%recommends.forEach(function(article){%>
+            <li>
+                <a href="/details/<%=article._id%>/" target="_blank"><%=article.title%></a>
+            </li>
+            <%})%>
+        <%}else{%>
+            <li class="text-center">暂无内容...</li>
+        <%}%>
+
+    </ul>
+</div>

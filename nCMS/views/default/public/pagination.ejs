@@ -1,0 +1,20 @@
+
+
+<% if (Math.ceil(items.total/items.per)>1){ %>
+<div id="pagination"></div>
+
+<script type="text/javascript" src="/my/Pagination.js"></script>
+<script type="text/javascript">
+
+	var page = new Pagination({
+		container: '#pagination',
+		page: parseInt(R.url().page) || 1,
+		total: <%= Math.ceil(items.total / items.per) %>,
+		displayArrow: true,
+		onclick: function(index){
+			window.location.href = R.setURL({page: index});
+		},
+	});
+
+</script>
+<% } %>

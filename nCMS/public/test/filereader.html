@@ -1,0 +1,440 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<title>无标题文档</title>
+<style>
+img {
+	width_: 100px;
+}
+</style>
+</head>
+<body>
+	<script type="text/javascript">
+
+		// if(typeof FileReader == 'undefined'){ //判断浏览器是否支持FileReader接口  
+		// 	var div=document.getElementById("dd");
+		// 	div.innerHTML='你的浏览器不支持FileReader接口！';
+		// 	document.getElementById("file").setAttribute("disabled","disabled");
+		// 	document.getElementById("filea").setAttribute("disabled","disabled");
+		// 	document.getElementById("fileb").setAttribute("disabled","disabled");
+		// }
+
+		// function show() {
+		// 	var file=document.getElementById("file").files[0];
+		// 	var reg=/image\/\w+/;
+		// 	if(!reg.test(file.type)){ //判断是否为图片
+		// 		return false;
+		// 	}
+		// 	if(file){
+		// 		var reader = new FileReader();
+		// 		reader.onload = function ( event ) {
+		// 			var txt = event.target.result;
+		// 			var img = document.createElement("img");
+		// 			img.src = txt;
+		// 			document.getElementById("content").appendChild( img );
+		// 		}
+		// 	}
+		// 	reader.readAsDataURL(file);
+		// } 
+
+		// function aShow(){
+		// 	var file=document.getElementById("filea").files[0];
+		// 	if(file){
+		// 		var reader=new FileReader();
+		// 		reader.onload=function(){
+		// 			var cona=document.getElementById("contenta");
+		// 			cona.innerHTML=this.result;
+		// 		}
+		// 	}
+		// 	reader.readAsBinaryString(file);
+		// }
+		// function bShow(){
+		// 	var file=document.getElementById("fileb").files[0];
+		// 	if(file){
+		// 		var reader=new FileReader();
+		// 		reader.onload=function(e){
+		// 			var conb=document.getElementById("contentb");
+		// 			conb.innerHTML=e.target.result;
+		// 			}
+		// 	}
+		// 	reader.readAsText(file);
+		// }
+
+	</script> 
+	<div id="dd"></div>
+	<p>图像：<input type="file" name="file" id='file'/></p>
+	<p id='content'></p>
+	<p>二进制文件：<input type="file" name="file" id='filea' onchange='aShow()'/></p>
+	<p id='contenta'></p>
+	<p>文本文件：<input type="file" name="file" id='fileb' onchange='bShow()'/></p>
+	<p id='contentb'></p>
+
+	<div id="result"></div>
+	<button onclick="xuan()">旋转</button>
+</body>
+
+<script type="text/javascript">
+
+var  ImageFile = function(inputid) {
+	this.file = document.getElementById(inputid);
+	this.dataURL;
+	this.dataCompress;
+	this.degree = 0;
+	this.maxWidth = 300;
+}
+
+ImageFile.prototype = {
+	constructor: ImageFile,
+	run: function(imageid) {
+		return this;
+	},
+
+	readData: function(fn) {
+		if (this.dataURL===undefined) {
+			var that = this;
+			this.file.onchange = function() {
+				var reader = new FileReader();
+				reader.onload = function(e) {
+					that.dataURL = this.result;
+					fn(that.dataURL);
+				}
+				reader.readAsDataURL(that.file.files[0]);
+			}
+		} else {
+			fn(this.dataURL);
+		}
+	},
+	// 呈现原始图片
+	render: function(id) {
+		this.readData(function(dataURL){
+			var image = document.createElement('img');
+			image.setAttribute('src', dataURL);
+			document.getElementById(id).appendChild(image);
+		});
+	},
+
+	getBase64: function() {
+		return this.dataURL;
+	},
+	// 呈现压缩图片
+	appendTo: function(id, clear) {
+		var el = document.getElementById(id);
+		if (clear==undefined) el.innerHTML = '';
+		var that = this;
+		this.readData(function(dataURL) {
+			console.log(dataURL.length);
+
+			that.compress(dataURL, function(dataCompress){
+				console.log(dataCompress.length);
+				document.getElementById('dd').innerHTML = dataURL.length + '_' + dataCompress.length;
+
+				var image = document.createElement('img');
+				image.setAttribute('src', dataCompress);
+				document.getElementById(id).appendChild(image);
+			});
+		});
+			
+		
+	},
+
+	rotate: function(id, clear) {
+		this.degree += 90;
+		if (this.degree>270) this.degree=0;
+		this.appendTo(id, clear);
+	},
+
+	cut: function() {
+
+	},
+
+	compress: function(img, next) {
+		var that = this;
+		var image = new Image();
+		image.onload = function() {
+			var drawW, drawH, canvasW, canvasH,
+				w = this.naturalWidth,
+				h = this.naturalHeight;
+
+			console.log(w, h);
+
+
+			
+			switch (that.degree) {	//判断图片方向，重置canvas大小，确定旋转角度
+				case 0: 			//iphone默认的是home键在右方的横屏拍摄方式
+					r = w>that.maxWidth ? that.maxWidth/w : 1;
+					canvasW = w*r;
+					canvasH = h*r;
+					drawW = w*r;
+					drawH = h*r;
+					break;
+				case 90: 			//iphone竖屏拍摄，此时home键在下方(正常拿手机的方向)
+					r = h>that.maxWidth ? that.maxWidth/h : 1;
+					canvasW=h*r;
+					canvasH=w*r;
+					drawW=w*r;
+					drawH=-h*r;
+					break;
+				case 180: 			//iphone横屏拍摄，此时home键在左侧 
+					r = w>that.maxWidth ? that.maxWidth/w : 1;
+					canvasW = w*r;
+					canvasH = h*r;
+					drawW=-w*r;
+					drawH=-h*r;
+					break;
+				case 270: 			//iphone竖屏拍摄，此时home键在上方
+					r = h>that.maxWidth ? that.maxWidth/h : 1;
+					canvasW=h*r;
+					canvasH=w*r;
+					drawW=-w*r;
+					drawH=h*r;
+					break;
+			}
+
+
+			console.log(drawW, drawH, canvasW, canvasH);
+
+			var canvas=document.createElement('canvas');
+			canvas.width = canvasW;
+			canvas.height= canvasH; 
+			var context=canvas.getContext('2d');
+			
+			//使用canvas旋转校正
+			context.rotate(that.degree*Math.PI/180);
+			context.drawImage(this, 0, 0, drawW, drawH);
+			//返回校正图片
+			next(canvas.toDataURL("image/jpeg", 1.0));
+		}
+		image.src=img;
+	},
+
+	isCanvasSupported: function() {
+
+	},
+
+	toBlob: function(dataURI) {
+
+	},
+
+
+}
+
+
+
+var img = new ImageFile('file');
+img.degree = 0;
+//img.render('result');
+img.appendTo('result');
+
+function xuan() {
+	img.rotate('result');
+}
+
+</script>
+
+
+<script type="text/javascript">
+
+
+
+	// var photo = document.getElementById('file');
+ 
+	// function isCanvasSupported(){
+	// 	var elem = document.createElement('canvas');
+	// 	return !!(elem.getContext && elem.getContext('2d'));
+	// }
+ 
+// 	photo.onchange1 = function(event){
+// 		if(!isCanvasSupported()){
+// 			return;
+// 		}
+// 　　　　　　
+// 		compress(event, function(base64Img){
+// 			console.log(base64Img.length);
+
+// 			var img = document.createElement('img');
+// 			var blob = dataURItoBlob(base64Img);
+
+// 			img.setAttribute('src', base64Img);
+// 			document.getElementById('result').appendChild(img);
+// 		});
+//  	}
+
+
+// 	function compress(event, callback){
+// 		var file = event.currentTarget.files[0];
+// 		var reader = new FileReader();
+//  		console.log(file);
+
+// 		reader.onload = function (e) {
+
+// 			var image = document.createElement('img');
+// 			image.onload = function () {
+// 				var square = 300;
+// 				var canvas = document.createElement('canvas');
+// 				var context = canvas.getContext('2d');
+				
+
+				
+
+// 				const maxWidth = 200;
+// 				var imageWidth = this.width;
+// 				var imageHeight = this.height;
+// 				var offsetX = 0;
+// 				var offsetY = 0;
+
+// 				if (imageWidth > maxWidth) {
+// 					imageWidth = maxWidth;
+// 					imageHeight = maxWidth * this.height / this.width;
+// 				}
+// 				console.log(this.width, this.height, imageWidth, imageHeight);
+// 				canvas.width = imageWidth;
+// 				canvas.height = imageHeight;
+// 			//	context.clearRect(0, 0, imageWidth, imageHeight);
+
+
+// 				// if (this.width > this.height) {
+// 				// 	imageWidth = Math.round(square * this.width / this.height);
+// 				// 	imageHeight = square;
+// 				// 	offsetX = - Math.round((imageWidth - square) / 2);
+// 				// } else {
+// 				// 	imageHeight = Math.round(square * this.height / this.width);
+// 				// 	imageWidth = square; 
+// 				// 	offsetY = - Math.round((imageHeight - square) / 2); 
+// 				// }
+
+// 				console.log(imageWidth, imageHeight);
+
+// 				context.rotate(90*Math.PI/180);
+
+// 				context.drawImage(this, offsetX, offsetY, imageWidth, -imageHeight);
+// 				var data = canvas.toDataURL('image/jpeg');
+
+// 				callback(data);
+// 			}
+// //			console.log(e.target.result);
+// 			image.setAttribute('src', e.target.result);
+// 			image.style.width = '300px';
+// 			document.getElementById('result').appendChild(image);
+// 		}
+
+// 		reader.readAsDataURL(file);
+// 	}
+
+
+
+// 	function dataURItoBlob(dataURI) {
+//     // convert base64 to raw binary data held in a string 
+//     var byteString 
+//         ,mimestring 
+
+//     if(dataURI.split(',')[0].indexOf('base64') !== -1 ) {
+//         byteString = atob(dataURI.split(',')[1])
+//     } else {
+//         byteString = decodeURI(dataURI.split(',')[1])
+//     }
+
+//     mimestring = dataURI.split(',')[0].split(':')[1].split(';')[0]
+
+//     var content = new Array();
+//     for (var i = 0; i < byteString.length; i++) {
+//         content[i] = byteString.charCodeAt(i)
+//     }
+
+//     return new Blob([new Uint8Array(content)], {type: mimestring});
+// }
+
+
+
+
+
+
+// //此方法为file input元素的change事件
+//  function change(){
+//     var file = this.files[0];
+//     var orientation;
+//     //EXIF js 可以读取图片的元信息  https://github.com/exif-js/exif-js
+//     EXIF.getData(file,function(){
+//         orientation=EXIF.getTag(this,'Orientation');
+//     });
+//     var reader = new FileReader();
+//     reader.onload = function(e) {   
+//         getImgData(this.result,orientation,function(data){
+//             //这里可以使用校正后的图片data了 
+//         }); 
+//     }
+//     reader.readAsDataURL(file);
+// }
+
+
+// // @param {function} next 回调方法，返回校正方向后的base64
+// function getImgData(img,dir,next){
+//   var image=new Image();
+//   image.onload=function(){
+//     var degree=0,drawWidth,drawHeight,width,height;
+//     drawWidth=this.naturalWidth;
+//     drawHeight=this.naturalHeight;
+//     //以下改变一下图片大小
+//     var maxSide = Math.max(drawWidth, drawHeight);
+//     if (maxSide > 1024) {
+//         var minSide = Math.min(drawWidth, drawHeight);
+//         minSide = minSide / maxSide * 1024;
+//         maxSide = 1024;
+//         if (drawWidth > drawHeight) {
+//             drawWidth = maxSide;
+//             drawHeight = minSide;
+//         } else {
+//             drawWidth = minSide;
+//             drawHeight = maxSide;
+//         }
+//     }
+//     var canvas=document.createElement('canvas');
+//     canvas.width=width=drawWidth;
+//     canvas.height=height=drawHeight; 
+//     var context=canvas.getContext('2d');
+//     //判断图片方向，重置canvas大小，确定旋转角度，iphone默认的是home键在右方的横屏拍摄方式
+//     switch(dir){
+//        //iphone横屏拍摄，此时home键在左侧
+//         case 3:
+//             degree=180;
+//             drawWidth=-width;
+//             drawHeight=-height;
+//             break;
+//         //iphone竖屏拍摄，此时home键在下方(正常拿手机的方向)
+//         case 6:
+//             canvas.width=height;
+//             canvas.height=width; 
+//             degree=90;
+//             drawWidth=width;
+//             drawHeight=-height;
+//             break;
+//         //iphone竖屏拍摄，此时home键在上方
+//         case 8:
+//             canvas.width=height;
+//             canvas.height=width; 
+//             degree=270;
+//             drawWidth=-width;
+//             drawHeight=height;
+//             break;
+//     }
+//     //使用canvas旋转校正
+//     context.rotate(degree*Math.PI/180);
+//     context.drawImage(this,0,0,drawWidth,drawHeight);
+//     //返回校正图片
+//     next(canvas.toDataURL("image/jpeg",.8));
+//  }
+//   image.src=img;
+// }
+
+
+
+
+
+
+
+
+
+
+
+</script>
+</html>

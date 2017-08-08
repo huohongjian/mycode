@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="nCMS">
+	<meta name="keywords" content="nCMS nBLOG nWIKI" />
+	<meta name="author" content="HuoHongJian hhj">
+	<title>nCMS</title>
+ 	<link rel="stylesheet" href="http://at.alicdn.com/t/font_stnj9i7gtbc07ldi.css">
+	<link rel="stylesheet" href="/stylesheets/nCMS.css">
+	<link rel="stylesheet" href="/my/r.css?v=1.0.0">
+	<script src="/my/R.js?v=1.0.0"></script>
+	<script src="/my/Panel.js?v=1.0.0"></script>
+</head>
+<body>
+
+<button class="btn" onclick="t()">
+    Copy to clipboard
+</button>
+
+<input type="text" id="inp" >
+
+<script src="/javascripts/nCMS.js"></script>
+<script>
+
+R.id('inp').addEventListener('paste', function (event){
+	event.preventDefault();
+	console.log(event);
+	var clipboardData = (event.clipboardData || window.clipboardData);
+	var s = clipboardData.getData("text");
+	console.log('ok'+s);
+}, false);
+
+function getClipboardText(event){  
+        var clipboardData = event.clipboardData || window.clipboardData;  
+        return clipboardData.getData("text");  
+    };  
+
+function t() {
+	R('input').onpaste();
+}
+
+var EventUtil = {
+	addHandler: function (element, type, handler) {
+		if (element.addEventListener) {
+			element.addEventListener(type, handler, false);
+		} else if (element.attachEvent) {
+			element.attachEvent("on" + type, handler);
+		} else {
+			element["on" + type] = handler;
+		}
+	},
+	getEvent: function (event) {
+		return event ? event : window.event;
+	},
+	getClipboardText: function (event) {
+		console.log(event);
+		var clipboardData = (event.clipboardData || window.clipboardData);
+		return clipboardData.getData("text");
+	},
+	setClipboardText: function (event, value) {
+		if (event.clipboardData) {
+			return event.clipboardData.setData("text/plain", value);
+		} else if (window.clipboardData) {
+			return window.clipboardData.setData("text", value);
+		}
+	},
+	preventDefault: function (event) {
+		if (event.preventDefault) {
+			event.preventDefault();
+		} else {
+			event.returnValue = false;
+		}
+	}
+};
+
+// var eve = document;
+// EventUtil.addHandler(eve, "paste", function (event) {
+// 	console.log('asdf')
+// 	event = EventUtil.getEvent(event);
+// 	var text = EventUtil.getClipboardText(event);
+// 	alert(text);
+// })
+
+
+//现在我想直接获得text,而不是再 ctrl+v触发一下，使用了两种方法还是不行：
+evtObj = document.createEvent('UIEvents');
+
+//evtObj.initUIEvent("paste", true, true, window, 1);
+
+evtObj.initUIEvent("paste", true, true, window, 1);
+
+
+// var ev = document.createEvent('HTMLEvents');
+// ev.iniEvent('paste', true, true, window, 1);
+console.log(DataTransfer)
+ev  = new Event('paste',{
+	 clipboardData: DataTransfer,
+});
+R.id('inp').dispatchEvent(ev);
+
+//delete evtObj.keyCode;
+
+// if (typeof evtObj.ctrlKey === 'undefined') {//为了模拟ctrl键
+// 	alert("success1111");
+// 	Object.defineProperty(evtObj, "ctrlKey", { value: true });
+// } else {
+// 	evtObj.ctrlKey = true;
+// }
+// if (typeof evtObj.keyCode === "undefined") {//为了模拟keycode
+// 	alert("success2222");
+// 	Object.defineProperty(evtObj, "keyCode", { value: 86 });
+// } else {
+// 	evtObj.key = String.fromCharCode(keyCode);
+// }
+
+// document.dispatchEvent(evtObj);
+////上面这个是模拟键盘点击事件，第二个是直接触发 paste事件，都没有什么反应，是不是我
+//evtObj.initUIEvent("paste", true, true, window, 1);这一行写错了。求教，求解答。
+</script>
+</body>
+</html>

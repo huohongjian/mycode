@@ -1,0 +1,25 @@
+<link rel="stylesheet" href="/stylesheets/admin.css">
+
+<div class="flex">
+	<div class="a-1-1 c-1-4 d-1-5">
+		<div class="c-fixed">
+		<% include public/aside %>
+		</div>
+	</div>
+
+	<div class="a-1-1 c-3-4 d-4-5">
+		<% include ../admin/public/header %>
+		<form id="query">
+
+		</form>
+
+		<form id="lists">
+			<% include ../public/articles %>
+		</form>
+		<% include ../public/pagination %>
+	</div>
+</div>
+
+<script>
+//R.id('section-1').checked = 'checked';
+</script>

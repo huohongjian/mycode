@@ -1,0 +1,153 @@
+<!--默认全局模板框架-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="nCMS%>">
+	<meta name="keywords" content="nCMS nBLOG" />
+	<meta name="author" content="nCMS">
+	<title>test</title>
+<!-- 	<link rel="stylesheet" href="/plugins/font-awesome/css/font-awesome.min.css?v=4.3.0" /> -->
+	<link rel="stylesheet" href="http://at.alicdn.com/t/font_k5ejtbpeusgx2yb9.css">
+	<link rel="stylesheet" href="/stylesheets/nCMS.css">
+	<link rel="stylesheet" href="/my/r.css">
+	<style type="text/css">
+		.iconfont {
+            font-family:"iconfont" !important;
+            font-size:16px;
+            font-style:normal;
+            -webkit-font-smoothing: antialiased;
+            -webkit-text-stroke-width: 0.2px;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        	
+
+        	li { font-size: 14px; margin-top: 5px; color: #369; }
+.webicon { width: 16px; height: 16px; margin-right: 5px; fill: currentColor; vertical-align: -2px; }
+
+
+
+
+.icon {
+        display: inline-block;
+        width: 50px;
+        height: 50px;
+        overflow: hidden;
+    }
+    
+    .icon-del {
+        background: url(/svg/user.svg) no-repeat center; background-size:20px;
+    }
+    
+    .icon > .icon {
+        position: relative;
+        left: -50px;
+        border-right: 50px solid transparent;
+        -webkit-filter: drop-shadow(50px 0);
+        filter: drop-shadow(rgb(204, 51, 255) 50px 0);
+    }
+
+
+
+
+	</style>
+</head>
+<body>
+
+    <i class="iconfont icon-lianjie"></i>
+    <i class="iconfont icon-lajixiang"></i>
+    <i class="iconfont icon-save"></i>
+
+    <p>
+    	<i class="ic ic-user"></i>
+    	<b class="ic ic-user"></b>
+
+    </p>
+
+    <strong>SVG Sprite fill color 使用</strong>
+<ul id="ul">
+    <li><svg class="webicon"><use xlink:href="#qianbi"/></svg>编辑信息</li>
+    <li><svg class="webicon"><use xlink:href="#liwu"/></svg>兑换礼物</li>
+    <li><svg class="webicon"><use xlink:href="#shangchuan"/></svg>上传文件</li>
+</ul>
+<strong>修改对应li元素的颜色</strong>
+<ul id="color">
+    <li><input type="color" value="#336699"></li>
+    <li><input type="color" value="#336699"></li>
+    <li><input type="color" value="#336699"></li>
+</ul>
+
+
+
+
+<p><strong>origin icon</strong></p>
+<i class="icon icon-del"></i>
+<p><strong>after change icon color</strong></p>
+<i class="icon"><i class="icon icon-del"></i></i>
+
+
+
+
+<script type="text/javascript" src="/my/R.js"></script>
+<script type="text/javascript" src="/my/Pagination.js"></script>
+<script type="text/javascript" src="/my/Stretch.js"></script>
+<script type="text/javascript">
+
+//alert(('/my/Panel.js').match(/\..*/));
+
+// R.require('/my/ajax.js', function(){
+//     get('/', function(r){
+//         console.log(r);
+//     })
+// });
+
+var ajax = R.require('/my/ajax.js');
+ajax({
+    url: '/',
+    method: 'get',
+    onload: function(r){
+        console.log(r);
+}
+});
+
+	
+var url = "mytest.svg";
+if (window.addEventListener) {
+    var div = document.createElement("div");
+    div.style.display = "none";
+    document.body.appendChild(div);
+    
+    // 载入SVG
+    if (localStorage.getItem(url)) {
+        // 本地获取，减少请求
+        div.innerHTML = localStorage.getItem(url);
+    } else {
+        var xhr = new XMLHttpRequest();
+        xhr.open("get", url);
+        xhr.onload = function() {
+            if (xhr.responseText) {
+                div.innerHTML = xhr.responseText;
+                // 本地存储
+                localStorage.setItem(url, xhr.responseText);    
+            }
+        };
+        xhr.send(null);
+    }
+    
+    // 改变颜色事件
+    [].slice.call(document.querySelectorAll("#color input")).forEach(function(input, index) {
+        input.addEventListener("change", function() {
+            var value = this.value || "#369";
+            document.querySelectorAll("#ul li")[index].style.color = value;    
+        });
+    });
+} else {
+    document.getElementById("ul").innerHTML = '<li style="color:#cd0000;">注定被无视的浏览器！</li>';
+}
+
+
+</script>
+</body>
+</html>

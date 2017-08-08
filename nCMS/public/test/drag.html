@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>drag</title>
+	<style type="text/css">
+		div {position:absolute; width:200px; height:100px; border: 1px solid gray;}
+		#dragme {left:300px; }
+	</style>
+</head>
+<body>
+	<div id="text"></div>
+	<div id="dragme" draggable="true"></div>
+</body>
+<script type="text/javascript">
+	window.onload = function(){
+		var source = document.getElementById('dragme');
+
+		source.style.left='300px';
+		source.style.top='50px';
+
+		source.addEventListener('dragstart', function(e){
+		//	e.preventDefault();
+			var dt = e.dataTransfer;
+			dt.setData("L", parseInt(e.target.style.left));
+			dt.setData("T", parseInt(e.target.style.top));
+			dt.setData("X", e.clientX);
+			dt.setData("Y", e.clientY);
+		//	console.log(e.target.style.left);
+		}, false);
+
+		document.addEventListener('dragover', function(e){
+			e.preventDefault();
+		},  false)
+
+		document.addEventListener('drop', function(e){
+			e.preventDefault();
+			var X = e.clientX, Y = e.clientY;
+			var dt = e.dataTransfer;
+
+			var left =  parseInt(dt.getData("L")) + X - parseInt(dt.getData("X"));
+			var top = parseInt(dt.getData("T")) + Y- parseInt(dt.getData("Y") );
+
+			source.style.left = left+ 'px';
+			source.style.top = top + 'px';
+			console.log(left, top);
+
+		}, false);
+
+	}
+
+</script>
+</html>

@@ -1,0 +1,83 @@
+<link rel="stylesheet" href="/stylesheets/admin.css">
+
+<style type="text/css">
+	fieldset {width:90%; margin:20px auto;}
+	fieldset label {display: inline-block; width: 100px; text-align: right;}
+	fieldset p label:not(:first-child){width:40px;}
+	input[type=button]{padding: 2px; font-size: 13px;}
+	input[type=button]:nth-child(1){margin-left: 150px;}
+</style>
+
+<div class="flex">
+	<div class="a-1-1 c-1-4 d-1-5">
+		<div class="c-fixed">
+		<% include public/aside %>
+		</div>
+	</div>
+
+	<div class="a-1-1 c-3-4 d-4-5">
+		<% include ../admin/public/header %>
+		<fieldset>
+			<legend>修改密码</legend>
+			输入密码：<input type="password" id="pwd">
+			再次输入：<input type="password" id="pwd2">
+			<input type="button" value="修改密码" onclick="modifyPwd()">
+		</fieldset>
+
+		<fieldset>
+			<legend>修改信息</legend>
+			<form id="info">
+				<p><label>用户名：</label><input type="text" name="login" value="<%= user.login %>" readonly><span> 不可修改</span></p>
+				<p><label>姓名：</label><input type="text" name="name" value="<%= user.name%>"></p>
+				<p><label>昵称：</label><input name="nick" type="text" value="<%= user.nick%>"></p>
+				<p>
+					<label>性别：</label>
+					<label><input type="radio" name="sex" value="男"
+					<% if(user.sex=='男'){%> checked="checked"<%}%>>男</label>
+					<label><input type="radio" name="sex" value="女"
+					<% if(user.sex=='女'){%> checked="checked"<%}%>>女</label>
+				</p>
+				<p><label>email：</label><input name="email" type="email" value="<%= user.email%>"></p>
+				<p><label>电话：</label><input name="phone" type="text" value="<%= user.phone%>"></p>
+				<p><label>QQ：</label><input name="qq" type="text" value="<%= user.qq%>"></p>
+				<p><label>自我介绍：</label><textarea name="introduce"><%= user.introduce%></textarea></p>
+
+				<p><input type="button" value="修改信息" onclick="modifyInfo()"></input></p>
+			</form>
+		</fieldset>		
+	</div>
+
+</div>
+
+
+<script>
+	R.enterMove('#info');
+	R.enterEvent('#pwd', function(){R.id('pwd2').select()});
+	R.enterEvent('#pwd2', modifyPwd);
+
+	function modifyPwd(){
+		var pwd = R.id('pwd').value;
+		if (pwd.length<4) {
+			message('密码应不少于3位！', 1000);
+			return;
+		}
+		if (R.id('pwd2').value==pwd){
+			R.post('/user/info/modifyPwd', {pwd: pwd}, function(r){
+				message(r, 1000);
+			});
+		} else {
+			message('两次密码输入的不一致！', 1000);
+			R.id('pwd').select();
+		}
+	}
+
+	function modifyInfo(){
+		R.post('/user/info/modifyInfo', R.fd('#info'), function(r){
+			message(r, 1000);
+		});
+	}
+
+
+
+
+</script>

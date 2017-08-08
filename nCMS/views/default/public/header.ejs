@@ -1,0 +1,36 @@
+
+<header class="flex b-p-0 c-p-5 d-p-100 e-p-120">
+	<ul class="a-1-1 topNav">
+		<li>
+			<form action="/search">
+				<label>
+					<input type="search" class="search" name="key">
+					<i class="iconfont icon-globaliconfont02" id="searchIcon"></i>
+				</label>
+			</form>
+			
+		</li>
+		<% if (user) { %>
+		<li><a rel="nofollow" href="/user/manage">您好:<%=user.login%></a></li>
+		<li><a rel="nofollow" href="/loginOut">退出</a></li>
+		<% } else { %>
+		<li><a rel="nofollow" target="_blank" href="/login">登录</a></li>
+		<li><a rel="nofollow" target="_blank" href="/regist">注册</a></li>
+		<% } %>
+	</ul>
+	<div class="a-1-1 site-name">
+		<a href="/"><i>n</i>CMS</a>
+		<b>知识在于积累</b>
+	</div>
+	<div class="a-1-1 site-nav">
+    	<ul>
+			<li><a href="javascript:siteNavMore()">┅</a></li>
+			<li><a href="/user/edit/">添加</a></li>
+			<li><a href="/user/gimp/">图片</a></li>
+			<li><a href="#">视频</a></li>
+			<li><a href="#">任务</a></li>
+			<li><a href="/ebook/">电子书</a></li>
+			<li><a href="/user/">我的文章</a></li>
+		</ul>
+	</div>
+</header>

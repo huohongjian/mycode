@@ -1,0 +1,11 @@
+<form action="/search" class="searchForm" data-file="/public/searchForm">
+	<% include ./articleStatus %>
+	<select name="range">
+		<option value="title">标题</option>
+		<option value="content">内容</option>
+		<option value="category">类别</option>
+		<option value="abstract">摘要</option>
+	</select>
+	<input type="search" name="key" placeholder="关键字">
+	<button>检索</button>
+</form>

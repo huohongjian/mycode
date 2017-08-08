@@ -1,0 +1,39 @@
+<% if (articles.length>0){ %>
+<table>
+	<thead>
+		<tr>
+			<th>No</th>
+			<th><input type="checkbox" id="selectAll">标题</th>
+			<th>作者</th>
+			<th>时间</th>
+			<th>状态</th>
+			<th>操作</th>
+		</tr>
+	</thead>
+	<tbody>
+		<% articles.forEach(function(a, i){ %>
+		<tr>
+			<td><%= i+1 %></td>
+			<td>
+				<label>
+				<input type="checkbox" name="_ids" value="<%=a._id%>">
+				<% if(a.category=='电子书'){ %>
+				<i class="iconfont icon-iconfontbook yellow"></i>
+				<% } %>
+				<%= a.title %>
+				</label>
+			</td>
+			<td><div class="ellipsis"><%= a.user.name %></div></td>
+			<td><%= a.date.toLocaleDateString() %></td>
+			<td><%= a.status.name %></td>
+			<td>
+				<a target="_blank" href="/details/<%= a._id %>">预览</a>
+				<a target="_blank" href="/user/edit/<%= a._id %>">编辑</a>
+			</td>
+		</tr>
+		<% }) %>
+	</tbody>
+</table>
+<% }else{ %>
+<p class="text-center">暂无内容...</p>
+<% } %>

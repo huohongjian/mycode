@@ -1,0 +1,37 @@
+
+body {margin:0;}
+body, select, input, textarea, .iconfont{font-size: 14px;}
+
+header {
+	background-color:#3c8dbc;
+	height: 60px;
+}
+
+header b {
+	cursor: pointer;
+	font-size: 25px;
+	color:#fff; #ff9900;
+	margin:10px;
+}
+header b {font-size:25px;color:yellow;}
+header i {color:yellow;}
+
+		
+form {padding:10px 10px 0 10px;}
+input[type=button] {padding: 5px; margin: 1px;}
+#lists {display:block;}
+
+table{width: 100%; margin: auto; font-size: 14px;}
+th,td{text-align: center; padding: 5px;}
+td:nth-child(2) {text-align: left;}
+th{white-space:nowrap;}
+input[type=text]{width:100px;padding: 4px;}
+select {width:100px;padding: 2px;}
+
+th {position: relative;}
+th input{
+	position: absolute;
+	left: 4px;
+}
+
+

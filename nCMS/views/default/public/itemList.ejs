@@ -1,0 +1,40 @@
+
+<div class="post-list">
+<% if (articles.length>0){ %>
+	<% articles.forEach(function(article){ %>
+	<article class="article">
+		<h3 class="ellipsis">
+			<% if (article.category=='电子书') { %>
+			<i class="iconfont icon-iconfontbook yellow"></i>
+			<a href="/ebook/<%= article._id %>/" target="_blank">
+			<% } else { %>
+			<a href="/details/<%= article._id %>/" target="_blank">
+			<% } %>
+			<%= article.title %></a>
+		</h3>
+		<ul class="article-meta">
+			<li><i class="iconfont icon-date2"></i><%= article.date.toLocaleDateString() %></li>
+			<li><i class="iconfont icon-yuedu"></i>阅读(<%= article.click %>)</li>
+			<li><i class="iconfont icon-pinglun"></i>评论(<%= article.commentNum %>)</li>
+
+			<% if (user && (user._id == article.user || user.role<3)) {%>
+			<li><i class="iconfont icon-edit"></i><a href="/user/edit/<%= article._id %>" target="_blank">编辑</a></li>
+			<% } %>
+		</ul>
+		<div class="article-content max-height">
+			<% if (article.category=='电子书') { %>
+			<a href="/ebook/<%= article._id %>/" target="_blank">
+			<% } else { %>
+			<a href="/details/<%= article._id %>/" target="_blank">
+			<% } %>
+				<%= article.abstract.substr(0,80) || article.content.substr(0,80) %>
+			</a>
+		</div>
+	</article>
+	<% }) %>
+<% }else{ %>
+	<p class="text-center">暂无内容...</p>
+<% } %>
+</div>
+
+

@@ -1,0 +1,36 @@
+<link rel="stylesheet" href="/stylesheets/admin.css">
+
+<div class="flex">
+	<div class="a-1-1 c-1-4 d-1-5">
+		<div class="c-fixed">
+		<% include public/aside %>
+		</div>
+	</div>
+
+	<div class="a-1-1 c-3-4 d-4-5">
+		<% include ../admin/public/header %>
+		<% include ./public/tasks %>
+		<% include ../public/pagination %>
+
+		<fieldset>
+			<legend>添加任务</legend>
+			<form id="addTask">
+				<p><label>计划时间：</label><input type="text" name="time"></p>
+				<p><label>任务名称：</label><input type="text" name="name"></p>
+				<p><label>提醒时间：</label><input type="dext" name="remind"></p>
+				<p><label>提醒频率：</label><input type="nuber" name="frequency"></p>
+				<p><label>过期删除：</label><input type="checkbox" name="autoRemove"></p>
+				<p><input type="button" name="confirm" value="添加" onclick="addTask()"></p>
+			</form>
+		</fieldset>
+	</div>
+</div>
+
+<script>
+	function addTask(){
+		R.post('/user/addTask', R.fd('#addTask'), function(r){
+
+		});
+	}
+</script>
+

@@ -1,0 +1,25 @@
+<% if(tasks.length>0){ %>
+<table>
+	<thead>
+		<tr>
+			<th>No</th>
+			<th>名称</th>
+			<th></th>
+			<th></th>
+			<th></th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+		<% tasks.forEach(function(task, i){ %>
+		<tr>
+			<td><%= i+1 %></td>
+			<td><%= task.name %></td>
+			<td></td>
+		</tr>
+		<% }) %>
+	</tbody>
+</table>
+<% } else { %>
+<p>暂无任务</p>
+<% } %>

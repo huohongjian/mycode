@@ -1,0 +1,38 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8"/>
+</head>
+<body>
+	<p><button id="cropBeginBtn">图片处理</button></p>
+	<img id="cropTestImg" src="http://image.zhangxinxu.com/image/study/s/s512/mm1.jpg" />
+	<p><button id="cropEndBtn" style="display:none; position:relative; z-index:1;">确认处理</button></p>
+
+JS代码：
+<script type="text/javascript" src="http://www.zhangxinxu.com/study/js/excanvas1.js"></script>
+
+<script type="text/javascript" src="http://www.zhangxinxu.com/study/js/zxx.crop_rotation.js"></script>
+<script type="text/javascript">
+	window.onload = function(){
+		var oImg = document.getElementById("cropTestImg");
+		var oEndBtn = document.getElementById("cropEndBtn");
+		document.getElementById("cropBeginBtn").onclick = function(){
+			fnImageCropRot(oImg);
+			oEndBtn.style.display = "inline-block";
+		};    
+		oEndBtn.onclick = function(){
+			var x = document.getElementById("cropPosX").value,
+				y = document.getElementById("cropPosY").value,
+				w = document.getElementById("cropImageWidth").value,
+				h = document.getElementById("cropImageHeight").value,
+				angle = document.getElementById("zxxRotAngle").value;
+			if(angle === ""){
+				angle = 0;    
+			}
+			alert("角度："+angle+"\n剪裁横坐标："+x+"\n剪裁纵坐标："+y+"\n剪裁宽度："+w+"\n剪裁高度："+h);
+		};
+	};
+</script>
+</body>
+</html>

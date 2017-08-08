@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>数据框</title>
+	<style>
+		td{height:26px; width:100px; background-color:#f2f2f2;}
+	</style>
+	<script type='text/javascript' src='../$df.js'></script>
+	<script type='text/javascript' src='../$tbl.js'></script>
+	<script>
+		window.onload=function(){
+			
+			var aa = [["b",'006',4,'B',9,'hhj'],['','','','',''],["a",'',9, 'A',9],["c",'',2,'C',9],["d",'',1,'D',9]];
+			var bb = [['A',1], ['B',2],['C',3]];
+			var cc = [['c'],['d']];
+			var c = ['r1','r2','r3','r4','r5','r6']
+			var d = ['R1','R2']
+			
+			
+			
+			var df1 = $df(aa).nmbRows(1,3);
+			
+			
+			var div=document.getElementById('div1');
+			var tbl=$tbl.create([],df1.val);
+			div.appendChild(tbl);
+			
+			
+			document.getElementById('create1').appendChild($tbl.create([],$df([[1,'a','A'], [2,'b','B']]).val))
+			document.getElementById('create2').appendChild($tbl.create([],$df(2,3,'').val))
+			
+		}
+
+		
+	</script>
+</head>
+<body>
+	<article>
+		<header>创建df</header>
+		<section>
+			<h4>1.创建空df:　$df();</h4>
+			<h4>2.根据二维数组创建df:　$df([[1,'a','A'],[2,'b','B']]).val</h4><div id='create1'></div>
+			<h4>3.创建指标大小的df:　$df(2,3,'').val</h4><div id='create2'></div>
+		</section>
+	</article>
+	<div id='div1'></div>
+</body>
+</html>

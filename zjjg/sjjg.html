@@ -1,0 +1,214 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv=Content-Type content="text/html; charset=utf-8">
+		<title>河北省烟草专卖局(公司)资金监管中心</title>
+		<link rel="stylesheet" type="text/css" href="javascript/dgrid/dgrid.css"/>
+		<link rel="stylesheet" type="text/css" href="javascript/uiTabs/ui.tabs.css">
+		<link rel="stylesheet" type="text/css" href="css/main.css"/>
+		<script type="text/javascript" src="cache/data.js"></script>
+		<script type="text/javascript" src="javascript/jquery.pack.js"></script>
+		<script type="text/javascript" src="javascript/dgrid/dgrid.js"></script>
+		<script type="text/javascript" src="javascript/jquery.func.js"></script>
+		<script type="text/javascript" src='javascript/function.js'></script>
+		<script src="javascript/uiTabs/ui.tabs.pack.js" type="text/javascript"></script>
+		
+		<style type="text/css">
+			div.tab {margin-bottom:5px; border:1px solid #5E8AB6;}
+			h3 {margin:10px; text-align:center;}
+			
+			.dgrid {width:880px; margin:auto;}
+			#dgrid0 tbody tr {cursor:pointer;}
+			#dgrid0 .c0 {width:35px; text-align:center;}
+			#dgrid0 .c1 {width:70px; text-align:center;}
+			#dgrid0 .c2 {width:90px; text-align:center;}
+			#dgrid0 .c3 {width:90px; text-align:center;}
+			#dgrid0 .c4 {width:360px; text-align:left;}
+			#dgrid0 .c5 {width:120px; text-align:right;}
+			#dgrid0 .c6 {width:60px; text-align:center;}
+			
+			#dgrid1, #dgrid2 {width:425px; float:left; margin-left:8px;}
+			#dgrid1 .c0, #dgrid2 .c0 {width:60px; text-align:center;}
+			#dgrid1 .c1, #dgrid2 .c1 {width:80px; text-align:center;}
+			#dgrid1 .c2, #dgrid2 .c2 {width:100px; text-align:center;}
+			#dgrid1 .c3, #dgrid2 .c3 {width:140px; text-align:center;}
+			
+			ul.searchbar {padding:5px 0px; height:10px; margin-top:5px;}
+			ul.searchbar li {float:left; margin-left:8px;}
+			span#cors select {width:65px;}
+			span#cats select {width:100px;}
+			span#status select {width:65px;}
+			span#sdate .date_y {width:70px;}
+			.searchbar .date_m, .searchbar .date_d {width:55px; margin-left:5px;}
+			
+			
+			
+			#container-1 {margin-top:10px;}
+			#container-1 > div {width:auto;}
+			div#fragment-2 h3 {float:left; width:400px; margin-top:0px;}
+			
+		</style>
+		
+		<script type="text/javascript">
+			$(function(){
+				$.getJSON('service/login.php?func=getUserInfo',
+					function(json){
+						if(json.key==1){
+							if(json.corid!=0) window.location.href = 'msg.html?no=1';
+							$('#status').selectSetValue('2');
+							refreshDgrid0();
+						}else{
+							window.location.href = 'msg.html?no=2';
+				//			alert(json.msg);
+						}
+					}
+				);
+			}
+			)
+			
+			function refreshDgrid0(){
+				var p = new Object();
+				p.corid = $('#cors').selectGetValue();
+				p.cid = $('#cats').selectGetValue();
+				p.sid = $('#status').selectGetValue();
+				p.sdate = $('#sdate').dateGet().ymd;
+				p.edate = $('#edate').dateGet().ymd;
+				$("#dgrid0").dgridSetParams(p);
+				$("#dgrid0").dgridAjax({total:-1, page:1});
+			}
+			
+		</script>
+	</head>
+	
+	<body>
+		<script type="text/javascript">document.write(jscode.header());</script>
+		<div class="tab">
+			<div id="container-1">
+	            <ul>
+	                <li><a href="#fragment-1"><span>申请单查询</span></a></li>
+	                <li><a href="#fragment-2"><span>用户信息</span></a></li>
+	                <li><a href="#fragment-3"><span>费用预算</span></a></li>
+	                <li><a href="#fragment-4"><span>添加文章</span></a></li>
+	            </ul>
+	            <div id="fragment-1">
+	         		<div id="dgrid0"></div>
+	         		<ul class="searchbar">
+						<li>单位：<span id="cors"></span></li>
+						<li>类别：<span id="cats"></span></li>
+						<li>状态：<span id="status"></span></li>
+						<li>日期：<span id="sdate"></span> 至 <span id="edate"></span></li>
+						<li><button onclick="refreshDgrid0()">查询</button></li>
+					</ul>
+	            </div>
+	
+	            <div id="fragment-2">
+	            	<div style="clear:both;"></div>
+	            	<h3>在线用户</h3><h3>用户信息</h3>
+					<div id="dgrid1" class="dgrid"></div>
+					<div id="dgrid2" class="dgrid"></div>
+				</div>
+				<div id="fragment-3">
+					<iframe src="cache/fyys.htm" width="100%" height="390px" frameborder="no" scrolling="No"></iframe>
+				</div>
+				
+				<div id="fragment-4">
+					<iframe id='keditor' width="100%" height="400px" frameborder="no" scrolling="No"></iframe>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript">document.write(jscode.footer());</script>
+		
+	</body>
+	<script type="text/javascript">
+		$('#cors').selectBuild(options.cors);
+		$('#cats').selectBuild(options.unshift_array(options.cats, {v:'0',n:'全部'}));
+		$('#status').selectBuild(options.unshift_array(options.status, {v:'0',n:'全部'}));
+		var d = new Date();
+		$('#sdate').date(
+		{
+			y:{onchange:function(o){$('#edate').dateSet({y:o.value});}, dv:d.getFullYear(), start:2008, end:2012},
+			m:{onchange:function(o){$('#edate').dateSet({m:o.value});}, dv:d.getMonth()+1},
+			d:{onchange:function(o){$('#edate').dateSet({d:o.value});}}
+		}
+		);
+		
+		$('#edate').date(
+		{
+			y:{dv:d.getFullYear(), start:2008, end:2012},
+			m:{dv:d.getMonth()+1},
+			d:{dv:31}
+		}
+		);
+		
+		$("#dgrid0").dgrid(
+			{
+				url: 'service/sjjg.php',
+				colModel: [
+					{display: '单号'},
+					{display: '单位'},
+					{display: '申请时间'},
+					{display: '类别'},
+					{display: '摘要'},
+					{display: '金额', init:formatNumber},
+					{display: '状态'}
+					],
+				buttons: [{name:'批量批复', onpress:function(o){reply($('#dgrid0').dgridSerialize([]));}}],
+				rowEvent: {event:'dblclick', handle:function(o){reply(o.id);}},
+				rp: 50,
+				params: {func:	'getList'}
+			}
+		);
+		
+		$("#dgrid1").dgrid(
+			{
+				url: 'service/sjjg.php',
+				autoload: true,
+				colModel: [
+					{display: '序号'},
+					{display: '单位', init: function(v){return options.getName(options.cors, v)}},
+					{display: '用户名'},
+					{display: '登录时间'}
+					],
+				params: {func:	'getUser'}
+			}
+		);
+		
+		$("#dgrid2").dgrid(
+			{
+				url: 'service/sjjg.php',
+				autoload: true,
+				colModel: [
+					{display: '序号'},
+					{display: '单位', init: function(v){return options.getName(options.cors, v)}},
+					{display: '用户名'},
+					{display: '电话'}
+					],
+				params: {func:	'getUserInfo'}
+			}
+		);
+		
+			
+		$('#container-1 > ul').tabs({
+			show: function(ui){
+				if( $('#container-1 > ul').data('selected.tabs') ==3 ){
+					$('#keditor').attr('src', 'keditor.html');
+				}
+			}
+		});
+		
+		function reply(postdata){
+			if(!confirm('是否批复申请，请确认?')) return;
+			$.post('service/sjjg.php',{
+				func:	'reply',
+				corid:	$('#cors').selectGetValue(),
+				data:	postdata
+			},function(data){
+				alert(data);
+				$('#dgrid0').dgridAjax();
+			}
+			);
+		}
+		
+		
+	</script>
+</html>

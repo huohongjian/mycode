@@ -1,0 +1,71 @@
+function create_tree(obj) {
+				d = new dTree('d', '../_include/dtree/');
+
+				d.add(1, -1, '全部类别', 'javascript:clicknode(0,1,\'全部类别\')');
+d.add(10, 1, '通知通告', 'javascript:clicknode(1,10,\'通知通告\')');
+d.add(11, 10, '公告信息', 'javascript:clickleaf(2,11,\'公告信息\')');
+d.add(12, 10, '最新通知', 'javascript:clickleaf(3,12,\'最新通知\')');
+d.add(13, 10, '领导讲话', 'javascript:clickleaf(4,13,\'领导讲话\')');
+d.add(14, 10, '行业文件', 'javascript:clickleaf(5,14,\'行业文件\')');
+d.add(15, 10, '行业信息', 'javascript:clickleaf(6,15,\'行业信息\')');
+d.add(16, 10, '财会信息', 'javascript:clickleaf(7,16,\'财会信息\')');
+d.add(17, 10, '会计软件', 'javascript:clickleaf(8,17,\'会计软件\')');
+d.add(19, 10, '其他', 'javascript:clickleaf(9,19,\'其他\')');
+d.add(30, 1, '政策法规', 'javascript:clicknode(10,30,\'政策法规\')');
+d.add(31, 30, '法律', 'javascript:clickleaf(11,31,\'法律\')');
+d.add(32, 30, '经济', 'javascript:clickleaf(12,32,\'经济\')');
+d.add(33, 30, '财务', 'javascript:clickleaf(13,33,\'财务\')');
+d.add(34, 30, '会计', 'javascript:clickleaf(14,34,\'会计\')');
+d.add(35, 30, '税务', 'javascript:clickleaf(15,35,\'税务\')');
+d.add(39, 30, '其他', 'javascript:clickleaf(16,39,\'其他\')');
+d.add(50, 1, '学习交流', 'javascript:clicknode(17,50,\'学习交流\')');
+d.add(51, 50, '财务', 'javascript:clickleaf(18,51,\'财务\')');
+d.add(52, 50, '会计', 'javascript:clickleaf(19,52,\'会计\')');
+d.add(53, 50, '税务', 'javascript:clickleaf(20,53,\'税务\')');
+d.add(54, 50, '电脑', 'javascript:clickleaf(21,54,\'电脑\')');
+d.add(59, 50, '其他', 'javascript:clickleaf(22,59,\'其他\')');
+d.add(70, 1, '电脑知识', 'javascript:clicknode(23,70,\'电脑知识\')');
+d.add(71, 70, '系统', 'javascript:clickleaf(24,71,\'系统\')');
+d.add(72, 70, '软件', 'javascript:clickleaf(25,72,\'软件\')');
+d.add(73, 70, '硬件', 'javascript:clickleaf(26,73,\'硬件\')');
+d.add(74, 70, '网页', 'javascript:clickleaf(27,74,\'网页\')');
+d.add(75, 70, '编程', 'javascript:clickleaf(28,75,\'编程\')');
+d.add(76, 70, '数据库', 'javascript:clickleaf(29,76,\'数据库\')');
+d.add(77, 70, '多媒体', 'javascript:clickleaf(30,77,\'多媒体\')');
+d.add(79, 70, '其他', 'javascript:clickleaf(31,79,\'其他\')');
+d.add(90, 1, '网络文摘', 'javascript:clicknode(32,90,\'网络文摘\')');
+d.add(91, 90, '新闻', 'javascript:clickleaf(33,91,\'新闻\')');
+d.add(92, 90, '政治经济', 'javascript:clickleaf(34,92,\'政治经济\')');
+d.add(93, 90, '时事评论', 'javascript:clickleaf(35,93,\'时事评论\')');
+d.add(94, 90, '历史人物', 'javascript:clickleaf(36,94,\'历史人物\')');
+d.add(95, 90, '励志人生', 'javascript:clickleaf(37,95,\'励志人生\')');
+d.add(96, 90, '情感生活', 'javascript:clickleaf(38,96,\'情感生活\')');
+d.add(97, 90, '诗词散文', 'javascript:clickleaf(39,97,\'诗词散文\')');
+d.add(98, 90, '随笔杂文', 'javascript:clickleaf(40,98,\'随笔杂文\')');
+d.add(99, 90, '其他', 'javascript:clickleaf(41,99,\'其他\')');
+d.add(110, 1, '软件下载', 'javascript:clicknode(42,110,\'软件下载\')');
+d.add(111, 110, '系统软件', 'javascript:clickleaf(43,111,\'系统软件\')');
+d.add(112, 110, '网络工具', 'javascript:clickleaf(44,112,\'网络工具\')');
+d.add(113, 110, '安全相关', 'javascript:clickleaf(45,113,\'安全相关\')');
+d.add(114, 110, '媒体工具', 'javascript:clickleaf(46,114,\'媒体工具\')');
+d.add(115, 110, '编程工具', 'javascript:clickleaf(47,115,\'编程工具\')');
+d.add(116, 110, '源码下载', 'javascript:clickleaf(48,116,\'源码下载\')');
+d.add(117, 110, '电子图书', 'javascript:clickleaf(49,117,\'电子图书\')');
+d.add(119, 110, '其他', 'javascript:clickleaf(50,119,\'其他\')');
+d.add(150, 1, '我的文章', 'javascript:clicknode(51,150,\'我的文章\')');
+d.add(151, 150, '工作', 'javascript:clickleaf(52,151,\'工作\')');
+d.add(152, 150, '生活', 'javascript:clickleaf(53,152,\'生活\')');
+d.add(153, 150, '学习', 'javascript:clickleaf(54,153,\'学习\')');
+d.add(154, 150, '读书', 'javascript:clickleaf(55,154,\'读书\')');
+d.add(155, 150, '笔记', 'javascript:clickleaf(56,155,\'笔记\')');
+d.add(156, 150, '文摘', 'javascript:clickleaf(57,156,\'文摘\')');
+d.add(157, 150, '随笔', 'javascript:clickleaf(58,157,\'随笔\')');
+d.add(159, 150, '其他', 'javascript:clickleaf(59,159,\'其他\')');
+d.add(200, 1, '我的类别', 'javascript:clicknode(60,200,\'我的类别\')');
+obj.innerHTML = d;
+
+				d.openTo(10, false);
+
+			//	d.openTo(20, false);
+
+				}

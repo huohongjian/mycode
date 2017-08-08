@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset='utf-8' />
+	<script type='text/javascript' src='js/$my.js'></script>
+	
+	<script type='text/javascript' src='js/grid.js'></script>
+</head>
+	<script>
+		window.onload = function(){
+			console.log($table.get('t1').getAllData());
+			var t = $table.create([['1', '2', '3']], [['a', 'b', 'c']]);
+			document.getElementById('div1').appendChild(t);
+			$table.get(t).insertRow(['A', 'S', 'D', 'F']);
+			console.log($table.get(t).getAllData());
+		}
+		
+		
+	
+	
+	</script>
+<body>
+	<table id='t1'>
+		<tr>
+			<td>1</td>
+			<td>2</td>
+		</tr>
+	</table>
+	
+	<div id='div1'></div>
+</body>
+</html>

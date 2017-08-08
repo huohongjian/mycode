@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>上传文件</title>
+		<script type="text/javascript" src="./javascript/jquery.js"></script>
+		
+		
+<link rel="stylesheet" type="text/css" href="../_include/JQuery/plugin/flexigrid/flexigrid.css">
+<script type="text/javascript" src="../_include/JQuery/plugin/flexigrid/flexigrid.pack.js"></script>
+		
+		<script type="text/javascript" src='./javascript/share.js'></script>
+		<script type="text/javascript" src="../_include/tabs/tabpane/js/tabpane.js"></script>
+		<link type="text/css" rel="stylesheet" href="../_include/tabs/tabpane/css/luna/tab.css" />
+	
+		<style type="text/css">
+			.tab-pane {width:600px; height_:300px; background_:lightblue; margin:auto;}
+			.tab-page{width:600px; height:300px; text-align:left;}
+		</style>
+		
+		
+		
+		<style type="text/css">
+			
+			body, table, input {font:10pt Verdana, Arial, sans-serif, 宋体;}
+			body {background-image:url('./image/backimage/bgImg4.jpg'); text-align:center; margin:20px auto;}
+			input {height_:22px;}
+			form {margin:0px;}
+			button {margin:0px 5px; height:22px; cursor:pointer;}
+			table tr {height_:35px;}
+			.file_list {padding:3px 5px; width:350px; height:200px; border:1px solid #7F9DB9; background-color:white; overflow:auto;}
+			.file_list ul {margin:0px; padding:0px;}
+			.file_list li {height:20px; list-style-type:none; overflow:hidden;}
+			.file_list li a {display: block; padding-top:1px; padding-left:10px;}
+			.file_list li a:visited {color:#000099; text-decoration:none;}
+			.file_list li a:link {color:#000099; text-decoration:none;}
+			.file_list li a:hover {color:#ff0000; text-decoration:none;}
+			.folder {background: url('./image/dtree/folder.gif') no-repeat;}
+			.file {background: url('./image/dtree/page.gif') no-repeat;}
+			#upload_file_button {width:60px;}
+			#file {cursor_:pointer; filter_:alpha(opacity=0,);-moz-opacity_:0; opacity_:0; }	
+			
+			.curimage input {width:30px;}
+			label {float:left;}
+			
+			
+			.file_list table {border-collapse:collapse; table-layout:fixed; width:100%;}
+			.file_list table tr {height:28px; overflow:hidden;}
+			.file_list table td {text-align:center; border-bottom:1px solid green; overflow:hidden; white-space:nowrap; word-break:keep-all; text-overflow:ellipsis;}
+			.file_list table .toleft {text-align:left;}
+			.file_list table .t_0 {width:20px;}
+			.file_list table .t_1 {width:20px;}
+			.file_list table .t_2 {width:190px;}
+			.file_list table .t_3 {width:70px;}
+			.file_list table .t_4 {width:20px;}
+			
+		</style>
+		
+		<script type="text/javascript">
+			$articleid = 0;
+			$path = "../_upload/cwc/default/";
+			$appendageid = -1;
+			
+			window.onload = function(){
+				if (opener) {
+					document.getElementById('link_txt').value = opener.tinymce.activeEditor.selection.getContent();
+				}
+
+				$.get('action/upload.php',
+				{
+					func:	'getOptions'
+				},
+				function(data){
+					eval('json='+data);
+					$.each(json, function(i,n){
+						$opt = $('#category').children('option:first').clone();
+						$opt.attr('value',i);
+						$opt.attr('extra',n.extra);
+						$opt.text(n.categoryid+"."+n.name);
+						$opt.appendTo($('#category'));
+					}
+					)
+				}
+				);
+				
+				$.get('action/upload.php',
+				{
+					func:	'getPath'
+				},
+				function(data){
+					eval('json='+data);
+					$('#fromPath').empty();
+					$('#toPath').empty();
+					$.each(json, function(i,n){
+						$opt = $('<option></option>');
+						$opt.attr('value',i);
+						$opt.text(n.name);
+						$opt.appendTo($('#fromPath'));
+						$opt = $('<option></option>');
+						$opt.attr('value',i);
+						$opt.text(n.name);
+						$opt.appendTo($('#toPath'));
+					}
+					)
+				}
+				);
+				
+	//			XHR('POST', './action/upload.php', 'action=0', getOption_back);
+	//			XHR('POST', './action/upload.php', 'action=20', getRegist_back);
+			}
+			function getOption_back(obj){
+				var select = window.document.getElementById('category');
+			//	select.options.length=0;//清空下拉列表框
+				var json = obj.responseText.parseJSON();
+				for(var i=0; i<json.length; i++){
+					var k = json[i].categoryid;
+					var v = json[i].name
+					var option = new Option(v,k);
+					option.setAttribute('extra',json[i].extra);	//文件扩展名
+					select.options.add(option);
+				}
+			}
+			function getRegist_back(obj){
+				var select1 = window.document.getElementById('fromPath');
+				var select2 = window.document.getElementById('toPath');
+				select1.options.length=0;
+				select2.options.length=0;
+				var json = obj.responseText.parseJSON();
+				for(var i=0; i<json.length; i++){
+					var k = json[i].pathid;
+					var v = json[i].name
+					var option = new Option(v,k);
+					select1.options.add(option);
+				}
+				select1.value = '98';
+				for(var i=0; i<json.length; i++){
+					var k = json[i].pathid;
+					var v = json[i].name
+					var option = new Option(v,k);
+					select2.options.add(option);
+				}
+			}
+			
+			$(function(){
+	//			refreshPath();//('action/test_flexigrid.php');
+			}
+			);
+			
+			
+			
+			function refreshPath(){
+	//			XHR('POST', './action/upload.php', "action=21&pathid="+getValue('fromPath'));
+$("#flex1").flexigrid
+			(
+			{
+			dataType: 'json',
+			colModel : [
+				{display: 'Id', name : 'id', width : 40, sortable : false, align: 'center'},
+				{display: 'Name', name : 'name', width : 180, align: 'left'}
+				],
+			buttons : [
+				{name: '刷新列表', bclass: 'fresh', onpress : test},
+				{name: '注册附件', bclass: 'register', onpress : test},
+				{separator: true}
+				],
+			searchitems : [
+				{display: 'ISO', name : 'iso'},
+				{display: 'Name', name : 'name', isdefault: true}
+				],
+			sortname: "id",
+			sortorder: "asc",
+			usepager: true,
+			title: '附件列表',
+			useRp: true,
+			rpOptions: [1,2,3,4,5],
+			rp:3,
+			showTableToggleBtn: false,
+			hideOnSubmit: false,
+			width: 600,
+			height: 150
+			}
+			); 
+			
+	
+			}
+			
+			function getFileName(){
+				var file = document.getElementById('file').value;
+				var index = file.lastIndexOf('/')+1;					//for linux
+				index = index ==0 ? file.lastIndexOf('\\')+1 : index;	//for window
+				file = file.substring(index);
+				return file;
+			}
+			
+			function regist(){
+				var obj = document.getElementById('fileList');
+				var objs = obj.getElementsByTagName('INPUT');
+				var files = '';
+				for(var i=0; i<objs.length; i++){
+					if(objs[i].checked) files += ',' + objs[i].getAttribute('savename');
+				}
+				var files = files.substring(1);
+				if(files==''){alert('请选择文件');return;}
+				var data = "action=22&pathid1="+getValue('fromPath')+"&pathid2="+getValue('toPath')+"&files="+files;
+				XHR('POST', './action/upload.php', data);
+			}
+			
+			
+			function testfile(obj){
+				$appendageid = -1;
+				document.getElementById('current_file').value = '';
+				var re_text = /\.txt|\.html|\.xml|\.zip|\.jpg|\.gif|\.rar|\.chm|\.doc|\.xls|\.ppt|\.exe|\.cmd|\.bat|\.jqd|\.pdf|\.tar|\.gz|\.jio/i;
+				var filename = obj.value;
+				if (filename.search(re_text) == -1){
+					alert("File does not have text(txt,html,xml,zip,jpg,gif,rar,chm,doc,xls,exe,cmd,bat,ppt,jqd,tar,gz) extension");
+					obj.form.reset();
+					return false;
+				}
+				document.getElementById('upload_file_button').disabled = false;
+				//根据扩展名,选择文件类型
+				var i = filename.lastIndexOf('.')
+				var ex = filename.substring(i);
+				var select = window.document.getElementById('category');
+				select[0].selected = true;
+				for(var i=1; i<select.length; i++){
+					var extra = select[i].getAttribute('extra');
+					if(extra.indexOf(ex.toLowerCase())>=0){
+						select[i].selected = true;
+						break;
+					}
+				}
+				
+				//判断是否有同名文件
+				$.get('action/upload.php',
+				{
+					func:	'hasSameNameFile',
+					filename:	getFileName()
+				},
+				function(data){
+					if(data!="-1"){
+						$appendageid = parseInt(data);
+						alert('已有同名文件,强烈建议更名,如果上传将复盖原文件,不可恢复!');
+					}
+				}
+				);
+				
+			}
+			
+			function upload_file(){
+				if(getFileName()=='') {alert('请选择文件!');return;}
+				var categoryid = getValue('category');
+				if(categoryid=='-1') {alert('请指定上传文件类别!');return;}
+				
+				var pathid = 1;
+				var form = document.getElementById('form1');
+				form.setAttribute("action", "./action/upload.php?func=uploadFile&articleid="+$articleid+"&categoryid="+categoryid+"&pathid="+pathid+"&appendageid="+$appendageid);
+				form.submit();
+	//			form.reset();
+	//			form.setAttribute("action", "");	//解决了按F5键刷新页面,重复提交表单问题。
+			//	document.getElementById('upload_file_button').disabled = true;
+			}
+			
+			function login(){
+			//	var left = (document.body.clientWidth - w)/2;
+			//	var top = document.body.clientHeight - h)/2*0.618;
+				var width = 260;
+				var height = 180;
+				var left = screen.width/2 - width/2;
+				var top = screen.height/2 - height*0.618;
+				var newwin = window.open('login.html','','width='+width+'px, height='+height+'px, left='+left+', top='+top+', location=no');
+				document.getElementById('upload_file_button').disabled = false;
+			}
+			
+			function link_code(){
+				var file = document.getElementById('current_file').value;
+				if (file == '') { alert('请选择链接文件!'); return; }
+				var txt = document.getElementById('link_txt').value;
+				document.getElementById('source').value = "<a href=\"" + $path + file + "\">" + txt + "</a>";
+			}
+			
+			function image_code(){
+				var file = document.getElementById('current_file').value;
+				if (file == '') { alert('请选择目标图片!'); return; }
+				var re_text = /\.jpg|\.gif|\.png|\.ico/i;
+				if (file.search(re_text) == -1){
+					alert("这不是图片文件,请选择正确的图片!");
+					return;
+				}
+				document.getElementById('source').value = "<img alt=\"\" src=\"" + $path + file + "\" />";
+			}
+			
+			
+			function goback(){
+				if(opener){
+					opener.insertValue(document.getElementById('source').value);
+					window.close();
+				}else{
+					alert("没有window.opener");
+				}
+			}
+			
+			var $imageid = -1;
+			function addToHomePage(obj){
+				var appendageid = $('#appendageid').val();
+				if(appendageid=='0') {alert('请指定当前图片!'); return;}
+				getObj('pattern').innerHTML="更新";
+				$.get('action/upload.php',
+				{
+					func:	'addToHomepage',
+					categoryid:	$('#homepage_image_category').val(),
+					appendageid:	appendageid,
+					articleid:		$('#articleid').val(),
+					imageid:		$imageid
+				},
+				function(data){
+					if(data=='-1'){
+						alert('你没有添加首页图片的权限,请与系统管理员联系!');
+					}else{
+						$imageid=parseInt(data);
+						alert('首页图片更新成功!');
+					}
+				}
+				);
+			}
+			
+			
+			function linkArtile(){
+				if($imageid==-1) {alert('请指定首页图片!'); return;}
+				var data = "action=4&articleid="+getValue('articleid')+"&imageid="+$imageid;
+				XHR('POST', './action/upload.php', data);
+			}
+			
+			function refreshArticle(){
+				
+			}
+			
+			function pattern(obj){
+				if(obj.innerHTML=="添加"){
+					$.get('action/upload.php',
+					{
+						func:	'getNewImage',
+						categoryid:	$('#homepage_image_category').val()
+					},
+					function(data){
+						eval("json="+data);
+						$imageid = json.imageid;
+						$('#appendageid').val(json.appendageid);
+						$('#articleid').val(json.articleid);
+					}
+					);
+					obj.innerHTML="更新";
+				}else{
+					$imageid=-1;
+					obj.innerHTML="添加";
+				}
+			}
+			
+			
+			
+			
+			
+			function search(){
+				XHR('POST', './action/upload.php', 'action=10&filename='+getValue('search'));
+			}
+			
+			function newly(){
+				XHR('POST', './action/upload.php', 'action=11');
+			}
+			
+			function setCurAppendage(){
+				var txt = '';
+				var objs = document.getElementById('appendage_list').getElementsByTagName('INPUT');
+				for(i=0; i<objs.length; i++){
+					if(objs[i].checked){
+						txt = objs[i].getAttribute('savename');
+						break;
+					}
+				}
+				setValue('current_file', txt);
+			}
+		</script>
+	</head>
+	<body>
+	
+		<h3>附件管理</h3>
+		<div class="tab-pane">
+
+			<div class="tab-page">
+				<h2 class="tab">上传</h2>
+				
+				<table>
+					<tr>
+						<td>附件类别：</td>
+						<td>
+							<select id="category" style="width:120px;">
+								<option value="-1" extra='-1'>请选择...</option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td>上传附件：</td>
+						<td>
+							<form id="form1" action="" target="upload_iframe" method="post" enctype="multipart/form-data">
+								<input type="file" name="file" id="file" onchange="testfile(this)"/>
+								<input type="button" id="upload_file_button" onclick="upload_file()" value="上传" disabled />
+							</form>
+							<iframe name="upload_iframe" style="display:none;" width="300" height="100" frameborder="0"></iframe>
+						</td>
+					</tr>
+					<tr>
+						<td>当前附件：</td>
+						<td><input type="text" id="current_file" style="width:300px;"></td>
+					</tr>
+					<tr>
+						<td>链接文字：</td>
+						<td><input type="text" id="link_txt" style="width:300px;"></td>
+					</tr>
+					<tr>
+						<td>链接源码：</td>
+						<td><input type="text" id="source" style="width:400px;"/></td>
+					</tr>
+					<tr>
+						<td></td>
+						<td>
+							<button onclick="link_code()">链接码</button>
+							<button onclick="image_code()">图片码</button>
+							<button onclick="goback()">回送</button>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2" style="text-align:left; color:red;">最大上传文件大小：500M，上传时间与文件大小有关，请耐心等待！</td>
+					</tr>
+				</table>
+			</div>
+		
+			<div class="tab-page">
+				<h2 class="tab">查询</h2>
+				
+				<table>
+					<tr>
+						<td>附件名称：</td>
+						<td>
+							<input type="text" id="search" style="width:230px;">
+							<input type="button" onclick="search()" value="查询" style="width:70px;" />
+							<input type="button" onclick="newly()" value="最新"/>
+						</td>
+					</tr>
+					<tr>
+						<td>附件列表：</td>
+						<td><div id='appendage_list' class="file_list"></div></td>
+					</tr>
+					<tr>
+						<td></td>
+						<td style='text-align:center;'>
+							<input type="button" value="删除已选择附件" onclick="constructiong()"/>
+							<input type="button" value="设置为当前附件" onclick="setCurAppendage()"/>
+						</td>
+					</tr>
+				</table>
+			</div>
+			
+			<div class="tab-page">
+				<h2 class="tab">注册</h2>
+				<div style="margin-bottom:5px;">
+					来源目录：
+					<select id="fromPath"><option>../_upload/cwc/default/</option></select>
+					&nbsp;&nbsp;&nbsp;
+					注册目录：			
+					<select id="toPath"><option>../_upload/cwc/default/</option></select>
+					<button onclick="refreshPath()">refresh</button>
+				</div>
+				<table id="flex1" style="display:none;"></table>
+			</div>
+			
+			<div class="tab-page">
+				<h2 class="tab">高级</h2>
+				
+				<table>
+					<tr>
+						<td>当前模式：</td>
+						<td><span id="pattern" onclick="pattern(this)" style="cursor:pointer;">添加</span></td>
+					</tr>
+					<tr>
+						<td>图片类别：</td>
+						<td>
+							<select id="homepage_image_category">
+								<option value="1">新闻图片1</option>
+								<option value="2">右侧图片1</option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td>关联图片id：</td>
+						<td>
+							<input type="text" id="appendageid" value="0" />
+						</td>
+					</tr>
+					<tr>
+						<td>关联文章id：</td>
+						<td>
+							<input type="text" id="articleid" value="0" />
+						</td>
+					</tr>
+					<tr>
+						<td></td>
+						<td>
+							<button onclick="addToHomePage(this)">更新首页图片</button>
+						</td>
+					</tr>
+				</table>
+				
+					
+			</div>
+			
+		</div>
+		
+		
+		<button onclick="login()">系统登录</button>
+		<button onclick="window.close();">关闭窗口</button>
+		
+	</body>
+	<style>
+	
+	.flexigrid div.fbutton .fresh
+		{
+			background: url(../_include/JQuery/plugin/flexigrid/images/load.png) no-repeat center left;
+		}	
+
+	.flexigrid div.fbutton .register
+		{
+			background: url(../_include/JQuery/plugin/flexigrid/images/add.png) no-repeat center left;
+		}	
+
+</style>
+
+	
+	<script type="text/javascript">
+ 
+			
+			function test(com,grid){
+				if (com=='Delete'){
+						confirm('Delete ' + $('.trSelected',grid).html() + ' items?')
+				}else if (com=='Add'){
+					alert('Add New Item');
+				}else if(com=='刷新列表'){
+		//			docloaded = true;
+					$('#flex1').hide();
+					$("#flex1").flexigrid
+			(
+			{
+				url:'action/test_flexigrid.php',
+			dataType: 'json',
+			colModel : [
+				{display: 'Id1', name : 'id', width : 40, sortable : false, align: 'center'},
+				{display: 'Name1', name : 'name', width : 180, align: 'left'}
+				],
+			buttons : [
+				{name: '刷新列表', bclass: 'fresh', onpress : test},
+				{name: '注册附件', bclass: 'register', onpress : test},
+				{separator: true}
+				],
+			searchitems : [
+				{display: 'ISO', name : 'iso'},
+				{display: 'Name', name : 'name', isdefault: true}
+				],
+			sortname: "id",
+			sortorder: "asc",
+			usepager: true,
+			title: '附件列表',
+			useRp: true,
+			rpOptions: [1,2,3,4,5],
+			rp:3,
+			showTableToggleBtn: false,
+			hideOnSubmit: false,
+			width: 600,
+			height: 150
+			}
+			); 
+			return;
+				//	jQuery('#flex1').flexOptions({newp:1, params:[{name:'letter_pressed', value: com},{name:'qtype',value:$('select[name=qtype]').val()}]});
+				//	jQuery("#flex1").flexReload(); 
+				jQuery('#flex1').flexOptions({url:'action/test_flexigrid.php',
+				params:[{name:'func', value:'hhhh'}]
+				});
+				jQuery('#flex1').flexToggleCol('1','false');
+				jQuery("#flex1").flexReload(); 	
+		//		$('.ftitle',grid).html('hjs');
+					
+				}else if(com=='注册附件'){
+				
+					jQuery('#flex1').flexOptions({url:false,
+				params:[{name:'func', value:'hhhh'}]
+				});
+				jQuery("#flex1").flexReload(); 	
+				
+				}else if (com=='Select All'){
+					$('.bDiv tbody tr',grid).addClass('trSelected');
+			    }
+			    
+			    if (com=='DeSelect All')
+			    {
+					$('.bDiv tbody tr',grid).removeClass('trSelected');
+			    }
+			}
+	
+	</script>
+</html>

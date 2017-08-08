@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset='UTF-8'>
+		<title>拖放</title>
+		<style>
+			#dragme{width:200px; height:50px; border:1px solid gray;}
+			#text  {width:200px; height:200px; border:1px solid gray;}
+		</style>
+		<script type='text/javascript'>
+			function init(){
+				var source=document.getElementById('dragme');
+				var dest=document.getElementById('text');
+				
+				source.addEventListener('dragstart', function(ev){
+					var dt = ev.dataTransfer;
+					dt.effectAllowed = 'all';
+					dt.setData('text/plain', 'hello');
+				}, false)
+				dest.addEventListener('dragend', function(ev){
+					ev.preventDefault();
+				}, false)
+				
+				dest.addEventListener('drop', function(ev){
+					var dt=ev.dataTransfer;
+					var text=dt.getData('text/plain');
+					dest.textContent += text;
+					ev.preventDefault();
+					ev.stopPropagation();
+				}, false)
+				
+			}
+			document.ondragover=function(e){e.preventDefault()};
+			document.ondrop=function(e){e.preventDefault()};
+		
+		</script>
+	</head>
+	<body onload='init()'>
+		<div id='dragme' draggable='true'>请拖放</div>
+		<div id='text'></div>
+	</body>
+</html>
+

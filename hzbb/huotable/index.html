@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset='utf-8' />
+	<title>huoTable</title>
+	<link type='text/css' rel='stylesheet' href='huotable.css' />
+	<script type='text/javascript' src='huotable.js'></script>
+	<script type='text/javascript'>
+	
+		window.onload = function(){
+			var obj = document.getElementById('grid');
+			var ht = new HuoTable(obj, {
+				height		: 300,
+				data		: [[1,2,3],[2,2,3][3,2,3]],
+				colHeaders	: ["栏一", "栏二", "栏三"],
+				colWidths	: [200, 300, 100],
+				minRows				: 1,
+				minCols				: 1,
+				minSpareRows		: 0,
+				minSpareCols		: 0,
+				maxRows				: 9,
+				maxCols				: 9,
+				allowInsertRow		: true,
+				allowRemoveRow		: true,
+				allowInsertColumn	: true,
+				allowRemoveColumn	: true,
+				rowHeights			: 30,
+				columnHeaderHeight	: 30,
+				rowHeaders			: true,
+				contextMenu			: true,
+				autoWrapCol			: true,
+				autoWrapRow			: true,
+				manualColumnResize	: true,
+				manualRowResize		: true
+				
+				
+			});
+
+			
+			
+		}
+		
+	
+	</script>
+	
+</head>
+<body>
+	<div id='grid'></div>
+			
+</body>
+</html>
+

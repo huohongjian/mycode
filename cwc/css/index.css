@@ -1,0 +1,79 @@
+
+.tab {width:900px; height:100%; clear:both; margin:0px auto; padding:0px; background_:green;}
+.tab_left {width:230px; height:100%; float:left; background_:lightblue;}
+.tab_right {float:right; width:665px; padding:0px; margin:0px; background_:red;}
+
+
+/*-------------------------------------------------------- div --------------------------------------------*/
+.dTitleM, .dTitleL, .dTitleR {height:26px; display:block; overflow:hidden;}
+.dTitleM {text-align:left; font-size:10pt; font-weight:bold;}
+.dTitleL {}
+.dTitleR {padding-top:7px;}
+.dTitleM a {padding-left:25px;}
+.dTitleM a:link, .dTitleM a:hover, .dTitleM a:visited {color:yellow;#FFFFFF;}
+.dBody {height:auto; overflow:hidden; border:1px solid #DBDBDB; background_:#F6F9E8; padding-top:3px;}
+.dBody ul {float:left; width:100%;} /*margin padding*/
+.dBody li {width:100%; height:25px; line-height:25px; overflow:hidden; list-style-type:none; float:left;}
+.dBody li a {padding-left:12px; width:92%; display: block; background: url('/cwc/image/bluearrow.gif') no-repeat 5px -8px;}
+.dBody li a:hover {text-decoration:underline; background:url('/cwc/image/bluearrow.gif') no-repeat -8px 7px;}
+.dBody .NewArtColor {color_:red;}			/*最新文章字体颜色*/
+.dBody .NewArtColor:visited {color_:red;}
+
+.dImg {width:100%; background:#fff; margin-bottom:2px; float:left; cursor:pointer;}/*必须要有background:否则ie出错*/
+.dP {width:100%; text-align:center; float:left; overflow:hidden; height:20px; line-height:20px; background:#c00; color:#fff;}
+.dP a {padding:0px 5px;}
+.dP a:link, .dP a:hover, .dP a:visited {color:#FFF;}
+
+/**************** 以上为通用定义 以下为自定义类定义 还可以通过id进行微调 ************************/
+/** 图片新闻 **/
+#imgnews {width:235px; height:170px; float:right; margin-top:5px;}
+#imgnews img {height:158px;}
+
+#middle_img {width:665px; height:90px; float:right; margin-top:5px;}
+
+/** 最新通知 **/
+.information {width:425px; float:left; margin-top:5px;}
+.information .dTitleM {background:url('/cwc/image/index/hhj_bar_6_2.gif');}
+.information .dTitleL {background:url('/cwc/image/index/hhj_bar_6_1.gif') no-repeat;}
+.information .dTitleR {background:url('/cwc/image/index/hhj_bar_6_3.gif') no-repeat right 0px;}
+.information .dTitleM a:hover, .information .dTitleM a:visited, .information .dTitleM a:link {color:#FFFFFF;}
+.information .dBody {border:1px solid #F6F9E8; height:150px; background_:lightgreen;}
+.information .dBody a {background_:lightblue; width:320px; float:left;}
+.information .dBody span {background_:red; width_:86px; float:right; font-family:宋体;}
+.information .dBody li {background_:yellow;}
+img {padding: 0px;  margin: 0px; border: 0px;}
+
+
+/** 最近更新 **/
+.newarticle {width:230px; float:left; margin-top:5px;}
+.newarticle .dTitleM {background:url('/cwc/image/index/hhj_bar_3_2.gif');}
+.newarticle .dTitleL {background:url('/cwc/image/index/hhj_bar_3_1.gif') no-repeat;}
+.newarticle .dTitleR {background:url('/cwc/image/index/hhj_bar_3_3.gif') no-repeat right 0px;}
+.newarticle .dTitleM a:visited, .newarticle .dTitleM a:link, .newarticle .dTitleM a:hover{color:#FF8E00;#006699;}
+.newarticle .dBody {height:250px; border:1px solid #FF8E00;#5BABEB;}
+/** 公告信息 **/
+#affiche .dBody {height:150px;}
+#affiche .dBody li {height:auto;}
+/** 站点导航 **/
+#nav .dBody {height:233px; padding-left:2px;}
+#nav .dBody li {width:auto;}
+#nav .dBody a {background:none; width:auto; padding-left:8px;}
+
+
+/** 电脑知识 **/
+.computer {width:330px; float:left; margin-top:5px;}
+.computer .dTitleM {background:url('/cwc/image/index/hhj_bar_1_2.png');}
+.computer .dTitleL {background:url('/cwc/image/index/hhj_bar_1_1.png') no-repeat;}
+.computer .dTitleR {background:url('/cwc/image/index/hhj_bar_1_3.png') no-repeat right 0px;}
+.computer .dBody {height:150px; background_:#F5F5F5;}
+.right {float:right;}
+
+/** 领导讲话 政策文件**/
+#speak, #document {width:235px; float:right;}
+
+
+
+
+
+
+

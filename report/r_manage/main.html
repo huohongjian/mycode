@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="gb2312"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>报表管理</title>
+	<link type='text/css' rel='stylesheet' href='../css/report.css' />
+	
+
+
+	<script type='text/javascript' src='../js/tag.js'></script>
+	<script>
+		function dosth(){
+			var obj = document.getElementById('right')
+			alert(obj.offsetWidth);
+			alert(obj.offsetHeight)
+		}
+		
+		window.onload = function(){
+		var tags = ["说明", "资产负债表", "利润及利润分配表", "应上交应弥补款项表", "三项费用明细表", "利税情况表", "工资情况表", "财务指标分析表"];
+		var tags = ["说明", "资债表", "利润表", "应交表", "费用表", "利税表", "工资表", "主要指标表", "其他指标表", "财务分析表"];
+		Tag.LoadTags(tags,30);
+		Tag.SwitchTag(1);
+	}
+	</script>
+</head>
+<body leftmargin="0" topmargin="0" scroll="no">
+	<div id="header"><h2>报表管理(Report Manage)</h2></div>
+	<div id="middle">
+		<div id='left'>
+			<br>1adsfqweradfqwerqewrqfadfadsfqwerqweradfqwer<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>2<br>1<br>
+		</div>
+		<div id='splitter'></div>
+		<div id='right'>
+			<button onclick='dosth()'>button</button>
+			1<br>2<br>1<br>1<br>11<br>1<br>1<br>1<br>11<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>1<br>2<br>1<br>
+		</div>
+	</div>
+	<div id="footer">版权所有:河北省烟草专卖局（公司）财务处　Copyright@ 2007-2010　　最佳分辨率1024*768</div>
+</body>
+</html>

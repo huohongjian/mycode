@@ -1,0 +1,178 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>addArticle</title>
+		<link rel="stylesheet" type="text/css" href="css/main.css"/>
+		<link rel="stylesheet" type="text/css" href="javascript/dgrid/dgrid.css"/>
+		<script type="text/javascript" src="cache/data.js"></script>
+		<script type="text/javascript" src="javascript/jquery.pack.js"></script>
+		<script type="text/javascript" src="javascript/dgrid/dgrid.js"></script>
+		<script type="text/javascript" src="javascript/jquery.func.js"></script>
+		<script type="text/javascript" src='javascript/function.js'></script>
+		<script type='text/javascript' src='javascript/fckeditor/fckeditor.js'></script>
+		
+		
+		
+		<script type="text/javascript" src="./javascript/edit.js"></script>
+		<script type="text/javascript" src="./javascript/enterTab.js"></script>
+		<script type="text/javascript" src='./cache/category_tree.js'></script>
+		
+		<style type="text/css">
+			
+			
+			
+			#middle {width:776px; height_:475px; margin:auto; overflow:auto; background-color:#F1F8D1;#DCF2B8; border-left:1px solid #696969; border-right:1px solid #696969;}
+			#left {width:100px; height:425px; float:left; border-right:1px solid #696969; padding:5px; background:#F6F9E8;#FFDD88; overflow:auto;}
+			#right {float:left; width:610px; padding:2px 0px 0px 2px; height:416px; background:_green;}
+			#editor_foot {width:100%; height:24px; line-height:24px; border-top:1px solid #696969; border-bottom:1px solid #696969; background:#EFEFDE;}
+			
+			.title, .author, #caption {height:18px; padding-top:2px; border:1px solid #7F9DB9;}
+			input.title {width:500px; } 
+			input.author {width:100px;}
+			input#caption {width:190px;}
+			
+			#save {width:30px;	cursor:pointer;}
+			#reset {width:30px; cursor:pointer;}
+			textarea {width:599px; height:400px; border:1px solid #696969; padding:5px; font:11pt 宋体; line-height:23px; letter-spacing:1px; overflow:auto; wrap:Virtual;}
+			
+			
+			div.menu {width:776px; height:30px; line-height:30px; margin:auto; border:1px solid #696969; background-color:#5BABEB; #EFEFDE;}
+			ul.menu {width:766px; line-height:30px; list-style-type:none; margin-left:10px;}
+			ul.menu a {display:block; width:80px; text-align:center;}
+			ul.menu a:link {color:#fff; text-decoration:none;}
+			ul.menu a:visited {color:#fff; text-decoration:none;}
+			ul.menu a:hover {color:#FFF; text-decoration:none; font-weight:bold;}
+			ul.menu li {float:left; width:80px; background_:#CCC;}
+			ul.menu li a:hover{background:#0067C6;}
+			ul.menu li ul {line-height:27px; list-style-type:none; text-align:left; left:-999em; width:130px; position:absolute; border:1px solid #696969; padding:5px; background:#F6F6F6;}
+			ul.menu li ul li{float:left; width:130px; background:#F6F6F6;}
+			ul.menu li ul a{display:block; width:118px; text-align:left; padding-left:12px;}
+			ul.menu li ul a:link {color:#666; text-decoration:none;}
+			ul.menu li ul a:visited {color:#666;text-decoration:none;}
+			ul.menu li ul a:hover {color:#F3F3F3; text-decoration:none; font-weight:normal; background:#0067C6;#C00;}
+			ul.menu li:hover ul {left:auto; display:block;}
+			ul.menu li.sfhover ul {left:auto;}
+			ul.menu .spline{border-bottom:1px solid #696969;}
+			ul.menu .jsset {background:url('image/bluearrow.gif') no-repeat 3px -5px;}
+			ul.menu .jsset:hover {background:#0067C6 url('image/bluearrow.gif') no-repeat 3px -5px;}
+
+		</style>
+		
+		
+	</head>
+	<body>
+		<div class="menu">
+			<ul class="menu">
+				<li><a href="#">文件管理</a>
+					<ul>
+						<li><a href="javascript:add_article()">添加文件</a></li>
+						<!--li><a href="#">删除文件</a></li-->
+						<li class="spline"><a href="javascript:browse()">预览文件</a></li>
+						<li><a href="javascript:upload()">附件管理</a></li>
+					</ul>
+				</li>
+				<li><a href="#">浏览权限</a>
+					<ul>
+						<li><a  name="levels" href="javascript:set_readlevel(0)">所有浏览者</a></li>
+						<li><a  name="levels" href="javascript:set_readlevel(1)">仅注册用户</a></li>
+						<li><a  name="levels" href="javascript:set_readlevel(2)">仅财务用户</a></li>
+						<li><a  name="levels" href="javascript:set_readlevel(3)">仅市局用户</a></li>
+						<li><a  name="levels" href="javascript:set_readlevel(4)">仅省局用户</a></li>
+						<li><a  name="levels" href="javascript:set_readlevel(5)">仅用户本人</a></li>
+					</ul>
+				</li>
+				<li><a href="#">编辑器选择</a>
+					<ul>
+						<li><a name="editors" href="javascript:select_editor(0)">TXT文本编辑器</a></li>
+						<li><a name="editors" href="javascript:select_editor(1)">TXT源码编辑器</a></li>
+						<li><a name="editors" href="javascript:select_editor(2)">FCK在线编辑器</a></li>
+					</ul>
+				</li>
+				<li><a href="#">空行操作</a>
+					<ul>
+						<li><a href="javascript:spaceOperate('nTo1')">删除所有空行</a></li>
+						<li class="spline"><a href="javascript:spaceOperate('nTo0')">删除所有回车</a></li>
+						<li><a href="javascript:spaceOperate('nTo2')">段间留一空行</a></li>
+						<li><a href="javascript:spaceOperate('nTo3')">段间留二空行</a></li>
+						<li><a href="javascript:spaceOperate('nTo4')">段间留三空行</a></li>
+					</ul>
+				</li>
+				<li><a href="#">空格操作</a>
+					<ul>
+						<li><a href="javascript:spaceOperate('bIndentH')">增加段首半角</a></li>
+						<li class="spline"><a href="javascript:spaceOperate('bIndentW')">增加段首全角</a></li>
+						<li><a href="javascript:spaceOperate('delRowHalf')">删除段首半角</a></li>
+						<li class="spline"><a href="javascript:spaceOperate('delRowWhole')">删段行首全角</a></li>
+						<li><a href="javascript:spaceOperate('delHalf')">删除全部半角</a></li>
+						<li class="spline"><a href="javascript:spaceOperate('delWhole')">删除全部全角</a></li>
+						
+						<li><a href="javascript:spaceOperate('halfWhole')">半角转全角</a></li>
+						<li class="spline"><a href="javascript:spaceOperate('wholeHalf')">全角转半角</a></li>
+						<li><a href="javascript:spaceOperate('cloneHalf')">克隆半角</a></li>
+						<li class="spline"><a href="javascript:spaceOperate('cloneWhole')">克隆全角</a></li>
+						<li><a href="javascript:spaceOperate('uniteHalf')">合并半角</a></li>
+						<li><a href="javascript:spaceOperate('uniteWhole')">合并全角</a></li>
+					</ul>
+				</li>
+				<li><a href="#">文件属性</a>
+					<ul>
+						<li><a name="published" href="javascript:published(0)">文章尚未发表</a></li>
+						<li class="spline"><a name="published" href="javascript:published(1)">文章已经发表</a></li>
+						<li><a name="hidetitle" href="javascript:hidetitle(0)">标题可以显示</a></li>
+						<li class="spline"><a name="hidetitle" href="javascript:hidetitle(1)">标题已经隐藏</a></li>
+						<li><a name="isreply" href="javascript:isreply(0)">文章不可回复</a></li>
+						<li><a name="isreply" href="javascript:isreply(1)">文章可以回复</a></li>
+					</ul>
+				</li>
+				<li><a href="javascript:alert('正在建设中...')">文章编辑</a>
+					<ul>
+						<li><a href="javascript:center()">居中</a></li>
+						<li class="spline"><a href="javascript:heiti()">黑体</a></li>
+						<li><a href="javascript:center_heiti()">居中加黑</a></li>
+						<li><a href="javascript:center_heiti_kh()">居中加黑前空行</a></li>
+					</ul>
+				</li>
+				<li><a href="#">页面跳转</a>
+					<ul>
+						<li><a href="./myarticle.html">我的文章</a></li>
+						<li><a href="./list.html">文章查询</a></li>
+						<li><a href="javascript:browse()">文章预览</a></li>
+						<li><a href="./">网站首页</a></li>
+					</ul>
+				</li>
+				<li><a href="javascript:login()">用户登录</a>
+				</li>
+			</ul>
+		</div>
+		
+		<div id="middle">
+			<div id="left">
+				<div id="tree"></div>
+			</div>
+			
+			<div id="right">
+				<div id="FCKeditor">
+					标题:<input type="text" id="title" name="title" class="title" />
+					<br>
+					作者:<input type="text" id="author" class="author" />
+					文号:<input type="text" id="number" class="author" />
+					<textarea id="DataFCKeditor" cols="80" rows="10"></textarea>
+					<div style="margin-top:3px;">
+						<a href="./">首页</a>
+						<a href="javascript:refreshHomePage()">更新</a>
+						<a id="e_save" href="javascript:save_article()">保存</a>
+						<a href="javascript:browse()">预览</a>
+					</div>
+			</div>
+	
+			
+		</div><!-- id='middle' -->
+	
+		<div style="clear:both;"></div>
+		<div id="editor_foot">
+			<span style="color:red;">状态栏:</span>
+			<span id="statemsg"></span>
+		</div><!-- id='foot' -->
+	</body>
+</html>

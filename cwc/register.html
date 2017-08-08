@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="keywords" content="html,xhtml,基础,教程,语言,标签,代码" />
+		<meta name="description" content="个人积累" />
+		<title>用户注册</title>
+		<script type="text/javascript" src="javascript/jquery.js"></script>
+		<script type="text/javascript" src='javascript/share.js'></script>
+		
+		
+		<style type="text/css">
+			.tab {width:900px; height:400px; background:#f1f8d1; margin:5px auto;}
+			.tab_left {width:230px; float:left; background:#F6F9E8; height:100%; border-right:1px solid #01679A;}
+			.tab_right {width:659px; float:right;}
+			
+			.tab_left p {color:red; font-size:11pt; margin-top:10px; text-align:center;}
+			.tab_left span {color:red;}
+			.help li {margin:5px 15px 0px 35px; list-style-type:square; line-height:20px;}
+			
+			#reg {margin:20px auto 0px auto; border-collapse:collapse; /*相当于 cellspacing="0"*/}
+			
+			#reg td {height:33px;}
+			#reg .c_1 {text-align:right; width:80px;}
+			#reg input {width:150px; height:20px; padding-top:3px; border:1px solid #7F9DB9;}
+			#reg select {width:152px; border:1px solid #7F9DB9;}
+			#reg span {color:red; font-size:11pt;}
+			#reg textarea {width:393px; height:35px; border:1px solid #7F9DB9;}
+		</style>
+		
+		<script type="text/javascript">
+			window.onload = function(){
+				var data = "action=1";
+				XHR('POST', './action/register.php', data, onload_back);
+			}
+			function onload_back(obj){
+				setValue('ipaddress', obj.responseText);
+				setFocus('user_name');
+			}
+		
+		
+			//firefox一般情况下要以事件e做为参数；而先调用getEvent()方法，可省略参数e。
+			function getEvent()	{
+			 	if(document.all) return window.event;//如果是ie
+				var func=getEvent.caller;
+				while(func!=null){
+			    	var arg0=func.arguments[0];
+			        if(arg0){
+			           	if((arg0.constructor==Event || arg0.constructor ==MouseEvent) || (typeof(arg0)=="object" && arg0.preventDefault && arg0.stopPropagation)){return arg0;}
+			            }
+			            func=func.caller;
+			        }
+			       return null;
+			}
+
+
+
+			var $orderObjs = new Array();
+			var $orderObjsNumber = false;
+			function letsgo(o){
+				if($orderObjsNumber) return;
+				var l = o.childNodes.length;
+				if(l==0) return;
+				for(var i=0;i<l;i++){
+					if(o.childNodes[i].nodeName=='INPUT' || o.childNodes[i].nodeName=='TEXTAREA' || o.childNodes[i].nodeName=='SELECT'){
+						$orderObjs.push(o.childNodes[i]);
+					}
+					letsgo(o.childNodes[i]);
+				}
+			}
+
+			function SetEnterOrder(obj){
+				var evt = getEvent();
+				var aim = evt.srcElement || evt.target;
+				if (evt.keyCode==13){
+					letsgo(obj);
+					$orderObjsNumber = true;
+					var len = $orderObjs.length;
+					for(i=0; i<len-1; i++){
+						if(aim.id == $orderObjs[i].id) {$orderObjs[i+1].focus(); return;}
+					}
+				}
+			}
+			
+			
+			
+			
+			
+			
+			function adduser(funcName){
+				if(getValue('user_name')==''){alert('用户名不得为空!'); setFocus('user_name'); return;}
+				if(getValue('realname')==''){alert('真实姓名不得为空!'); setFocus('realname'); return;}
+				if(getValue('ipaddress')==''){alert('ip地址不得为空!'); setFocus('ipaddress'); return;}
+				if(getValue('oaemail')==''){alert('oa信箱不得为空!'); setFocus('oaemail'); return;}
+				var password = getValue('password');
+				if(password==''){alert('密码不得为空!'); document.getElementById('password').focus(); return;}
+				if(password!==getValue('confirmpwd')) {
+					alert("密码不正确,请重新录入!");
+					document.getElementById('password').value = '';
+					document.getElementById('confirmpwd').value = '';
+					document.getElementById('password').focus();
+					return;
+				}
+				var data = "func="+funcName+"&realname="+getValue('realname')+"&username="+getValue('user_name')
+							+"&password="+hex_md5(getValue('password'))+"&sex="+getValue('sex','radio')+"&idno="+getValue('idno')
+							+"&incid="+getValue('incid')+"&deptid="+getValue('deptid')+"&telephone="+getValue('telephone')
+							+"&mobilephone="+getValue('mobilephone')+"&address="+getValue('address')+"&postcode="+getValue('postcode')
+							+"&ipaddress="+getValue('ipaddress')+"&email="+getValue('email')+"&oaemail="+getValue('oaemail')
+							+"&homepage="+getValue('home_page')+"&qq="+getValue('qq')+"&msn="+getValue('msn')+"&intro="+getValue('intro');
+	//			alert(data);
+
+				XHR('POST', './action/register.php', data, function(objXMLHttp) {
+					alert(objXMLHttp.responseText);
+				});
+				
+			}
+			
+			function getInfo(){
+				XHR('POST', 'action/register.php', 'func=getInfo', function(r) {
+					if (r.status==500) {
+						alert(r.msg);
+					} else {
+						setValue('user_name', 	r.user_name);
+						setValue('realname', 	r.realname);
+						setValue('sex', 		r.sex, 'radio');
+						setValue('idno', 		r.idno);
+						setValue('incid', 		r.incid);
+						setValue('deptid', 		r.deptid);
+						setValue('address', 	r.address);
+						setValue('postcode', 	r.postcode);
+						setValue('telephone',	r.telephone);
+						setValue('mobilephone', r.mobilephone);
+						setValue('email', 		r.email);
+						setValue('ipaddress', 	r.ipaddress);
+						setValue('oaemail', 	r.oaemail);
+						setValue('home_page', 	r.homepage);
+						setValue('qq', 			r.qq);
+						setValue('msn', 		r.msn);
+						setValue('intro',		r.intro);
+					}
+				}, 'json');
+			}
+		</script>
+	</head>
+	<body>
+		<script type="text/javascript">Div.header();</script>
+		<div class="tab">
+			<div class="tab_left">
+				<p>注册说明</p>
+				<ul class="help">
+					<li>用户只有注册后，才可享有注册用户权利；</li>
+					<li>注册用户时，请真实填写用户<span>真实姓名</span>、<span>ip地址</span>和<span>oa信箱</span>，否则系统管理员不予确认；</li>
+					<li>注册用户只有在系统管理员确认后，才可发表文章和评论；</li>
+					<li>修改个人资料时，只能修改当前<span>登录用户</span>的资料，且<span>用户名</span>和<span>真实姓名</span>不可更改；</li>
+					<li>修改个人资料时，密码必须重新输入，可以是原密码也可以是新密码；</li>
+					<li>系统管理员会尽快对新注册用户信息进行确认。</li>
+				</ul>
+			</div>
+			<div class="tab_right">
+				<table id="reg" onkeypress="SetEnterOrder(this)">
+					<tr>
+						<td class="c_1">用户名：</td>
+						<td class="c_2">
+							<input type="text" id="user_name"/>
+							<span>*</span>
+						</td>
+						<td class="c_1">真实姓名：</td>
+						<td class="c_2">
+							<input type="text" id="realname"/>
+							<span>*</span>
+						</td>
+					</tr>
+					<tr>
+						<td class="c_1">密码：</td>
+						<td class="c_2">
+							<input type="password" id="password"/>
+							<span>*</span>
+						</td>
+						<td class="c_1">密码确认：</td>
+						<td class="c_2">
+							<input type="password" id="confirmpwd"/>
+							<span>*</span>
+						</td>
+					</tr>
+					<tr>
+						<td class="c_1">性别：</td>
+						<td class="c_2">
+							<input type="radio" name="sex" value="男" style="width:20px; border-width:0px;" id="sex" checked/>男
+							<input type="radio" name="sex" value="女" style="width:20px; border-width:0px;"/>女
+						</td>
+						<td class="c_1">身份证号：</td>
+						<td class="c_2"><input type="text" id="idno"/></td>
+					</tr>
+					<tr>
+						<td class="c_1">单位：</td>
+						<td class="c_2">
+							<select id="incid">
+								<option value="0">河北省烟草公司</option>
+								<option value="1">石家庄市烟草公司</option>
+								<option value="2">唐　山市烟草公司</option>
+								<option value="3">秦皇岛市烟草公司</option>
+								<option value="4">邯　郸市烟草公司</option>
+								<option value="5">邢　台市烟草公司</option>
+								<option value="6">保　定市烟草公司</option>
+								<option value="7">张家口市烟草公司</option>
+								<option value="8">承　德市烟草公司</option>
+								<option value="9">沧　州市烟草公司</option>
+								<option value="10">廊　坊市烟草公司</option>
+								<option value="11">衡　水市烟草公司</option>
+							</select>
+						</td>
+						<td class="c_1">部门：</td>
+						<td class="c_2">
+							<select id="deptid">
+								<option value="0">领导</option>
+								<option value="1">办公室</option>
+								<option value="2" selected>财务</option>
+								<option value="3">审计</option>
+								<option value="4">专卖</option>
+								<option value="5">企管</option>
+								<option value="6">人劳</option>
+								<option value="7">计划</option>
+								<option value="8">信息</option>
+								<option value="9">纪检</option>
+								<option value="10">政工</option>
+								<option value="11">销售</option>
+								<option value="12">稽查</option>
+								<option value="13">电访</option>
+								<option value="14">配送</option>
+								<option value="15">客服</option>
+								<option value="16">服务中心</option>
+								<option value="17">老干部办</option>
+								<option value="50">县营销部</option>
+								<option value="99">其他</option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td class="c_1">通讯地址：</td>
+						<td class="c_2"><input type="text" id="address"/></td>
+						<td class="c_1">邮编：</td>
+						<td class="c_2"><input type="text" id="postcode"/></td>
+					</tr>
+					<tr>
+						<td class="c_1">办公电话：</td>
+						<td class="c_2"><input type="text" id="telephone"/></td>
+						<td class="c_1">手机：</td>
+						<td class="c_2"><input type="text" id="mobilephone"/></td>
+					</tr>
+					<tr>
+						<td class="c_1">电子邮件：</td>
+						<td class="c_2"><input type="text" id="email"/></td>
+						<td class="c_1">IP地址：</td>
+						<td class="c_2">
+							<input type="text" id="ipaddress"/>
+							<span>*</span>
+						</td>
+					</tr>
+					<tr>
+						<td class="c_1">OA信箱：</td>
+						<td class="c_2">
+							<input type="text" id="oaemail"/>
+							<span>*</span>
+						</td>
+						<td class="c_1">个人主页：</td>
+						<td class="c_2"><input type="text" id="home_page"/></td>
+					</tr>
+					<tr>
+						<td class="c_1">qq号：</td>
+						<td class="c_2"><input type="text" id="qq"/></td>
+						<td class="c_1">msn号：</td>
+						<td class="c_2"><input type="text" id="msn"/></td>
+					</tr>
+					<tr>
+						<td class="c_1">自我介绍：</td>
+						<td class="c_2" colspan="3"><textarea id="intro"></textarea></td>
+					</tr>
+					<tr>
+						<td colspan="4" style="text-align:center;">
+							<a href="javascript:adduser('doRegist')">注册新用户</a>
+							<a href="javascript:getInfo()" style="margin-left:20px;">获取个人资料</a>
+							<a href="javascript:adduser('modifyInfo')" style="margin-left:20px;">修改个人资料</a>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+		<script type="text/javascript">Div.footer();</script>
+	</body>
+</html>

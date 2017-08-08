@@ -1,0 +1,120 @@
+
+
+.dgrid div:nth-child(1) {overflow:hidden; float:left;}
+.dgrid div:nth-child(2) {overflow:hidden; }
+.dgrid div:nth-child(3) {overflow-y:hidden; float:left;}
+.dgrid div:nth-child(4) {overflow:auto; background-color:lightblue; padding-right:17px;}
+.dgrid div:nth-child(5) {overflow:auto; display:none; background-color_:yellow; height:100px;border:1px solid #999;}
+.dgrid div:nth-child(5) table {margin-left:20px;}
+.dgrid div:nth-child(5) table tr {height:15px; counter-increment:errsCounter;}
+.dgrid div:nth-child(5) table tr td {padding: 0 8px;}
+.dgrid div:nth-child(5) table tr td:nth-child(1):before {content:counter(errsCounter)'.';}
+
+
+.dgrid thead tr {background-color:white;}
+.dgrid tbody tr:nth-child(2n+1) {background-color:#f2f2f2;}
+.dgrid input {width:100%; border:0; text-align:inherit; background-color:inherit;}
+
+.dgrid table {
+	table-layout: fixed;
+	border-collapse:collapse;		/*使用这个属性将表格的边框合并起来（其实就是把单独的单元格边框连起来。）*/
+	border:solid #999 ;
+	border-width:1px 0 0 1px;		/*设置表格主体的外边框，上边框和左边框*/
+}
+
+.dgrid table td, .dgrid table th {
+	width:120px;
+	height:32px;
+	border:solid #999;
+	border-width:0 1px 1px 0;		/*设置单元格的边框，右边框和下边框*/
+	padding:0 5px;
+	white-space:nowrap;				/*强制不换行*/
+	overflow:hidden;
+	text-overflow: ellipsis; 		/*文字隐藏后添加省略号 */
+	-o-text-overflow:ellipsis; 		/*适用于opera浏览器 */
+}
+
+
+.dgrid .itemsDiv {display:none; z-index:9; background-color:yellow; position:absolute;}
+.dgrid .itemsDiv td:nth-child(1) {width:20px;  text-align:center;}
+.dgrid .itemsDiv td:nth-child(2) {width:120px; text-align:left;}
+
+
+    
+/*表格样式。
+table {
+	float: left;
+	padding: 0;
+	margin: 0;
+	font-family:Arial, Tahoma, Verdana, Sans-Serif, 宋体;
+	border-left:1px solid #ADD8E6;
+	border-collapse:collapse;
+}
+/*表头样式。
+table th {
+	font-size:12px;
+	font-weight:600;
+	color: #303030;
+	border-right: 1px solid #ADD8E6;
+	border-bottom: 1px solid #ADD8E6;
+	border-top: 1px solid #ADD8E6;
+	_letter-spacing: 2px;
+	_padding: 10px 0px 10px 0px;
+	background: url(../images/tablehdbg.png);
+	white-space:nowrap;
+	text-align:center;
+	overflow: hidden;
+}
+
+/*单元格样式。
+table td {
+	border-right: 1px solid #ADD8E6;
+	border-bottom: 1px solid #ADD8E6;
+	background: #fff;
+	font-size:12px;
+	_padding: 3px 3px 3px 6px;
+	color: #303030;
+	word-break:break-all;
+	word-wrap:break-word;
+	white-space:normal;
+}
+
+/*蓝色单元格样式，主要用于隔行变色。
+table td.color{background:#edf7f9;}
+
+/*表格中超级链接样式。
+table td a:link{
+	font-weight:400 ;
+	color:#2259D7 ;
+	text-decoration:none ;
+	word-break:break-all;
+	word-wrap:break-word;
+	white-space:normal;
+}
+
+table td a:visited {
+	font-weight:400 ;
+	color:#2259D7 ;
+	text-decoration:none ;
+	word-break:break-all;
+	word-wrap:break-word;
+	white-space:normal;
+}
+
+table td a:hover {
+	font-weight:400 ;
+	text-decoration:underline ;
+	color: #303030;
+	word-break:break-all;
+	word-wrap:break-word;
+	white-space:normal;
+}
+
+table td a:active {
+	font-weight:400 ;
+	text-decoration:none ;
+	color:#2259D7 ;
+	word-break:break-all;
+	word-wrap:break-word;
+	white-space:normal;
+} */

@@ -1,0 +1,10 @@
+
+
+
+一个基于jQuery的开源富文本编辑器， 目标是让开发者能够将textarea元素扩展为一个简单的文本编辑器。
+现在支持html、Wiki、BBScode等编辑格式，并且相当的轻巧（5.5k），
+有比较好的扩展性(突出下)，如果需求,可以考虑一下。
+
+ 
+
+工程地址：http://markitup.jaysalvat.com/downloads/

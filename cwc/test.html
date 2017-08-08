@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Default Examples</title>
+		<style>
+			body {margin:auto; width:800px;}
+		</style>
+		<script src='javascript/dom.js'></script>
+		<script>
+	
+		
+		</script>
+	</head>
+	
+<body>
+		  
+		    <div id='div' style='background:#888;border:1px solid #888;padding:10px;'>坐标div</div>
+		    <div id='inside' style='background:#0f0;border:1px solid #888;padding:10px;'>inside</div>
+		    <div id='outside' style='background:#F00;border:1px solid #888;padding:10px;'>outside</div>
+		    
+		    <script type="text/javascript">
+		        var div = document.getElementById('div');
+		        
+		        var beforeDiv = document.createElement('div');
+		        beforeDiv.innerHTML = 'beforeDiv';
+		        beforeDiv.style.background = '#eee';
+		        
+		        var prepEndDiv = document.createElement('div');
+		        prepEndDiv.innerHTML = 'prepEndDiv';
+		        prepEndDiv.style.background = '#ff0';
+		        
+		        var appendDiv = document.createElement('div');
+		        appendDiv.innerHTML = 'appendDiv';
+		        appendDiv.style.background = '#0ff';
+		        
+		        var afterDiv = document.createElement('div');
+		        afterDiv.innerHTML = 'afterDiv';
+		        afterDiv.style.background = '#f0f';
+		        
+		        div.before(beforeDiv);
+		        div.prepend(prepEndDiv);
+		        div.append(appendDiv);
+		        div.after(afterDiv);
+		        
+		        //测试文本插入
+		        div.append('[我是乐小天，我来测试直接插入文本]');
+		        
+		        //测试外包含和内包含
+		        var outside = document.getElementById('outside');
+		        var inside = document.getElementById('inside');
+		        outside.applyElement(inside, 'inside');
+		    </script>
+		  </body>
+</html>

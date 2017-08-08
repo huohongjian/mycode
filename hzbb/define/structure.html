@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset='utf-8' />
+	<title>河北烟草财务信息管理系统</title>
+	
+	<script type='text/javascript' src='../js/$my.js'></script>
+	<script type='text/javascript' src='../js/components.js'></script>
+	<script type='text/javascript' src='../js/_init.js'></script>
+	<script type='text/javascript' src='../js/handsontable.full.min.js'></script>
+	<script type='text/javascript' src='js/structure.js'></script>
+	
+	<link type='text/css' rel='stylesheet' href='../js/handsontable.css' />
+	<link type='text/css' rel='stylesheet' href='../css/_init.css' />
+	<link type='text/css' rel='stylesheet' href='../css/dtab.css' />
+	<style type='text/css'>
+		/***** left *****/
+		div#dtab1 {margin:10px 0; }
+		div#taskName {margin:10px; font-weight:bold; color:blue;}
+		
+		#tableList table {border-collapse:collapse}
+		#tableList {margin:10px;}
+		#tableList tr {height:25px;}
+		#tableList .currentRow {font-weight:bold; color:red;}
+		
+		
+		/***** right *****/
+
+		div#bar {height:30px;}		
+		div#tableTopInfo {margin:5px 10px;}		
+		div#grid {margin-left:10px; }		
+		
+		#imgbar {margin:5px;}
+		#imgbar img {width:16px; height:16px; cursor:pointer; margin-left:12px;}
+		
+		
+	</style>
+	
+</head>
+<body>
+	<header id='frame_header'></header>
+	<div id='frame_container'>
+		<div id='frame_left'>
+			<div id='dtab1'></div>
+			<div id='taskName'></div>
+			<div id='tableList'></div>
+		</div>
+		<div id='frame_splitter'></div>
+		<div id='frame_main'>
+			<div id='imgbar'></div>
+			<div id='dtab'></div>
+			<div id='tableTopInfo'>
+				报表名称：<span id='tableName'>全部</span>
+			</div>
+			<div id='grid'></div>
+			
+		
+		</div>
+	</div>
+	<footer id='frame_footer'></footer>
+</body>
+</html>
+

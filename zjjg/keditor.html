@@ -1,0 +1,251 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>addArticle</title>
+		<link rel="stylesheet" type="text/css" href="css/main.css"/>
+		<link rel="stylesheet" type="text/css" href="javascript/dgrid/dgrid.css"/>
+		<script type="text/javascript" src="cache/data.js"></script>
+		<script type="text/javascript" src="javascript/jquery.pack.js"></script>
+		<script type="text/javascript" src="javascript/dgrid/dgrid.js"></script>
+		<script type="text/javascript" src="javascript/jquery.func.js"></script>
+		<script type="text/javascript" src='javascript/function.js'></script>
+		<script type="text/javascript" src="javascript/kindeditor/KindEditor.js"></script>
+		
+		
+		<style type="text/css">
+			div.main {width:662px; margin:auto; border:1px solid #696969;}
+			ul.menu {height:30px; line-height:30px; list-style-type:none; background-color:#5BABEB; #EFEFDE;}
+			ul.menu a {display:block; width:80px; text-align:center;}
+			ul.menu a:link {color:#fff; text-decoration:none;}
+			ul.menu a:visited {color:#fff; text-decoration:none;}
+			ul.menu a:hover {color:#FFF; text-decoration:none; font-weight:bold;}
+			ul.menu li {float:left; width:80px; background_:#CCC;}
+			ul.menu li a:hover{background:#0067C6;}
+			ul.menu li ul {line-height:27px; list-style-type:none; text-align:left; left:-999em; width:130px; position:absolute; border:1px solid #696969; padding:5px; background:#F6F6F6;}
+			ul.menu li ul li{float:left; width:130px; background:#F6F6F6;}
+			ul.menu li ul a{display:block; width:118px; text-align:left; padding-left:12px;}
+			ul.menu li ul a:link {color:#666; text-decoration:none;}
+			ul.menu li ul a:visited {color:#666;text-decoration:none;}
+			ul.menu li ul a:hover {color:#F3F3F3; text-decoration:none; font-weight:normal; background:#0067C6;#C00;}
+			ul.menu li:hover ul {left:auto; display:block;}
+			ul.menu li.sfhover ul {left:auto;}
+			ul.menu .spline{border-bottom:1px solid #696969;}
+			ul.menu .jsset {background:url('image/bluearrow.gif') no-repeat 3px -5px;}
+			ul.menu .jsset:hover {background:#0067C6 url('image/bluearrow.gif') no-repeat 3px -5px;}
+			
+
+		</style>
+		<script type="text/javascript">
+			var jp = {
+				artid:	-1,
+				catid:	-1,
+				title: '',
+				alias: '',
+				author: '',
+				number: ''
+			}
+		
+			
+			
+		
+			
+			function getQuery(str, id){
+				var r = '';
+				try { r = getLocationQuery(str, id).replace(/(<br \/>)*$/,""); }
+				catch (e) { }
+				return r;
+			}
+			
+			function setCatid(id){
+				jp.catid = id;
+			}
+		</script>
+	</head>
+	<body>
+		<div class="main">
+			<ul class="menu">
+				<li><a href="#">文章管理</a>
+					<ul>
+						<li><a href="javascript:add_article()">添加文章</a></li>
+						<!--li><a href="#">删除文件</a></li-->
+						<li class="spline"><a href="javascript:browse()">预览文章</a></li>
+						<li><a href="javascript:upload()">附件管理</a></li>
+					</ul>
+				</li>
+				<li><a href="#">浏览权限</a>
+					<ul>
+						<li><a  name="levels" href="javascript:set_readlevel(0)">所有浏览者</a></li>
+						<li><a  name="levels" href="javascript:set_readlevel(1)">仅注册用户</a></li>
+						<li><a  name="levels" href="javascript:set_readlevel(2)">仅财务用户</a></li>
+						<li><a  name="levels" href="javascript:set_readlevel(3)">仅市局用户</a></li>
+						<li><a  name="levels" href="javascript:set_readlevel(4)">仅省局用户</a></li>
+						<li><a  name="levels" href="javascript:set_readlevel(5)">仅用户本人</a></li>
+					</ul>
+				</li>
+				<li><a href="#">空行操作</a>
+					<ul>
+						<li><a href="javascript:spaceOperate('nTo1')">删除所有空行</a></li>
+						<li class="spline"><a href="javascript:spaceOperate('nTo0')">删除所有回车</a></li>
+						<li><a href="javascript:spaceOperate('nTo2')">段间留一空行</a></li>
+						<li><a href="javascript:spaceOperate('nTo3')">段间留二空行</a></li>
+						<li><a href="javascript:spaceOperate('nTo4')">段间留三空行</a></li>
+					</ul>
+				</li>
+				<li><a href="#">空格操作</a>
+					<ul>
+						<li><a href="javascript:spaceOperate('bIndentH')">增加段首半角</a></li>
+						<li class="spline"><a href="javascript:spaceOperate('bIndentW')">增加段首全角</a></li>
+						<li><a href="javascript:spaceOperate('delRowHalf')">删除段首半角</a></li>
+						<li class="spline"><a href="javascript:spaceOperate('delRowWhole')">删段行首全角</a></li>
+						<li><a href="javascript:spaceOperate('delHalf')">删除全部半角</a></li>
+						<li class="spline"><a href="javascript:spaceOperate('delWhole')">删除全部全角</a></li>
+						
+						<li><a href="javascript:spaceOperate('halfWhole')">半角转全角</a></li>
+						<li class="spline"><a href="javascript:spaceOperate('wholeHalf')">全角转半角</a></li>
+						<li><a href="javascript:spaceOperate('cloneHalf')">克隆半角</a></li>
+						<li class="spline"><a href="javascript:spaceOperate('cloneWhole')">克隆全角</a></li>
+						<li><a href="javascript:spaceOperate('uniteHalf')">合并半角</a></li>
+						<li><a href="javascript:spaceOperate('uniteWhole')">合并全角</a></li>
+					</ul>
+				</li>
+				<li><a href="#">文件属性</a>
+					<ul>
+						<li><a name="published" href="javascript:published(0)">文章尚未发表</a></li>
+						<li class="spline"><a name="published" href="javascript:published(1)">文章已经发表</a></li>
+						<li><a name="hidetitle" href="javascript:hidetitle(0)">标题可以显示</a></li>
+						<li class="spline"><a name="hidetitle" href="javascript:hidetitle(1)">标题已经隐藏</a></li>
+						<li><a name="isreply" href="javascript:isreply(0)">文章不可回复</a></li>
+						<li><a name="isreply" href="javascript:isreply(1)">文章可以回复</a></li>
+					</ul>
+				</li>
+				<li><a href="#">文章类别</a>
+					<ul>
+						<script type="text/javascript">
+							var opts = options.art_fre_cats;	
+							for(var i=0; i<opts.length; i++){
+								document.write("<li><a href='javascript:setCatid(" + opts[i].v + ")'>" + opts[i].n + "</a></li>");
+							}
+						</script>
+						<li><a href="javascript:alert('正在建设...')">更多...</a></li>
+					</ul>
+				</li>
+				<li><a href="#">首页管理</a>
+					<ul>
+						<li><a href="javascript:manageHomePage(0)">预览首页</a></li>
+						<li><a href="javascript:manageHomePage(1)">更新首页</a></li>
+					</ul>
+				</li>
+				<li><a href="#">使用帮助</a></li>
+			</ul>
+			
+			<input type="hidden" id="kEditor" name="kEditor" class="kditor" />
+			
+			<script type="text/javascript">
+				var id = getLocationQuery(window.location.href) || -1;
+				
+				var	editorValue = "[标题]:<br/>[作者]:<br/>[文号]:<hr color='#5babab' size='1'/><br/>";
+				if(id!=-1){
+					$.ajax({
+						url: 'service/keditor.php?id=' + id + '&func=getArticleById',
+						async: false,
+						dataType: 'json',
+						success: function(json){
+							if(json.power){
+								jp.artid = json.artid;
+								jp.catid = json.catid;
+								
+								editorValue = '[标题]:' + json.title + '<br/>';
+								if(json.title_alias!='')
+									editorValue += '[别名]:' + json.title_alias + '<br/>';
+								editorValue += '[作者]:' + json.author + '<br/>';
+								editorValue += '[文号]:' + json.art_number + '<hr color=\'#5babab\' size=\'1\'/>';
+								editorValue += json.content + '<br/>';
+							}
+						}
+					});
+				}
+				$('#kEditor').val(editorValue);
+				
+				editor = new KindEditor("editor");
+				editor.skinPath 		= "javascript/kindeditor/skins/fck/";
+				editor.iconPath 		= "javascript/kindeditor/icons/";
+				editor.imageAttachPath 	= "javascript/kindeditor/attached/";
+				editor.imageUploadCgi 	= "javascript/kindeditor/upload_cgi/upload.php";
+				editor.cssPath			= "javascript/kindeditor/common.css";
+				editor.hiddenName 		= "kEditor";
+				editor.editorWidth 		= "660px";
+				editor.editorHeight 	= "300px";
+				editor.show();
+			</script>
+				
+		</div>
+	</body>
+	<script type="text/javascript">
+		function KE_SAVE(){
+			if(jp.catid == -1) {alert('请选择文章类别!'); return;}
+			var d = editor.data();
+			var m = d.match(/<hr.*?#5babab.*?>/i).toString();
+			if(m == null) {alert('文档格式被破坏,请刷新本页再添加文章!'); return;}
+			var i = d.indexOf(m);
+			var head = d.substring(0, i).replace("[标题]:","&doc_title=").replace("[别名]:","&doc_alias=").replace("[作者]:","&doc_author=").replace("[文号]:","&doc_number=").replace(/&nbsp;/gi,' ').replace(/  /gi,'　');;
+			jp.title	= getQuery(head, "doc_title");
+			if(jp.title=='') {alert('文章标题不得为空!');return;}
+			jp.alias	= getQuery(head, "doc_alias");
+			jp.author	= getQuery(head, "doc_author");
+			jp.number	= getQuery(head, "doc_number");
+			var content = d.substring(i + m.length);
+			$.ajax({
+				url: 		'service/keditor.php',
+				type: 		'POST',
+				dataType: 	"json",
+				data:		{
+					func:	'updateArticle',
+					artid:	jp.artid,
+					catid:	jp.catid,
+					title:	jp.title,
+					alias:	jp.alias,
+					author:	jp.author,
+					number:	jp.number,
+					content:content
+				},
+				success: function(json){
+					switch(json.cases){
+						case 1:
+							var isNew = jp.artid==json.artid ? false : true;
+							if(isNew){
+								jp.artid=json.artid;
+								if(confirm('文章添加成功,现在是否更新首页,请确认?'))
+									manageHomePage(1);
+							}else{
+								alert('文章保存成功,但未更新首页!\n\n如更改标题,请更新首页!')
+							}
+							break;
+						case 9:
+							alert(json.msg);
+							break;
+					}
+					
+				}
+			});
+			
+			
+		}
+		
+	</script>
+	
+	
+	<script type="text/javascript">
+		function manageHomePage(i) {
+			switch (i) {
+				case 0:
+					open_window_center('index.php');
+					break;
+				case 1:
+					open_window_center('index_refresh.php', 260, 180);
+					break;
+			}
+		}
+	</script>
+	
+</html>

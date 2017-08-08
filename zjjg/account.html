@@ -1,0 +1,181 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv=Content-Type content="text/html; charset=utf-8">
+		<title>河北省烟草专卖局(公司)资金监管中心</title>
+		<link rel="stylesheet" type="text/css" href="css/main.css"/>
+		<link rel="stylesheet" type="text/css" href="javascript/dgrid/dgrid.css"/>
+		<script type="text/javascript" src="cache/data.js"></script>
+		<script type="text/javascript" src="javascript/jquery.pack.js"></script>
+		<script type="text/javascript" src="javascript/dgrid/dgrid.js"></script>
+		<script type="text/javascript" src="javascript/jquery.func.js"></script>
+		<script type="text/javascript" src='javascript/function.js'></script>
+		
+		<style type="text/css">
+			.tab {border:1px solid #5E8AB6;}
+			h3 {text-align:center; margin-top:15px;}
+			
+			ul.neck {padding:8px; height:10px;}
+			ul.neck li {float:left;}
+			ul.neck li.c0 {width:300px;}
+			ul.neck li.c1 {width:270px; text-align:center; background_:green;}
+			ul.neck li.c2 {width:280px; text-align:right;}
+			
+			.dgrid {width:880px; margin:auto;}
+			.dgrid .c0 {width:35px; text-align:center;}
+			.dgrid .c1 {width:80px; text-align:center;}
+			.dgrid .c2 {width:100px; text-align:center;}
+			.dgrid .c3 {width:250px; text-align:left;}
+			.dgrid .c4 {width:120px; text-align:right;}
+			.dgrid .c5 {width:120px; text-align:right;}
+			.dgrid .c6 {width:120px; text-align:right;}
+			
+			.searchbar {padding:5px; height:10px;}
+			.searchbar li {float:left; margin-left:10px;}
+			#cors select {width:80px;}
+			#cats select {width:95px;}
+			.searchbar .date_y {width:70px;}
+			.searchbar .date_m, .searchbar .date_d {width:55px; margin-left:5px;}
+		</style>
+		
+		<script type="text/javascript">
+			var jp = {
+				corid: -1
+			}
+			
+			$(function(){
+				getUserInfoAndDgrid();
+			});
+			
+			function loginEvent(){	//在login.html中定义
+				getUserInfoAndDgrid();
+			}
+			
+			function getUserInfoAndDgrid(){
+				$.getJSON('service/login.php?func=getUserInfo',
+					function(json){
+						if(json.key==1){
+							jp.corid = json.corid;
+							$('#corp').html(options.getName(options.corporations, jp.corid).replace('　',''));
+							$('#cors').selectSetValue(jp.corid);
+							$("#dgrid").dgridAjax({total:-1, page:1});
+						}else{
+							alert(json.msg);
+						}
+					}
+				);
+			}
+		</script>
+	</head>
+	
+	<body>
+		<script type="text/javascript">document.write(jscode.header());</script>
+		<div class="tab">
+			<h3>明细账查询</h3>
+			<ul class="neck">
+				<li class="c0">单位名称：<span id="corp"></span></li>
+				<li class="c1">日期:<span id="date">[ - - - - ]至[ - - - - ]</span></li>
+				<li class="c2">金额单位：元</li>
+			</ul>
+			<div id="dgrid" class="dgrid"></div>
+			<ul class="searchbar">
+				<li>
+					单位：<span id="cors"></span>
+				</li>
+				<li>
+					类别：<span id="cats"></span>
+				</li>
+				<li>
+					起始日期：<span id="sdate"></span>
+				</li>
+				<li>
+					截止日期：<span id="edate"></span>
+				</li>
+				<li>
+					<button onclick="search()">查询</button>
+				</li>
+				<li id="y"></li>
+			</ul>
+		</div>
+		<script type="text/javascript">document.write(jscode.footer());</script>
+		
+		<script type="text/javascript">
+			$('#cors').selectBuild(options.cors);
+			$('#cats').selectBuild(options.unshift_array(options.cats, {v:'0',n:'全部'}));
+			var d = new Date();
+			$('#sdate').date(
+			{
+				y:{onchange:function(o){$('#edate').dateSet({y:o.value});}, dv:d.getFullYear(), start:2008, end:2012},
+				m:{onchange:function(o){$('#edate').dateSet({m:o.value});}, dv:d.getMonth()+1},
+				d:{onchange:function(o){$('#edate').dateSet({d:o.value});}}
+			}
+			);
+			
+			$('#edate').date(
+			{
+				y:{dv:d.getFullYear(), start:2008, end:2012},
+				m:{dv:d.getMonth()+1},
+				d:{dv:31}
+			}
+			);
+			
+			function search(){
+				if(jp.corid>0 && $('#cors').selectGetValue()-0!=jp.corid){
+					alert('你没有权限查看此单位数据!');
+					return;
+				}
+				$('#date').html(buildDate());
+				$('#corp').html(options.getName(options.corporations, $('#cors').selectGetValue()).replace('　',''));
+				
+				$("#dgrid").dgridSetParams(buildParams());
+				$("#dgrid").dgridAjax({total:-1, page:1});
+			}
+			
+			function buildDate(){
+				var sdate = $('#sdate').dateGet().ymd;
+				var edate = $('#edate').dateGet().ymd;
+				return '['+sdate+']至['+edate+']';
+			}
+			
+			function buildParams(){
+				var p = {
+					func:	'getList',
+					corid: 	$('#cors').selectGetValue(),
+					cid:	$('#cats').selectGetValue(),
+					sdate:	$('#sdate').dateGet().ymd,
+					edate:	$('#edate').dateGet().ymd
+				}
+				return p;
+			}
+			
+			$("#dgrid").dgrid(
+				{
+					url: 'service/account.php',
+					colModel: [
+						{display: '序号'},
+						{display: '日期'},
+						{display: '类别'},
+						{display: '摘要'},
+						{display: '借方', init:formatNumber},
+						{display: '贷方', init:formatNumber},
+						{display: '余额', init:formatNumber}
+						],
+					buttons: [
+							{name:'导出Excel', onpress:generateExcel}
+						],
+					params:buildParams()
+				}
+			);
+			$('#date').html(buildDate());
+			
+			function generateExcel(){
+				if(jp.corid>0 && $('#cors').selectGetValue()-0!=jp.corid){
+					alert('你没有权限查看此单位数据!');
+					return;
+				}
+				var url = 'service/excel_for_account.php?corid=' + $('#cors').selectGetValue() + '&cid=' + $('#cats').selectGetValue() + '&sdate=' + $('#sdate').dateGet().ymd + '&edate=' + $('#edate').dateGet().ymd;
+				open_window_center(url, 300, 200, 'resizable=yes');
+			}
+		</script>
+	</body>
+</html>

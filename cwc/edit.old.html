@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>addArticle</title>
+		<script type="text/javascript" src="./javascript/jquery.js"></script>
+		
+		<script type='text/javascript' src='../_include/fckeditor/fckeditor.js'></script>
+		<script type="text/javascript" src="../_include/dtree/dtree.js"></script>
+		<link type="text/css" rel="StyleSheet" href="../_include/dtree/dtree.css" />
+		
+		<script type="text/javascript" src="./javascript/share.js"></script>
+		<script type="text/javascript" src="./javascript/edit.js"></script>
+		<script type="text/javascript" src="./javascript/enterTab.js"></script>
+		<script type="text/javascript" src='./cache/category_tree.js'></script>
+		<link type="text/css" rel="stylesheet" href="./css/edit.css"/>
+		<link type="text/css" rel="stylesheet" href="./css/menu.css"/>
+		
+		<style type="text/css">
+			ul.menu {height:30px; line-height:30px;}
+			ul.menu li {float:left; width:85px;}
+		</style>
+		
+	</head>
+	<body style="background-image:url('./image/backimage/bgImg4.jpg');">
+	
+		<div id="navdiv" class="borderstyle">
+			<ul id="nav" class="menu">
+				<li><a href="#">文件管理</a>
+					<ul>
+						<li><a href="javascript:add_article()">添加文件</a></li>
+						<!--li><a href="#">删除文件</a></li-->
+						<li><a href="javascript:browse()">预览文件</a></li>
+						<li class="spline"><a href="javascript:upload()">附件管理</a></li>
+					</ul>
+				</li>
+				<li><a href="#">浏览权限</a>
+					<ul>
+						<li><a  name="levels" href="javascript:set_readlevel(0)">所有浏览者</a></li>
+						<li><a  name="levels" href="javascript:set_readlevel(1)">仅注册用户</a></li>
+						<li><a  name="levels" href="javascript:set_readlevel(2)">仅财务用户</a></li>
+						<li><a  name="levels" href="javascript:set_readlevel(3)">仅市局用户</a></li>
+						<li><a  name="levels" href="javascript:set_readlevel(4)">仅省局用户</a></li>
+						<li><a  name="levels" href="javascript:set_readlevel(5)">仅用户本人</a></li>
+					</ul>
+				</li>
+				<li><a href="#">编辑器选择</a>
+					<ul>
+						<li><a name="editors" href="javascript:select_editor(0)">TXT文本编辑器</a></li>
+						<li><a name="editors" href="javascript:select_editor(1)">TXT源码编辑器</a></li>
+						<li><a name="editors" href="javascript:select_editor(2)">FCK在线编辑器</a></li>
+					</ul>
+				</li>
+				<li><a href="#">空行操作</a>
+					<ul>
+						<li><a href="javascript:spaceOperate('nTo1')">删除所有空行</a></li>
+						<li><a href="javascript:spaceOperate('nTo0')">删除所有回车</a></li>
+						<li class="spline"><a href="javascript:spaceOperate('nTo2')">段间留一空行</a></li>
+						<li><a href="javascript:spaceOperate('nTo3')">段间留二空行</a></li>
+						<li><a href="javascript:spaceOperate('nTo4')">段间留三空行</a></li>
+					</ul>
+				</li>
+				<li><a href="#">空格操作</a>
+					<ul>
+						<li><a href="javascript:spaceOperate('bIndentH')">增加段首半角</a></li>
+						<li><a href="javascript:spaceOperate('bIndentW')">增加段首全角</a></li>
+						<li class="spline"><a href="javascript:spaceOperate('delRowHalf')">删除段首半角</a></li>
+						<li><a href="javascript:spaceOperate('delRowWhole')">删段行首全角</a></li>
+						<li class="spline"><a href="javascript:spaceOperate('delHalf')">删除全部半角</a></li>
+						<li><a href="javascript:spaceOperate('delWhole')">删除全部全角</a></li>
+						
+						<li class="spline"><a href="javascript:spaceOperate('halfWhole')">半角转全角</a></li>
+						<li><a href="javascript:spaceOperate('wholeHalf')">全角转半角</a></li>
+						<li class="spline"><a href="javascript:spaceOperate('cloneHalf')">克隆半角</a></li>
+						<li><a href="javascript:spaceOperate('cloneWhole')">克隆全角</a></li>
+						<li class="spline"><a href="javascript:spaceOperate('uniteHalf')">合并半角</a></li>
+						<li><a href="javascript:spaceOperate('uniteWhole')">合并全角</a></li>
+					</ul>
+				</li>
+				<li><a href="#">文件属性</a>
+					<ul>
+						<li><a name="published" href="javascript:published(0)">文章尚未发表</a></li>
+						<li><a name="published" href="javascript:published(1)">文章已经发表</a></li>
+						<li class="spline"><a name="hidetitle" href="javascript:hidetitle(0)">标题可以显示</a></li>
+						<li><a name="hidetitle" href="javascript:hidetitle(1)">标题已经隐藏</a></li>
+						<li class="spline"><a name="isreply" href="javascript:isreply(0)">文章不可回复</a></li>
+						<li><a name="isreply" href="javascript:isreply(1)">文章可以回复</a></li>
+					</ul>
+				</li>
+				<li><a href="javascript:alert('正在建设中...')">文章编辑</a>
+					<ul>
+						<li><a href="javascript:center()">居中</a></li>
+						<li><a href="javascript:heiti()">黑体</a></li>
+						<li class="spline"><a href="javascript:center_heiti()">居中加黑</a></li>
+						<li><a href="javascript:center_heiti_kh()">居中加黑前空行</a></li>
+					</ul>
+				</li>
+				<li><a href="#">页面跳转</a>
+					<ul>
+						<li><a href="./myarticle.html">我的文章</a></li>
+						<li><a href="./list.html">文章查询</a></li>
+						<li><a href="javascript:browse()">文章预览</a></li>
+						<li><a href="./">网站首页</a></li>
+					</ul>
+				</li>
+				<li><a href="javascript:login()">用户登录</a>
+				</li>
+			</ul>
+		</div>
+		
+		<div id="middle">
+			<div id="left" class="borderstyle">
+				<div id="tree"></div>
+			</div>
+			
+			<div id="right1">
+				<div id="Textarea">
+					<textarea id="DataTextarea" onselect="setCaret(this);" onkeyup="setCaret(this);"></textarea>
+				</div>
+				<div id="FCKeditor" style="display:none">
+					<textarea id="DataFCKeditor" cols="80" rows="20"></textarea>
+				</div>
+			</div>
+	
+			<div id="right2">
+				<div style="margin-top:3px;">
+					标题:<input type="text" id="title" name="title" class="title" />
+					
+					<a href="./">首页</a>
+					<a href="javascript:refreshHomePage()">更新</a>
+				</div>
+				<div style="margin-top:3px;">
+					作者:<input type="text" id="author" class="author" />
+					文号:<input type="text" id="number" class="author" />
+					首页标题:<input type="text" id="caption" />
+					<a id="e_save" href="javascript:save_article()">保存</a>
+					<a href="javascript:browse()">预览</a>
+					
+				</div>
+			</div><!-- id='right2' -->
+			
+		</div><!-- id='middle' -->
+	
+		
+		<div id="editor_foot">
+			<span style="color:red; margin-left:10px;">状态栏:</span>
+			<font color="#EFEFDE">img src="image/new.gif" width="22" height="9"></font>
+			<span id="statemsg"></span>
+		</div><!-- id='foot' -->
+		
+	</body>
+</html>

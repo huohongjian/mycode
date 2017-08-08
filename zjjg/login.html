@@ -1,0 +1,119 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv=Content-Type content="text/html; charset=utf-8">
+		<meta http-equiv="pragma" content="no-cache" />
+		<title>系统登录</title>
+		<link rel="stylesheet" type="text/css" href="css/main.css"/>
+		<script type="text/javascript" src="cache/data.js"></script>
+		<script type="text/javascript" src="javascript/jquery.pack.js"></script>
+		<script type="text/javascript" src="javascript/jquery.func.js"></script>
+		<script type="text/javascript" src='javascript/function.js'></script>
+		<script type="text/javascript" src='javascript/md5.js'></script>
+		<style type="text/css">
+			body {padding:0px; margin:5px;}
+			ul.login {width:200px; margin:auto;}
+			ul.login li {float:left; margin-top:8px;}
+			ul.login li.c0 {width:80px; text-align:right;}
+			ul.login li.c1,
+			ul.login li.c1 input {width:100px; height:16px;}
+			ul.login li.head {width:100%; text-align:center;}
+			ul.login li.btn {width:100%; text-align:center; margin:10px;}
+			ul.login li.btn button {margin:0px 5px;}
+		</style>
+		<script type="text/javascript">
+			$(function(){
+				$('#udate').val(formatDate(new Date(), "yyyy-MM-dd"));
+				$.get('service/user.php',{
+					func:	'getUserName'
+				},function(data){
+					$('#uname').val(data);
+					$('#uname').focus();
+					$('#uname').select();
+				}
+				);
+				
+			}
+			);
+			
+			
+			function logout(){
+				$.get('service/user.php',{
+					func:'logout'
+				},function(data){
+					if(data=='1'){
+						$('#uname').val('');
+						$('#upassword').val('');
+						alert('你已退出系统!');
+						if(window.opener) window.close();
+					}
+				}
+				);
+			}
+			
+			function login(){
+			//	var params = $('input').serialize(); muse to use name
+				var udate = $('#udate').val();
+				if(!isDate(udate)){
+					alert('请输入正确格式的日期，例如：2008-07-01');
+					$('#udate')[0].select();
+					return;
+				}
+				
+				var uname = $('#uname').val();
+				var upwd = $('#upassword').val();
+				if(uname==''){
+					alert('请录入用户名!')
+					$('#uname').get(0).select();
+					return;
+				}
+				if(upwd==''){
+					alert('请录入用户密码!')
+					$('#upassword').focus();
+					return;
+				}
+				$.get('service/login.php',
+				{
+					func:		'regist',
+					udate:		udate,
+					uname: 		uname,
+					upassword:	hex_md5(upwd)
+				},
+				function(data){
+					if(data=='1'){
+						$('#upassword').val('');
+						alert('你成功登录!');
+						if(window.opener){
+							window.close();
+							if(window.opener.loginEvent)
+								window.opener.loginEvent();
+						}
+					}else if(data=='0'){
+						alert('用户名或密码不正确,请重新录入!');
+						$('#uname').get(0).select();
+					}
+				}
+				);
+			}
+		</script>
+	</head>
+	<body>
+		
+		<ul class="login">
+			<li class="head"><h3>用户登录</h3></li>
+			<li class="c0"><span>操作日期：</span></li>
+			<li class="c1"><input type="text" id="udate" /></li>
+			<li class="c0"><span>用户名：</span></li>
+			<li class="c1"><input type="text" id='uname' /></li>
+			<li class="c0"><span>密　码：</span></li>
+			<li class="c1"><input type="password" id='upassword' /></li>
+			<li class="btn">
+				<button id="login" onclick="login()">登录</button> 
+				<button onclick="logout()">退出</button>
+			</li>
+		</ul>
+	</body>
+	<script type="text/javascript">
+		$('.login').enter({tag:'*[id]',func:[{k:'3',v:function(){login();}}]});
+	</script>
+</html>

@@ -1,0 +1,111 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv=Content-Type content="text/html; charset=utf-8">
+		<title>浏览文章</title>
+		<script type="text/javascript" src="cache/data.js"></script>
+		<script type="text/javascript" src="javascript/jquery.pack.js"></script>
+		<script type="text/javascript" src='javascript/function.js'></script>
+		<link rel="stylesheet" type="text/css" href="css/main.css"/>
+		<style type="text/css">
+			.reply_title {width:100%; height:25px; line-height:25px; background:#F1F8D1; #9ABFD9; border-top:1px solid #5A83A1; border-bottom:1px solid #5A83A1;}
+			.reply_title p {float:left;}
+			.reply_title .username {margin-left:5px; width:200px;}
+			.reply_title .posttime {width:300px;}
+			.reply_title a {cursor:pointer;}
+			.reply_body {min-height:50px; height:auto!important; height:50px; padding:10px;}
+			
+			#art {width:898px; min-height:458px; height:auto!important; height:458px; margin:5px auto; border:#a7cafa 1px solid; background:#f4f7ff;}
+			#artTitleM, #artTitleL, #artTitleR {display:block; height:30px; line-height:30px;}
+			#artTitleM {background:#d2e4fc; border-bottom:1px solid #a7cafa;}
+			#artCat {padding:0px 15px;}
+			#artEdit {padding:0px 15px; font-weight:bold; float:right; }
+			
+			#artBody {width:760px; margin:20px auto; overflow:auto; text-align:center;}
+			#artBody #artTitle {font-size:15pt; font-family:黑体; line-height:35px; text-align:center; margin:8px 20px;}
+			#artBody #artNumber {font-size:11pt; width:100%; text-align:center; color:red; line-height:30px;}
+			#artBody #artHr {display:none; width:100%; height:2px; color:red; background:red; border:0px;}
+			#artBody #artNeck {text-align:center; padding:8px 0px; color:blue; line-height:30px; display:block;}
+			#artBody #artContent, #artContent * {font-size:11pt; line-height:30px; text-align:left;}
+			#artBody #artContent a:link {text-decoration:underline;}
+			#artBody #artContent a:hover {text-decoration:underline;}
+			#artBody #artContent a:visited {text-decoration:underline;}
+			
+		</style>
+		<script type="text/javascript">
+			var jp = {
+				id: getLocationQuery(window.location.href) || -1
+			}
+			
+			$(function(){
+				if(jp.id!=-1) getArticleById(jp.id);
+			
+			})
+			
+			function getArticleById(id){
+				$.getJSON('service/browse.php', {
+					func:	'getArticleById',
+					id:		id
+				}, function(json){
+					if(json.editable) $('#artEdit').html("<a href='keditor.html?id=" + id + "'>编辑</a>");
+					$('#artCat').html("正文");
+					var author = json.author;
+					if(author!='') author = '作者:'+author+'　　';
+					$('#artTitle').html(json.title);
+					$('#artNumber').html(json.art_number);
+					$('#artHr').toggle();
+					$('#artNeck').html(author+'上传时间：'+json.posttime.substr(0,19)+'　　点击次数:'+json.counter);
+					$('#artContent').html(json.content);
+				}
+				);
+			}
+		</script>
+	</head>
+	<body>
+		<script type="text/javascript">document.write(jscode.header());</script>
+		
+		<div id='art'>
+			<span id='artTitleM'>
+				<span id='artTitleL'>
+					<span id='artTitleR'>
+						<span id='artEdit'></span>
+						<span id='artCat'></span>
+					</span>
+				</span>
+			</span>
+			<div id='artBody'>
+				<div id='artTitle'></div>
+				<span id='artNumber'></span>
+				<hr id='artHr'/>
+				<span id='artNeck'></span>
+				<div id='artContent'></div>
+			</div>
+		</div>
+		
+		<div id="replydiv" style='display:none; width:900px; margin:5px auto; border:1px solid #ADB9C2;'>
+			<div style='background:#D9DADC; padding:10px;'>
+				<script type='text/javascript'>//document.write(PageBar.Html());
+				
+				</script>
+ 				<a href='javascript:say()'>我来说两句</a>
+ 				<a href='javascript:refresh_reply(1)' style="margin-left:20px;">刷新回复</a>
+			</div>
+			<div id='reply_content'></div>
+		</div>
+		<div id="reply_div" style="display:none; padding:6px 2px; position:absolute; text-align:center; width:333px; background:#F1F8D1; border:1px solid #a7cafa;">
+			<h4>我来说两句</h4>
+			
+			<textarea id="reply" style="border:1px solid #7F9DB9; width:300px; height:120px; padding:5px; margin:10px;"></textarea>
+			<input type="checkbox" id="anonymous" checked=false/>
+			<label for="anonymous" style="margin-right:20px;">匿名发表</label>
+			<a href="javascript:addreply()">提交发表</a>
+			<a href="javascript:deleteAnswer()" style="margin:0px 20px;">删除此贴</a>
+			<a href="javascript:close_div()">关闭此窗口</a>
+			<div style="margin-top:5px;"><b style="color:red;">双击已发表的回复,可进行修改和编辑。</b></div>
+		</div>
+		<script type="text/javascript">document.write(jscode.footer());</script>
+	</body>
+</html>
+
+
+

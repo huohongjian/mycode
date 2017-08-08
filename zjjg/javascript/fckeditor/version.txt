@@ -1,0 +1,2 @@
+FCKeditor 2.5.1 released
+http://www.fckeditor.net

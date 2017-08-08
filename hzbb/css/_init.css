@@ -1,0 +1,110 @@
+.handsontable .htDimmed{color:#222222;}
+
+
+
+
+/*frame setup start*/
+body {font:11pt 宋体; margin:0px; padding:0px; width:100%; height:100%; overflow:hidden;}
+
+#frame_header{
+	position:absolute;
+	top:0px;
+	width:100%;
+	height:51px;
+	line-height:51px;
+	z-index:9;
+}
+
+#frame_container{
+	position: absolute;
+	top:50px;
+	bottom:22px;
+	width:100%;
+	overflow:hidden;
+	border-top:3px solid #80A1C3;
+	border-bottom:3px solid #9DB7D1;
+}
+
+#frame_footer{
+	position:absolute;
+	bottom:0;
+	width:100%;
+	height:22px;
+	line-height:22px;
+	overflow:hidden;
+	background:#E6F3FF;
+	text-align:center;
+}
+
+#frame_left{
+	position:absolute;
+	left:0px;
+	width:220px;
+	height:100%;
+	overflow:auto;
+	border-right:solid 3px #9DB7D1;
+}
+
+#frame_main{
+	position:absolute;
+	left:223px;
+	right:0px;
+	height:100%;
+	overflow:auto;
+}
+
+#frame_splitter{
+	position:absolute;
+	left:220px;
+	height:100%;
+	width:3px;
+	background:#9DB7D1;
+	cursor:col-resize;
+}
+/*frame setup end*/
+
+
+
+
+
+/*menu setup start*/
+ul.menu, ul.menu ul {list-style-type:none;}
+ul.menu ul, ul.menu li {margin:0px; padding:0px;}
+ul.menu a, ul.menu a:link, ul.menu a:visited, ul.menu a:hover {color:#000035; text-decoration:none; display:block;}
+ul.menu li ul li a:link, ul.menu li ul li a:visited, ul.menu li ul li a:hover {color:#666; text-decoration:none; font-weight:normal;}
+
+ul.menu {height:20px; line-height:20px;}
+ul.menu a {text-align:center;}
+ul.menu li {float:right; width:75px;}
+ul.menu li:hover {background:#F6F6F6; font-weight_:bold;}
+ul.menu li:hover a {color_:#FFF;}
+ul.menu li ul {width:135px; padding:2px; height:auto; line-height:27px; text-align:left; left:-999em; position:absolute; border:1px solid #696969; background:#F6F6F6;}
+ul.menu li ul li {width:135px; float:left; background:#F6F6F6;}
+ul.menu li ul li a {padding:0px 8px; width:auto!important; width:119px; text-align:left;}
+ul.menu li ul li a:hover {color:#F3F3F3; background:#0067C6;}
+ul.menu .spline {border-top:1px solid #696969;}
+ul.menu li:hover ul {left:auto;}	/*for ie7 firefox*/
+/*need function menuFix() on window load for ie6*/
+ul.menu li.sfhover ul {left:auto;}	/*for ie6*/
+ul.menu li.sfhover {color:#FFF; background:#F6F6F6;}	
+
+ul.menu .jsset {background:url('image/bluearrow.gif') no-repeat 3px -5px;}
+ul.menu .jsset:hover {background:#0067C6 url('image/bluearrow.gif') no-repeat 3px -5px;}
+/*menu setup end*/
+
+
+
+/*个性化设置 开始*/
+#frame_header {background:url(../image/index/top1.png);}
+#frame_header div.logo {color:#FFFFFF; font-size:20pt; font-weight:bold; padding:0px 0px 0px 60px; float:left; background:url(../image/index/logo.png) no-repeat 15px;}
+#frame_header div.nav {right:0px;}
+#frame_footer {background:url(../image/index/top1.png) bottom;}
+
+ul.login {margin:0px 23px 0px 0px; padding_:0px; height:30px; line-height:30px;}
+ul.login li {float:right; margin-left:10px; list-style-type:none; color:#FFFFCC;}
+ul.login input {width:90px; height:12px; margin-top:0px!important; margin-top:4px;}
+ul.menu {margin:0px 15px 0px 0px;}
+/*个性化设置 结束*/
+
+
+

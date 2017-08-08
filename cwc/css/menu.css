@@ -1,0 +1,22 @@
+
+ul.menu, ul.menu ul, ul.menu li {list-style-type:none; margin:0px; padding:0px;}
+ul.menu a, ul.menu a:link, ul.menu a:visited, ul.menu a:hover {color:#000035; text-decoration:none; display:block;}
+ul.menu li ul li a:link, ul.menu li ul li a:visited, ul.menu li ul li a:hover {color:#666; text-decoration:none; font-weight:normal;}
+
+ul.menu {height:20px; line-height:20px;}
+ul.menu a {text-align:center;}
+ul.menu li {float:right; width:65px;}
+ul.menu li:hover {background:#F6F6F6; font-weight_:bold;}
+ul.menu li:hover a {color_:#FFF;}
+ul.menu li ul {width:135px; padding:2px; height:auto; line-height:27px; text-align:left; left:-999em; position:absolute; border:1px solid #696969; background:#F6F6F6;}
+ul.menu li ul li {width:135px; float:left; background:#F6F6F6;}
+ul.menu li ul li a {padding:0px 8px; width:auto!important; width:119px; text-align:left;}
+ul.menu li ul li a:hover {color:#F3F3F3; background:#0067C6;}
+ul.menu .spline {border-top:1px solid #696969;}
+ul.menu li:hover ul {left:auto;}	/*for ie7 firefox*/
+/*need function menuFix() on window load for ie6*/
+ul.menu li.sfhover ul {left:auto;}	/*for ie6*/
+ul.menu li.sfhover {color:#FFF; background:#F6F6F6;}	
+
+ul.menu .jsset {background:url('image/bluearrow.gif') no-repeat 3px -5px;}
+ul.menu .jsset:hover {background:#0067C6 url('image/bluearrow.gif') no-repeat 3px -5px;}

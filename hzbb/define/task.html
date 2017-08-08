@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset='utf-8' />
+	<title>河北烟草财务信息管理系统</title>
+	<script type='text/javascript' src='../js/$my.js'></script>
+	<script type='text/javascript' src='../js/_init.js'></script>
+	<script type='text/javascript' src='../js/handsontable.full.min.js'></script>
+	<script type='text/javascript' src='../js/components.js'></script>
+	<script type='text/javascript' src='js/task.js'></script>
+	
+	<link type='text/css' rel='stylesheet' href='../js/handsontable.css' />
+	<link type='text/css' rel='stylesheet' href='../css/_init.css' />
+	<link type='text/css' rel='stylesheet' href='../css/dtab.css' />
+	<style type='text/css'>
+		/***** left *****/
+		#dtab1 { margin: 10px 0; }
+		
+		#task {margin: 5px 10px; cursor:pointer; border-collapse:collapse}
+		#task tr {height:25px; counter-increment:mycounter;}
+		#task tr td:before{content:counter(mycounter)'.';}
+		#task .currentRow {font-weight:bold; color:red;}
+		
+		/***** right *****/
+		#next {float:right; font-weight:bold; margin: 16px 50px 0 0}
+		#next a {margin-right:30px;}
+		div#bar {height:30px;}
+		
+		
+		
+		#grid { margin-left:10px; }
+		#extra { height:_30px; margin:10px;}
+
+		
+		#imgbar {margin:10px;}
+		#imgbar img {width:18px; height:18px; cursor:pointer; margin-left:12px;}
+
+		
+  
+		
+	</style>
+	
+</head>
+<body>
+	<header id='frame_header'>header</header>
+	<div id='frame_container'>
+		<div id='frame_left'>
+			<div id='dtab1'></div>
+			<div id='taskList'></div>
+			
+		</div>
+		<div id='frame_splitter'></div>
+		<div id='frame_main'>
+		
+			<div id='next'>
+				<a href='javascript:next()'>下一步 >></a>
+			</div>
+			
+			<div id='imgbar'></div>
+			<div id='dtab'></div>
+			<div id='extra'>
+				<div>任务名称：<span id='taskName'>全部</span></div>
+			</div>
+			<div id='grid'></div>
+			
+		</div>
+	</div><!--container-->
+	<footer id='frame_footer'></footer>
+</body>
+</html>
+
+<script type='text/javascript'>
+	document.getElementsByTagName('footer')[0].innerHTML=$cfg.footer;
+</script>

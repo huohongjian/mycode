@@ -1,0 +1,45 @@
+
+body {font:10pt 宋体; margin-top:50px;}
+
+
+#middle {width:776px; height:475px; margin:auto; overflow:auto; background-color:#F1F8D1;#DCF2B8; border-left:1px solid #696969; border-right:1px solid #696969;}
+#left {width:150px; height:465px; float:left; border-right:1px solid #696969; padding:5px; background:#F6F9E8;#FFDD88; overflow:auto;}
+#right1 {float:left; padding:0px; clear:right;}
+
+#right1 div {width:613px; padding:2px 0px 0px 2px; height:416px;}
+#right2 {float:left; padding:0px 0px 2px 3px; width:611px; background_:green;}
+#editor_foot {width:776px; height:24px; line-height:24px; margin:auto; border:1px solid #696969; background:#EFEFDE;}
+
+.title, .author, #caption {height:18px; padding-top:2px; border:1px solid #7F9DB9;}
+input.title {width:500px; } 
+input.author {width:100px;}
+input#caption {width:190px;}
+
+#save {width:30px;	cursor:pointer;}
+#reset {width:30px; cursor:pointer;}
+textarea {width:599px; height:400px; border:1px solid #696969; padding:5px; font:11pt 宋体; line-height:23px; letter-spacing:1px; overflow:auto; wrap:Virtual;}
+
+
+
+*{margin:0; padding:0; border:0;}
+#navdiv {width:776px; height:30px; line-height:30px; margin:auto; border:1px solid #696969; background-color:#5BABEB; #EFEFDE;}
+#nav {width:766px; line-height:30px; list-style-type:none; margin-left:10px;}
+#nav a {display:block; width:80px; text-align:center;}
+#nav a:link {color:#fff; text-decoration:none;}
+#nav a:visited {color:#fff; text-decoration:none;}
+#nav a:hover {color:#FFF; text-decoration:none; font-weight:bold;}
+#nav li {float:left; width:80px; background_:#CCC;}
+#nav li a:hover{background:#0067C6;}
+#nav li ul {line-height:27px; list-style-type:none; text-align:left; left:-999em; width:130px; position:absolute; border:1px solid #696969; padding:5px; background:#F6F6F6;}
+#nav li ul li{float:left; width:130px; background:#F6F6F6;}
+#nav li ul a{display:block; width:118px; text-align:left; padding-left:12px;}
+#nav li ul a:link {color:#666; text-decoration:none;}
+#nav li ul a:visited {color:#666;text-decoration:none;}
+#nav li ul a:hover {color:#F3F3F3; text-decoration:none; font-weight:normal; background:#0067C6;#C00;}
+#nav li:hover ul {left:auto;}
+#nav li.sfhover ul {left:auto;}
+#nav .spline{border-bottom:1px solid #696969;}
+
+
+#nav .jsset {background:url('image/bluearrow.gif') no-repeat 3px -5px;}
+#nav .jsset:hover {background:#0067C6 url('image/bluearrow.gif') no-repeat 3px -5px;}

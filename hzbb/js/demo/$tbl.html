@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>table</title>
+	<style>
+
+		th, td{white-space:nowrap;padding:2px 5px;height:28px; width:120px; background-color:#f2f2f2;}
+		
+		h4{clear:both;margin:0; padding:10px 50px;}
+		ul{margin:0 50px;}
+		li{margin:0;padding:8px;float:left; background-color:#f2f2f2;border-bottom:dotted 1px;list-style-type:none;_square;list-style-position:inside;}
+		li:nth-child(1),li:nth-child(2),li:nth-child(3){background-color:lightgreen;text-align:center;font-weight:bold; list-style-type:none;}
+		li:nth-child(2){text-align:left;}
+		li:nth-child(3n+1){width:260px; clear:both;}
+		li:nth-child(3n+2){width:100px; list-style-type:none;}
+		li:nth-child(3n)  {width:600px; list-style-type:none;}
+		
+	</style>
+	<script type='text/javascript' src='../$df.js'></script>
+	<script type='text/javascript' src='../$tbl.js'></script>
+	<script>
+		window.onload=function(){
+			
+			
+			
+			var aa = [["b",'006.123',4,'B',9,'hhj'],['','','','',''],["a",'',9, 'A',9],["c",'',2,'C',9],["d",'',1,'D',9]];
+			var bb = [['A',1], ['B',2],['C',3]];
+			var cc = [['指标名称','行次','本月数','本年累计数','上年累计数']];
+			var c = ['r1','r2','r3','r4','r5','r6']
+			var d = ['R1','R2']
+			
+			var o = document.getElementById('div1')
+			$tbl().create(cc,aa).appendTo(o);
+
+			var df =$tbl(0).fmtData(2);
+	
+		}
+		
+		function test(){
+			var df =$tbl(0).fmtData(2);
+			alert(df)
+		}
+		
+	</script>
+</head>
+<body>
+	<input type='button' value='clickme' onclick='test()'>
+	<div id='div1'></div>
+	<h3>使用说明</h3>
+	<h4>一、创建$table对象</h4>
+	<ul>
+		<li>用法</li>			<li>返回值</li>	<li>说明</li>
+		<li>$tbl()</li>        	<li>$table</li>	<li>创建一个空对象</li>
+		<li>$tbl(table)</li>  	<li>$table</li>	<li>指定HTMLTableElemen元素创建对象，标准用法</li>
+		<li>$tbl(id)</li>　　　　	<li>$table</li> <li>根据id选取HTMLTableElemen元素创建对象</li>
+		<li>$tbl(n)</li>　　　　	<li>$table</li>	<li>选取文档中第n个HTMLTableElemen元素创建对象，n从0开始</li>
+		<li>$tbl(n, id)</li>　　	<li>$table</li>	<li>选取id对象下的第n个HTMLTableElemen元素创建对象</li>
+		<li>$tbl(n, obj)</li>　	<li>$table</li>	<li>选取obj对象下的第n个HTMLTableElemen元素创建对象</li>
+	</ul>
+	<h4>二、创建HTMLTableElement元素</h4>
+	<ul>
+		<li>用法</li>								<li>返回值</li>		<li>说明</li>
+		<li>$tbl().create(thead,tbody,atts)</li>	<li>$table</li>	<li>创建一个HTMLTableElemen元素</li>
+		<li>$tbl().create(2, 5, atts)</li>			<li>$table</li>	<li>创建一个2x5空的HTMLTableElemen元素，没有thead标签</li>
+	</ul>
+	<h4>三、$table对象属性</h4>
+	<ul>
+		<li>用法</li>					<li>返回值</li>	<li>说明</li>
+		<li>$tbl().t</li>				<li>$table</li>	<li>选取的HTMLTableElemen元素</li>
+		<li>$tbl().f</li>				<li>$table</li>	<li>填充字符串，默认为''，cell为空时的填充值</li>
+		<li>$tbl().setTable(t)</li>		<li>$table</li>	<li>设置HTMLTableElemen元素</li>
+		<li>$tbl().setFiller(f)</li>	<li>$table</li>	<li>设置填充字符串</li>
+	</ul>
+	<h4>四、$table对象公有方法</h4>
+	<ul>
+		<li>用法</li>						<li>返回值</li>		<li>说明</li>
+		<li>$tbl().init(t)</li>				<li>$table</li>		<li>初始化$table对象，等同于$tbl(t)</li>
+		<li>$tbl().fit()</li>				<li>$table</li>		<li>规整table元素，使各行的列数相等</li>
+		<li>$tbl().appendTo(a)</li>			<li>Bealoon</li>	<li>将table元素追加到指定的元素下，a为id或obj</li>
+		<li>$tbl().insRows(idx, args)</li>	<li>Bealoon</li>	<li>在指定位置插入行，省略idx或idx=-1时追加行</li>
+		<li>$tbl().insCols(idx, args)</li>	<li>Bealoon</li>	<li>在指定位置插入列，省略idx或idx=-1时追加列</li>
+		<li>$tbl().getData(x, y, X, Y)</li>	<li>2d-Array</li>	<li>获取指定区域数据，省略参数时，获取全部数据</li>
+		<li>$tbl().getRows(args)</li>		<li>Array</li>		<li>获取指定行数据，省略参数时为全部数据，指定1行时，返回值为1d-Array</li>
+		<li>$tbl().getCols(args)</li>		<li>Array</li>		<li>获取指定列数据，省略参数时为全部数据，指定1列时，返回值为1d-Array</li>
+		<li>$tbl().getCell(x, y)</li>		<li>String</li>		<li>获取指定单元格数据</li>
+		<li>$tbl().setData(df)</li>			<li>Bealoon</li>	<li>将DataFrame(df) which is 2d-Array值赋予table元素</li>
+		<li></li>	<li></li>	<li></li>
+		<li>$tbl().fmtData(digital)</li>	<li>Bealoon</li>	<li>格式化数据，digital为小数位</li>
+		<li>$tbl().mergeCells(b)</li>		<li>Bealoon</li>	<li>合并空单元格，参数为是否仅纵向合并最后一行为空的单元格</li>
+		<li></li>	<li></li>	<li></li>
+		<li></li>	<li></li>	<li></li>
+		<li></li>	<li></li>	<li></li>
+	</ul>
+	<h4>五、$table对象事件</h4>
+	<ul>
+		<li>用法</li>								<li>返回值</li>		<li>说明</li>
+		<li></li>	<li></li>	<li></li>
+		<li></li>	<li></li>	<li></li>
+	</ul>
+	<h4>六、$table对象私有方法</h4>
+	<ul>
+		<li>用法</li>								<li>返回值</li>		<li>说明</li>
+		<li>$tbl()._ce(tag, atts)</li>				<li>HTML元素</li>	<li>创建HTML元素</li>
+		<li>$tbl()._len(df, deep)</li>				<li>{x,y,Y}</li>	<li>计算df大小，deep为是否深度计算，deep为false时，y值仅计算第一行的长度</li>
+		<li>$tbl()._size(deep)</li>					<li>{x,y,Y}</li>	<li>计算当前table元素的大小</li>
+		<li>$tbl()._dim(array)</li>						<li>Number</li>		<li>计算数组维度</li>
+		<li>$tbl()._array(x, y)</li>				<li>Array</li>		<li>创建空二维数组</li>
+		<li>$tbl()._serial(n)</li>					<li>Array</li>		<li>创建包括序列数的一维数组</li>
+		<li>$tbl()._repeat(s, n)</li>				<li>String</li>		<li>对s重复n次</li>
+		<li>$tbl()._format(s, digital)</li>			<li>String</li>		<li>对数字格式化，digital为小数位</li>
+		<li>$tbl()._create(thead,tbody,atts)</li>	<li>table元素</li>	<li>创建HTMLTableElement</li>
+		<li></li>	<li></li>	<li></li>
+		<li></li>	<li></li>	<li></li>
+	</ul>
+	
+	<br>
+	<br>
+</body>
+</html>

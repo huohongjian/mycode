@@ -1,0 +1,1 @@
+SESSION: PHP4.1以上的版本别忘了把php.ini中的register_globle=Off设成register_globle=On

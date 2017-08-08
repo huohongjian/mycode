@@ -1,0 +1,40 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv=Content-Type content="text/html; charset=utf-8">
+		<title>河北省烟草专卖局(公司)资金监管中心</title>
+		<meta http-equiv="refresh" content="2; URL=./" />
+		<link rel="stylesheet" type="text/css" href="css/main.css"/>
+		<script type="text/javascript" src="cache/data.js"></script>
+		<script type="text/javascript" src="javascript/jquery.pack.js"></script>
+		<script type="text/javascript" src='javascript/function.js'></script>
+		
+		<style type="text/css">
+			h3, h5 {margin:10px; text-align:center;}
+			.tab_right ul {width:80%; margin:auto;}
+			.tab_right ul li {margin:10px 25px; list-style-type:decimal; line-height:20px;}
+		</style>
+	</head>
+	
+	<body>
+		<script type="text/javascript">document.write(jscode.header());</script>
+		<div class="tab">
+			<div class="tab_left">
+			</div>
+			<div class="tab_right">
+				<h3>出错信息</h3>
+				<script type="text/javascript">
+					var msg = getLocationQuery(window.location.href, 'no');
+					switch(msg){
+						case '1': document.write('你没有权限!'); break;
+						case '2': document.write('你没登录或其他错误!'); break;
+					}
+					
+				</script>
+				2秒钟后自动跳转首页...
+			</div>
+		</div>
+		<script type="text/javascript">document.write(jscode.footer());</script>
+		
+	</body>
+</html>

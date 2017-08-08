@@ -1,0 +1,183 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv=Content-Type content="text/html; charset=utf-8">
+		<title>河北省烟草专卖局(公司)资金监管中心</title>
+		<link rel="stylesheet" type="text/css" href="css/main.css"/>
+		<link rel="stylesheet" type="text/css" href="javascript/dgrid/dgrid.css"/>
+		<script type="text/javascript" src="cache/data.js"></script>
+		<script type="text/javascript" src="javascript/jquery.pack.js"></script>
+		<script type="text/javascript" src="javascript/dgrid/dgrid.js"></script>
+		<script type="text/javascript" src="javascript/jquery.func.js"></script>
+		<script type="text/javascript" src='javascript/function.js'></script>
+		
+		<style type="text/css">
+			.dgrid {width:630px; margin:auto;}
+			.dgrid .c0, .dgrid .c0 input {width:50px; text-align:center;}
+			.dgrid .c1, .dgrid .c1 input {width:100px; text-align:center;}
+			.dgrid .c2, .dgrid .c2 input {width:322px; text-align:left;}
+			.dgrid .c3, .dgrid .c3 input {width:120px; text-align:right;}
+
+			h3 {text-align:center; margin-top:15px;}
+			
+			ul.neck {padding:8px; height:10px;}
+			ul.neck li {float:left;}
+			ul.neck li.c0 {width:260px;}
+			ul.neck li.c1 {width:140px; background_:green;}
+			ul.neck li.c2 {width:220px; text-align:right;}
+			
+			#category {margin:10px auto; background:#7E7D68;}
+			#category tr {height:28px;}
+			#category th {text-align:center;}
+			#category td {background:white; padding:2px 10px;}
+			#category .c0 {width:150px;}
+			
+			#saveBtn {margin-right:20px}
+			
+			.tab_left h3 {margin-top:32px;}
+		</style>
+		
+		<script type="text/javascript">
+			var v = {
+				updating: false
+			}
+		
+			$(function(){main();});
+			
+			function loginEvent(){	//在login.html中定义
+				getUserInfo();
+	//			$("#dgrid").dgridAjax({});
+			}
+			
+			function main() {
+				getUserInfo();
+				$("#dgrid").dgrid(
+					{
+						url: 'service/payout.php',
+						autoload: true,
+						colModel: [
+							{display: '单号', readonly:true},
+							{display: '类别', blur:alter, skip:{left:1,right:0}},
+							{display: '摘要'},
+							{display: '金额', keyup:formatNmb1, blur:formatNmb2, skip:{left:0,right:1}, init:formatNumber}
+							],
+						buttons: [
+							{name:'保存', id:'saveBtn', onpress:saveRow},
+							{name:'删除无效行', onpress:delInvRow},
+							{name:'删除当前行', onpress:delCurRow},
+							{name:'插入空白行', onpress:insertRow}
+						],
+						enterDirect: 'h',
+						editable: true,
+						enterAppendRow: true,
+						invRows:[3],
+						params: {func:'getList'}
+					}
+				);
+			}
+			
+			function getUserInfo(){
+				$.getJSON('service/login.php?func=getUserInfo',
+					function(json){
+						if(json.key==1){
+							$('#corp').html(options.getName(options.corporations,json.corid).replace('　',''));
+							$('#date').html(json.date);
+						}else{
+							alert(json.msg);
+						}
+					}
+				);
+			}
+			
+			function saveRow(o){
+				if(v.updating) { alert('数据正在保存,请稍候...'); return; }
+				v.updating = true;
+				$.post('service/payout.php',
+				{
+					func: 'saveData',
+					data: $("#dgrid").dgridSerialize()
+				},
+				function(data){
+					if(data=='ok'){
+						$("#dgrid").dgridAjax();
+						alert('数据保存成功!');
+					}else{
+						alert(data);
+					}
+					v.updating = false;
+				}
+				);
+			}
+			function displayList(){
+			
+				
+			}
+			
+			
+			function delCurRow(o){
+				var p = {func:'delete', handle:back}
+				$("#dgrid").dgridDelCurRow(p);
+				
+			}
+			function back(data){
+				alert(data)
+			}
+			
+			function delInvRow(o){
+				$("#dgrid").dgridDelInvRow([3]);
+			}
+			function insertRow(o){
+				$("#dgrid").dgridInsertRow(1);
+			}
+			
+			function alter(o){
+				if(o.value=='') o.value='1';
+				var name = '99.其他支出';
+				var opts = options.cats_withid;
+				for(var i=0; i<opts.length; i++){
+					if(opts[i].n.match(o.value)) {
+						name = opts[i].n;
+						break;
+					}
+				}
+				o.value = name;
+			}
+			
+			function formatNmb1(e,o){
+				o.value = nst_convert(o.value);
+			}
+			function formatNmb2(o){
+				o.value = nst_convert(o.value,2,true);
+			}
+			
+		</script>
+	</head>
+	
+	<body>
+		<script type="text/javascript">document.write(jscode.header());</script>
+		<div class="tab">
+			<div class="tab_left">
+				<h3>支出类别表</h3>
+				<table id="category" cellspacing="1">
+					<script type="text/javascript">
+						var opts = options.cats_withid;
+						for(var i=0; i<opts.length; i++){
+							document.write("<tr><td class='c0'>"+opts[i].n+"</td></tr>");
+						}
+					</script>
+				</table>
+			</div>
+			<div class="tab_right">
+				<h3>当日支出明细表</h3>
+				<ul class="neck">
+					<li class="c0">单位：<span id="corp"></span></li>
+					<li class="c1">日期:<span id="date"></span></li>
+					<li class="c2">金额单位：元</li>
+				</ul>
+				<div id="dgrid" class="dgrid"></div>
+			</div>
+			
+		</div>
+		<script type="text/javascript">document.write(jscode.footer());</script>
+	</body>
+</html>

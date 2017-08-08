@@ -1,0 +1,59 @@
+.dgrid {overflow:hidden; width:630px; border:1px solid #5E8AB6;}
+.dgrid table {font-size:10pt; table-layout:fixed; background:white; border-collapse:collapse;}
+.dgrid table th,
+.dgrid table td {padding:0px 2px; border-right:1px solid #C0C0C0; border-bottom:1px solid #C0C0C0; overflow:hidden; white-space:nowrap; word-break:keep-all; text-overflow:ellipsis;}
+.dgrid table th { border-right:1px solid #7E7D68; border-bottom:1px solid #7E7D68;}
+
+.dgrid thead {height:26px; font-size:11pt; background:url(images/bg.gif) repeat-x;}
+.dgrid tbody {}
+.dgrid tbody tr {height:25px;}
+.dgrid tbody tr td input {background:#FFFFCC; width:100%; height:18px; border:0px;}
+
+
+
+.dgrid .footbar {clear:both; text-align:right; width:100%; height:22px; background:url(images/wbg.gif) repeat-x 0 -1px; border:1px solid #ccc; padding:3px 0px;}
+.dgrid .footbar button {margin:1px;}
+.dgrid .footbar .saveBtn {margin-right:5px;}
+.dgrid .footbar .deleteBtn {margin-right:20px;}
+
+
+.dgrid .footbar div.fbutton {float:right; display: block; cursor:pointer; padding:1px; margin-right:5px;}
+.dgrid .footbar div.fbutton:hover {padding:0px; border:1px solid #ccc;}
+.dgrid .footbar div.fbutton div {padding: 3px 8px;}
+.dgrid .footbar div.fbutton:hover div {padding:2px 7px; border-left: 1px solid #fff; border-top: 1px solid #fff; border-right: 1px solid #eee; border-bottom: 1px solid #eee;}
+
+
+.dgrid .pageDiv {}
+.dgrid .pageDiv * {float:left;}
+.dgrid .pageDiv input {width:20px; height:12px; line-height:12px; margin:3px 5px; text-align:center;}
+.dgrid .pageDiv span {margin:3px;}
+.dgrid .pageDiv .pSearch {background:url(images/magnifier.png) no-repeat center; }
+.dgrid .pageDiv .pFirst {background:url(images/first.gif) no-repeat center;}
+.dgrid .pageDiv .pPrev {background:url(images/prev.gif) no-repeat center; }
+.dgrid .pageDiv .pNext {background:url(images/next.gif) no-repeat center; }
+.dgrid .pageDiv .pLast {background:url(images/last.gif) no-repeat center; }
+.dgrid .pageDiv .pReload {background:url(images/load.png) no-repeat center; }
+.dgrid .pageDiv .pReloading {background:url(images/load.gif) no-repeat center; }	
+
+.dgrid .pageDiv .pButton {width:18px; height:18px; margin:2px; cursor:pointer; padding:1px;}
+.dgrid .pageDiv .pButton:hover {padding:0px; border:1px solid #ccc; background_:green;}
+.dgrid .pageDiv .pButton div {padding:1px; width:16px; height:16px;}
+.dgrid .pageDiv .pButton:hover div {padding:0px; border-left: 1px solid #fff; border-top: 1px solid #fff; border-right: 1px solid #eee; border-bottom: 1px solid #eee;}
+
+.dgrid .pageDiv .btnseparator {height:18px; border-left:1px solid #ccc; border-right:1px solid #fff;}
+.dgrid .pageDiv .pages {width:22px; text-align:center;}
+.dgrid .pageDiv .pageword {width:35px;}
+
+/*以下为个性化设置*/
+
+
+.dgrid tbody tr:hover {background:#B0CCF2;}
+
+.dgrid div {}
+.dgrid div table {width:0px;}	/*for firefox 宽度＝列之和*/
+.dgrid .dgrid_div_1 {float:left; overflow:hidden;}
+.dgrid .dgrid_div_2 {float:left; overflow:hidden; padding-right:17px;}
+.dgrid .dgrid_div_3 {float:left; overflow:hidden;}
+.dgrid .dgrid_div_4 {float:left; overflow:auto;}
+
+

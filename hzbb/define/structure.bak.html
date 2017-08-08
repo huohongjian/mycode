@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset='utf-8' />
+	<title>河北烟草财务信息系统</title>
+	<script type='text/javascript' src='../js/$my.js'></script>
+	<script type='text/javascript' src='../js/main.js'></script>
+	<script type='text/javascript' src='../cache/js/data.js'></script>
+	<script type='text/javascript' src='../js/grid.js'></script>
+	<script type='text/javascript' src='../js/xhr.js'></script>
+	<script type='text/javascript' src='js/structure.js'></script>
+	
+	<link type='text/css' rel='stylesheet' href='../css/main.css' />
+	<link type='text/css' rel='stylesheet' href='../css/dgrid.css' />
+
+	<style type='text/css'>
+		/***** left *****/
+		div#dtab1 {margin:10px 0; }
+		div#taskName {margin:10px; font-weight:bold; color:blue;}
+		div#tableList {margin:10px;}
+		div#tableList tr {height:20px;}
+		div#tableList .c_1 {cursor:pointer;}
+		
+		
+		
+		/***** right *****/
+
+		div#bar {height:30px;}		
+		div#tableTopInfo {margin:5px 10px;}		
+		div#dgrid {margin:10px; }		
+		
+		
+		
+		{white-space:nowrap; //强制不换行
+		text-overflow: ellipsis; //文字隐藏后添加省略号 
+		-o-text-overflow:ellipsis; //适用于opera浏览器 ;}
+
+		
+		#imgbar {margin:5px;}
+		#imgbar img {width:20px; height:20px; cursor:pointer; margin-left:12px;}
+		
+		
+
+		
+	</style>
+	<script type='text/javascript' type='text/javascript'>
+
+	</script>
+</head>
+<body scroll='no'>
+	<div id='frame_top'></div><!--frame_top-->
+	<div id='frame_middle'>
+		<div id='frame_left'>
+		
+			<div id='dtab1'></div>
+			<div id='taskName'></div>
+			<div id='tableList'></div>
+			
+			
+		</div><!--frame_left--><div id='frame_splitter'></div>
+		<div id='frame_right'>
+			
+			<div id='imgbar'></div>
+			<div id='dtab'></div>
+			<div id='tableTopInfo'>
+				报表名称：<span id='tableName'>新建</span>
+			</div>
+			<div id='dgrid'></div>
+
+		</div><!--frame_right-->
+	</div><!--frame_middle-->
+	<div id='frame_bottom'></div><!--frame_bottom-->
+</body>
+</html>

@@ -1,0 +1,40 @@
+
+*{margin:0px; padding:0px; border_:0px;}
+body {font-size:10pt; font-family:'宋体'; margin:5px 0px;}
+
+
+label {cursor:pointer;}
+
+.AutoFitHeight {clear:both; background:red;}	/*--清除浮动,firefox自适应高度 同时设定父<div style='height:100%;'>*/
+
+a:visited {color: #551a8b; text-decoration: none}
+a:link {color: #000099; text-decoration: none}
+a:hover {color: #ff0000; text-decoration: underline}
+
+li {list-style-type:none;}
+
+
+#peak {width:900px; height:26px; line-height:26px; background-image:url('../image/index/peak.gif');#D8D8D8;#D7D8DA;#EEEEEE;#CCCC99;#005588;#005588; color_:#FFFFFF; margin:auto; padding-top:2px;}
+#peak a {color:#000099;}
+#peak a:hover {font-weight:bold;}
+#peak ul {margin:0px;}
+#peak li {float:left; padding-left:10px;}
+#peak li input {width:100px; height:18px; line-height:18px; border:1px solid #7F9DB9;}
+#peak #homepage {padding-left:13px; background:url('../image/home_1.gif') no-repeat;}
+#peak #help {padding-left:13px; background:url('../image/home_2.gif') no-repeat;}
+#peak #timer {float:left; padding-left:30px;}
+#title_image {width:900px; height:90px; background:url('../image/banner.jpg'); margin:3px auto;}
+#navigation {width:900px; height:25px; line-height:25px; margin:auto; background:url(../image/subNavBack.gif);#008899;#01679A; color:white;}
+#navigation li {float:left; width:80px; margin-top:5px; text-align:center; background_:red; border-left:1px solid white; height:15px; line-height:15px;}
+#navigation a {color:#FFFFFF;}
+#navigation a:hover {font-weight:bold;}
+#footer {background:#5E8AB6;#008899; width:900px; height:5px; overflow:hidden; margin:5px auto;}
+
+
+/*page_style*/
+.page_bar {float:right;}
+.page_bar a {margin-left:10px;}
+.page_bar input {width:20px; height:14px; margin-left:5px; font-size:9pt;}
+
+
+

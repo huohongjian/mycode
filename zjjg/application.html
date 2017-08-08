@@ -1,0 +1,369 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv=Content-Type content="text/html; charset=utf-8">
+		<title>河北省烟草专卖局(公司)资金监管中心</title>
+		<link rel="stylesheet" type="text/css" href="css/main.css"/>
+		<script type="text/javascript" src="cache/data.js"></script>
+		<script type="text/javascript" src="javascript/jquery.pack.js"></script>
+		<script type="text/javascript" src="javascript/jquery.func.js"></script>
+		<script type="text/javascript" src='javascript/function.js'></script>
+		<style type="text/css">
+			
+			select {width:150px;}
+			input {width:300px; height:18px;}
+			textarea {width:300px; height:32px;}
+			button {width:50px; margin:0px 2px; cursor:pointer;}
+			li {float:left;}
+			h3 {text-align:center; margin-top:15px;}
+			table {border-collapse:collapse; table-layout:fixed;}
+			table tr {height:28px;}
+			
+			
+			ul.neck {padding:8px 15px; height:10px;}
+			ul.neck li.c0 {width:240px;}
+			ul.neck li.c1 {width:170px; text-align:center; background_:green;}
+			ul.neck li.c2 {width:100px; text-align:right;}
+			ul.neck li.c3 {width:80px; text-align:right;}
+			
+			ul.main {width:620px; height:330px; border:1px solid #D0CFCE; margin:auto;}
+			ul.main li {padding-top:6px; vertical-align:bottom; height_:30px;}
+			ul.main li.c0 {width:200px; text-align:right; background_:lightblue;}
+			ul.main li.c0 span {display:block; margin-top:3px;}
+			ul.main li.c1 {width:400px;}
+			ul.main li.line {height:1px; width:100%; border-bottom:1px solid #D0CFCE;}
+			ul.main li.person {width:150px; padding:8px 0px; margin-left:40px;}
+			
+			
+			#summary{height:30px;}
+			#btn_div {text-align:center; margin:10px;}
+			
+			
+			.signature {padding-left:20px;}
+			.signature span {width:90px; height:16px; display:block; float:left; text-align:right;}
+			#leader,#replyer,#apper {text-align:left;}
+		</style>
+		
+		<script type="text/javascript">
+			var jp = {
+				appid: -1,
+				sid: 0,
+				corid: -1
+			};
+			
+			var v = {
+				updating: false
+			};
+		
+			
+			$(function(){main();});
+			
+			function main(){
+				var id = getLocationQuery(window.location.href, 'id') || -1;
+				if(id==-1) {
+					$.getJSON('service/login.php?func=getUserInfo',
+						function(json){
+							if(json.key==1){
+								jp.corid = json.corid;
+								$('#corp').html(options.getName(options.corporations,json.corid).replace('　',''));
+								$('#date').html(json.date);
+							}else{
+								alert(json.msg);
+							}
+						}
+					);
+					$('#cats_select').focus();
+					return;
+				}
+				
+				$.getJSON('service/application.php?appid='+id+'&func=getByid',
+					function(json){
+						if(json.msg!='' && json.msg!=undefined) {alert(json.msg); return;}
+						jp.appid = json.appid;
+						jp.sid = json.sid;
+						jp.corid = json.corid;
+						$('#corp').html(options.getName(options.corporations,json.corid).replace('　',''));
+						$('#date').html(json.ymd);
+						$('#status').html(json.sname);
+						$('#appid').html(json.appid);
+						
+						$('#cats').selectSetValue(json.cid);
+						$('#summary').val(json.summary);
+						$('#app_money').val(json.app_money);
+						convert($('#app_money')[0]);
+						$('#gathering_cor').val(json.gathering_cor);
+						$('#gathering_acc').val(json.gathering_acc);
+						
+						$('#paymode').selectSetValue(json.pid);
+						$('#remark').val(json.remark);
+						$('#reply').val(json.reply);
+						$('#leader').html(json.leader);
+						$('#replyer').html(json.replyer);
+						$('#apper').html(json.apper);
+					}
+				);
+				
+	//			
+			}
+			
+			function update(sid){
+				switch(sid){
+					case 0:	/*新建*/
+						jp.appid = -1;
+						jp.sid = 0;
+						$('#status').html('新创建');
+						$('#appid').html('');
+						$('#form1').reset();
+						$('#leader').html('');
+						$('#replyer').html('');
+						$('#apper').html('');
+						return;
+					case 1:	/*保存*/
+						if(jp.sid!=0&&jp.sid!=1&&jp.sid!=6) {alert('只可对新建、已保存或已退回的申请单进行保存操作!\n\n此申请单的状态为：'+$('#status').html()); return;}
+						if($('#summary').val()=='') {alert('摘要不得为空!'); $('#summary').focus(); return;}
+						break;
+					case 2:	/*提交*/
+						if(jp.sid!=0&&jp.sid!=1&&jp.sid!=6) {alert('只可对新建、已保存或已退回的申请单进行提交操作!\n\n此申请单的状态为：'+$('#status').html()); return;}
+						if($('#summary').val()=='') {alert('摘要不得为空!'); $('#summary').focus(); return;}
+						if(!confirm('是否提交此申请单? 请确认!')) return;
+						break;
+					case 3:	/*审批*/
+						if(jp.sid!=2&&jp.sid!=5) {alert('只可对已提交或已撤消的申请单进行审批操作!\n\n此申请单的状态为：'+$('#status').html()); return;}
+						if($('#reply').val()=='') {alert('资金管理中心批复意见不得为空!'); $('#reply').focus(); return;}
+						break;
+					case 4:	/*批复*/
+						if(jp.sid!=2&&jp.sid!=3&&jp.sid!=5) {alert('只可批复已提交、审批中或已撤消的申请单!\n\n此申请单的状态为：'+$('#status').html()); return;}
+						if($('#reply').val()=='') {alert('资金管理中心批复意见不得为空!'); $('#reply').focus(); return;}
+						break;
+					case 5:	/*撤消*/
+						if(jp.sid!=3&&jp.sid!=4) {alert('只可对已批复或审批中的申请单进行撤消操作!\n\n此申请单的状态为：'+$('#status').html()); return;}
+						if(!confirm('你将要执行的是撤消申请单操作,\n\n撤消是指将已批复或正在审批中的申请单恢复到提交状态,\n\n请确认?')) {return;}
+						if($('#reply').val()=='') {alert('资金管理中心批复意见不得为空!'); $('#reply').focus(); return;}
+						break;
+					case 6:	/*退回*/
+						if(jp.sid!=2&&jp.sid!=5) {alert('只可对已提交或已撤消的申请单进行退回操作!\n\n此申请单的状态为：'+$('#status').html());return;}
+						if(!confirm('你将要执行的是退回申请单操作,\n\n退回是指将已提交的申请单退回至保存状态,\n\n请确认?')) {return;}
+						if($('#reply').val()=='') {alert('资金管理中心批复意见不得为空!'); $('#reply').focus(); return;}
+						break;
+					case 7:	/*作废*/
+						if(jp.sid==7) {alert('不能对已作废的申请单再次进行作废操作!'); return;}
+						if(!confirm('你将要执行的是作废申请单操作,\n\n作废是指将此申请单废止,\n\n请确认?')) {return;}
+						if($('#reply').val()=='') {alert('资金管理中心批复意见不得为空!!'); $('#reply').focus(); return;}
+						break;
+				}
+				$('#new').focus();
+				app_money = $('#app_money').val().replace(/,/g,'');
+				
+				if(v.updating) { alert('数据正在保存,请稍候...'); return; }
+				v.updating = true;
+				
+				$.ajax({
+					url: 		'service/application.php',
+					type: 		'POST',
+					dataType: 	"json",
+		//			data:		$('*[name]','#form1').serialize()+'&func=update&appid='+jp.appid+'&sid='+sid+'&app_money='+app_money+'&allow_money='+app_money,
+					data:		{
+						func:			'update',
+						appid:			jp.appid,
+						sid:			sid,
+						app_money:		app_money,
+						allow_money:	app_money,
+						cats:			$('#cats').selectGetValue(),
+						summary:		$('#summary').val().replace(/\r|\n/g, ''),
+						gathering_cor:	$('#gathering_cor').val(),
+						gathering_acc:	$('#gathering_acc').val(),
+						paymode:		$('#paymode').selectGetValue(),
+						remark:			$('#remark').val().replace(/\r|\n/g, ''),
+						reply:			$('#reply').val().replace(/\r|\n/g, '')
+					},
+					success:	function(json){
+						if(json.isok){
+							jp.appid	= json.appid;
+							jp.sid	= sid;
+							$('#appid').html(json.appid);
+							$('#status').html(json.sname);
+							if(json.apper!='') $('#apper').html(json.apper);
+							if(json.replyer!='') $('#replyer').html(json.replyer);
+						}
+						alert(json.msg);
+						v.updating = false;
+			//			if(jp.sid==2) $('#new').focus();
+					}
+				}
+				);
+			}
+			
+			
+			function convert(obj){
+				nmb = nst_convert(obj.value);
+				obj.value = nmb;
+				if(nmb.match(/^\-/)){
+					$("input[name='big_money']").val('负'+convertCurrency(nmb.replace(/^\-/,"")));
+				} else {
+					$("input[name='big_money']").val(convertCurrency(nmb));
+				}
+			}
+			
+			
+			
+			function loginEvent(){	//在login.html中定义
+				main();
+			}
+			
+			
+			
+			
+			function refresh(){
+				var ymd = $('#date').html().split('-');
+				var y = ymd[0];
+				var m = ymd[1];
+				var ymd = y + '-' + m + '-' + new Date(y,m,0).getDate();
+				$.getJSON('service/application.php',
+					{
+						func:	'getExtraInfo',
+						cid:	$('#cats').selectGetValue(),
+						corid:	jp.corid,
+						edate:	ymd
+					},
+					function(json){
+						$('#y_budget').html(formatNumber(json.ybudget));
+						$('#y_payout').html(formatNumber(json.ypayout));
+						$('#y_balance').html(formatNumber(json.ybudget-json.ypayout));
+						
+						$('#m_budget').html(formatNumber(json.mbudget));
+						$('#m_payout').html(formatNumber(json.mpayout));
+						$('#m_balance').html(formatNumber(json.mbudget-json.mpayout));
+						
+						$('#ed_allow').html(formatNumber(json.allow));
+						$('#ed_payout').html(formatNumber(json.mpayout));
+						$('#ed_balance').html(formatNumber(json.allow-json.mpayout));
+					}
+				);
+				
+				
+				
+				
+			}
+			
+		</script>
+		
+		<style type="text/css">
+			.extra_info {width:200px; margin:50px auto 0px auto;}
+			.extra_info li {margin-top:8px; }
+			.extra_info li span {display:block; height:18px;}
+			.extra_info li.c0 {width:80px; text-align:right;}
+			.extra_info li.c1 {width:120px;}
+			.extra_info li.c1 span {width:110px; text-align:right; border:1px solid #D0CFCE;}
+			.extra_info li.line {line-height:1px; border-bottom:1px solid #5987B3; width:100%;}
+			.extra_info li.space {margin-top_:20px; width:100%; height:20px;}
+			.tab_left button {margin:10px 17px; float:right;}
+		</style>
+	</head>
+	<body>
+		<script type="text/javascript">document.write(jscode.header());</script>
+		<div class="tab">
+			<div class="tab_left">
+				<ul class="extra_info">
+					<li class="c0"><span>本年预算：</span></li>
+					<li class="c1"><span id="y_budget"></span></li>
+					<li class="c0"><span>－本年支出：</span></li>
+					<li class="c1"><span id='y_payout'></span></li>
+					<li class="line"></li>
+					<li class="c0"><span>＝本年结余：</span></li>
+					<li class="c1"><span id='y_balance'></span></li>
+					
+					<li class="space"></li>
+					<li class="c0"><span>本月预算：</span></li>
+					<li class="c1"><span id="m_budget"></span></li>
+					<li class="c0"><span>－本月支出：</span></li>
+					<li class="c1"><span id='m_payout'></span></li>
+					<li class="line"></li>
+					<li class="c0"><span>＝本月结余：</span></li>
+					<li class="c1"><span id='m_balance'></span></li>
+					
+					<li class="space"></li>
+					<li class="c0"><span>本月额度：</span></li>
+					<li class="c1"><span id='ed_allow'></span></li>
+					<li class="c0"><span>－本月支出：</span></li>
+					<li class="c1"><span id='ed_payout'></span></li>
+					<li class="line"></li>
+					<li class="c0"><span>＝本月结余：</span></li>
+					<li class="c1"><span id='ed_balance'></span></li>
+				</ul>
+				<button onclick="refresh()">刷新</button>
+			</div>
+			<div class="tab_right">
+				<h3>资金授权额度申请单</h3>
+				<ul class="neck">
+					<li class="c0">名称：<span id="corp"></span></li>
+					<li class="c1">日期:<span id="date"></span></li>
+					<li class="c2">状态:<span id="status">新创建</span></li>
+					<li class="c3">ID号:<span id="appid"></span></li>
+				</ul>
+				<form id="form1">
+				<ul class="main">
+					<li class="c0"><span>申请资金类别：</span></li>
+					<li class="c1"><span id="cats"></span></li>
+					
+					<li class="c0"><span>摘　　要：</span></li>
+					<li class="c1"><textarea id="summary" name="summary"></textarea></li>
+					
+					<li class="c0"><span>申请额度(元)：</span></li>
+					<li class="c1"><input type="text" id="app_money" onkeyup="convert(this)"/></li>
+					
+					<li class="c0"><span>大写金额：</span></li>
+					<li class="c1"><input type="text" name="big_money" class="disable_input" onkeypress="return false" /></li>
+					
+					<li class="c0"><span>收款单位名称：</span></li>
+					<li class="c1"><input type="text" id="gathering_cor" name="gathering_cor" /></li>
+					
+					<li class="c0"><span>收款单位账号：</span></li>
+					<li class="c1"><input type="text" id="gathering_acc" name="gathering_acc" /></li>
+					
+					<li class="c0"><span>结算方式：</span></li>
+					<li class="c1"><span id="paymode"></span></li>
+					
+					<li class="c0"><span>备　　注：</span></li>
+					<li class="c1"><textarea id="remark" name="remark"></textarea></li>
+					
+					<li class="c0"><span>资金监管中心批复意见：</span></li>
+					<li class="c1"><textarea id="reply" name="reply" ondblclick="this.value+='同意'"></textarea></li>
+					
+					<li class="line"></li>
+					<li class="person"><span>领导签字：</span><span id="leader"></span></li>
+					<li class="person"><span>授权人：</span><span id="replyer"></span></li>
+					<li class="person"><span>填表人：</span><span id="apper"></span></li>
+				</ul>
+				</form>
+					
+				<div id="btn_div">
+					<button onclick="update(2)" id="submit">提交</button>
+					<button onclick="update(1)">保存</button>
+					<button onclick="update(0)" id="new">新建</button>　　
+					<button onclick="update(4)">批复</button>
+					<button onclick="update(3)">审批</button>
+					<button onclick="update(5)">撤消</button>
+					<button onclick="update(6)">退回</button>
+					<button onclick="update(7)">作废</button>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript">document.write(jscode.footer());</script>
+		<script type="text/javascript">
+			$('#cats').selectBuild(options.cats_withid);
+			$('#paymode').selectBuild(options.paymodes);
+			$('select').selectOption();	//通过输入value值 选择相应项 可输入一位或两数字或字母,空格或零清缓存
+			
+		
+			$('#form1').enter({
+				tag:'*[id]',
+				func:[
+						{k:5, v:function(){$('#paymode_select').focus();}},
+						{k:8, v:function(){$('#submit').focus();}}
+					 ]
+			});
+			
+			
+		</script>
+	</body>
+</html>

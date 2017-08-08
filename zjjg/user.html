@@ -1,0 +1,167 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv=Content-Type content="text/html; charset=utf-8">
+		<title>河北省烟草专卖局(公司)资金监管中心</title>
+		<link rel="stylesheet" type="text/css" href="css/main.css"/>
+		<link rel="stylesheet" type="text/css" href="javascript/dgrid/dgrid.css"/>
+		<script type="text/javascript" src="cache/data.js"></script>
+		<script type="text/javascript" src="javascript/jquery.pack.js"></script>
+		<script type="text/javascript" src="javascript/dgrid/dgrid.js"></script>
+		<script type="text/javascript" src="javascript/jquery.func.js"></script>
+		<script type="text/javascript" src='javascript/function.js'></script>
+		<script type="text/javascript" src='javascript/md5.js'></script>
+		
+		<style type="text/css">
+			
+			h3 {text-align:center; margin-top:15px;}
+			
+			.tab_left ul {width:220px; margin:auto;}
+			.tab_left ul li {margin:10px 25px; list-style-type:decimal; line-height:20px;}
+			
+			ul.info {width:500px; margin:10px auto;}
+			ul.info span {display:block; margin-top:4px;}
+			ul.info li {float:left; margin:5px 0px;}
+			ul.info li.c0 {width:200px; text-align:right;}
+			ul.info li.c1 {width:200px;}
+			ul.info li input {height:16px;}
+			
+			ul.button {width:410px; margin:10px auto;}
+			ul.button li {float:left; margin:5px;}
+			ul.button button {width:90px; height:25px;}
+			
+			$cors { display:block;}
+			#cors_select {width:150px;}
+		</style>
+		
+		<script type="text/javascript">
+			var jp = {
+				appid: -1,
+				sid: 0
+			};
+			
+			$(function(){
+					getUserInfo();
+			});
+			
+			function loginEvent(){ getUserInfo(); }	//在login.html中定义
+			
+					
+		</script>
+		
+	</head>
+	<body>
+		<script type="text/javascript">document.write(jscode.header());</script>
+		<div class="tab">
+			<div class="tab_left">
+				<h3>注意事项</h3>
+				<ul>
+					<li>更改用户信息时，只可更改除真实姓名、所属单位和密码以外的其他项目。</li>
+					<li>为确保数据安全，目前暂不开放注册新用户功能。</li>
+					<li>请真实填写电脑的IP地址和电子邮件地址。</li>
+				</ul>
+				
+			</div>
+			<div class="tab_right">
+				<h3>用户管理</h3>
+				<ul class="info">
+					<li class="c0"><span>用户名：</span></li>
+					<li class="c1"><input id="userName" type="text"/></li>
+					<li class="c0"><span>真实姓名：</span></li>
+					<li class="c1"><input id="realName" type="text"/></li>
+					<li class="c0"><span>密码：</span></li>
+					<li class="c1"><input id="password1" type="password"/></li>
+					<li class="c0"><span>密码确认：</span></li>
+					<li class="c1"><input id="password2" type="password"/></li>
+					<li class="c0"><span>所属单位：</span></li>
+					<li class="c1"><div id="cors"></div></li>
+					<li class="c0"><span>办公电话：</span></li>
+					<li class="c1"><input id="telephone" type="text"/></li>
+					<li class="c0"><span>移动电话：</span></li>
+					<li class="c1"><input id="mobile" type="text"/></li>
+					<li class="c0"><span>IP地址：</span></li>
+					<li class="c1"><input id="ip" type="text"/></li>
+					<li class="c0"><span>电子邮件：</span></li>
+					<li class="c1"><input id="email" type="text"/></li>
+				</ul>
+				<ul class="button">
+					<li><button onclick="getUserInfo()">获取用户信息</button></li>
+					<li><button onclick="setUserInfo()">更改用户信息</button></li>
+					<li><button onclick="setUserPswd()">更改用户密码</button></li>
+					<li><button onclick="regist()">注册新用户</button></li>
+				</ul>
+				
+			</div>	
+				
+		</div>
+  
+		<script type="text/javascript">document.write(jscode.footer());</script>
+		<script type="text/javascript">
+			
+			$('#cors').selectBuild(options.cors);
+			
+			var jp = {
+				uid: -1
+			}
+			
+			function getUserInfo(){
+				$.getJSON('service/user.php',{
+					func:	'getInfo'
+				},
+				function(json){
+					if(json.key==0) {alert(json.msg); return;}
+					jp.uid = json.uid;
+					$('#userName').val(json.uname);
+					$('#realName').val(json.realname);
+					$('#cors').selectSetValue(json.corid);
+					$('#telephone').val(json.telephone);
+					$('#mobile').val(json.mobile);
+					$('#ip').val(json.ip);
+					$('#email').val(json.email);
+				}
+				);
+			}
+			
+			function setUserInfo(){
+				$.post('service/user.php',{
+					func:		'setInfo',
+					uname:		$('#userName').val(),
+					corid:		$('#cors').selectGetValue(),
+					telephone:	$('#telephone').val(),
+					mobile:		$('#mobile').val(),
+					ip:			$('#ip').val(),
+					email:		$('#email').val()
+				},
+				function(data){
+					alert(data);
+				}
+				);
+			}
+			
+			function setUserPswd(){
+				var p1 = $('#password1').val();
+				var p2 = $('#password2').val();
+				if(p1=='') {alert('密码不得为空!'); return;}
+				if(p1!=p2) {
+					alert('两次输入的密码不一致,请重新输入!')
+					$('#password1').val('');
+					$('#password2').val('');
+					$('#password1').focus();
+					return;
+				}
+				$.post('service/user.php',{
+					func:	'setUserPswd',
+					pswd:	hex_md5(p1)
+				},
+				function(data){
+					alert(data);
+				}
+				);
+			}
+			
+			function regist(){
+				alert('为确保数据安全,现暂不开放此功能!');
+			}
+		</script>
+	</body>
+</html>

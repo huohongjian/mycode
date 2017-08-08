@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=utf-8">
+
+<script type="text/javascript" src="../_include/JQuery/jquery.js"></script>
+<script type="text/javascript" src="../_include/JQuery/plugin/dgrid/dgrid.js"></script>
+<link rel="stylesheet" type="text/css" href="../_include/JQuery/plugin/flexigrid/flexigrid.css">
+
+
+<style type="text/css">
+	table {table-layout:fixed; width:200px;}
+	tr {height:30px; overflow:hidden;}
+	td {height:30px; padding:5px; overflow:hidden; white-space:nowrap; word-break:keep-all; text-overflow_:ellipsis;}
+</style>
+
+</head>
+<body>
+
+
+ <div id="f" ></div>
+
+<script type="text/javascript">
+$("#f").dgrid();
+
+
+
+/*
+$("#flex1").flexigrid
+			(
+			{
+				url: 'action/test_flexigrid.php',
+				dataType: 'json',
+				colModel : [
+				{display: 'Id', name : 'id', width : 40, sortable : false, align: 'center'},
+				{display: 'Name', name : 'name', width : 180, align: 'left'}
+				],
+			buttons : [
+				{name: 'Add', bclass: 'add', onpress : test},
+				{name: 'Delete', bclass: 'delete', onpress : test},
+				{separator: true}
+				],
+			searchitems : [
+				{display: 'ISO', name : 'iso'},
+				{display: 'Name', name : 'name', isdefault: true}
+				],
+			sortname: "id",
+			sortorder: "asc",
+			usepager: true,
+			title: 'Countries',
+			useRp: true,
+			rp: 1,
+			showTableToggleBtn: true,
+			width: 700,
+			height: 200
+			}
+			);   
+			
+			function test(com,grid)
+			{
+				if (com=='Delete')
+					{
+						confirm('Delete ' + $('.trSelected',grid).html() + ' items?')
+					}
+				else if (com=='Add')
+					{
+						alert('Add New Item');
+					}			
+			}
+			*/
+</script>
+
+</body>
+</html>
+
+

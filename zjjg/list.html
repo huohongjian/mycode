@@ -1,0 +1,87 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv=Content-Type content="text/html; charset=utf-8">
+		<title>河北省烟草专卖局(公司)资金监管中心</title>
+		<link rel="stylesheet" type="text/css" href="css/main.css"/>
+		<link rel="stylesheet" type="text/css" href="javascript/dgrid/dgrid.css"/>
+		<script type="text/javascript" src="cache/data.js"></script>
+		<script type="text/javascript" src="javascript/jquery.pack.js"></script>
+		<script type="text/javascript" src="javascript/dgrid/dgrid.js"></script>
+		<script type="text/javascript" src="javascript/jquery.func.js"></script>
+		<script type="text/javascript" src='javascript/function.js'></script>
+		
+		<style type="text/css">
+			.tab {border:1px solid #5E8AB6;}
+			h3 {text-align:center; margin:10px;}
+			
+			
+			.dgrid {width:880px; margin:auto;}
+			.dgrid .c0 {width:50px; text-align:center;}
+			.dgrid .c1 {width:570px; text-align:left;}
+			.dgrid .c2 {width:70px; text-align:center;}
+			.dgrid .c3 {width:150px; text-align:center;}
+			
+			.searchbar {padding:5px 0px; height:10px; width:620px; margin:5px auto;}
+			.searchbar li {float:left; margin-left:10px;}
+			#cats select {width:100px;}
+		</style>
+	</head>
+	
+	<body>
+		<script type="text/javascript">document.write(jscode.header());</script>
+		<div class="tab">
+			<h3>文章查询</h3>
+			<div id="dgrid" class="dgrid"></div>
+			
+			<ul class="searchbar">
+				<li>类别：<span id="cats"></span></li>
+				<li>标题：<input type="text" id="searchTitle"/></li>
+				<li>内容：<input type="text" id="searchContent"/></li>
+				<li><button onclick="search()">查询</button></li>
+			</ul>
+			
+		</div>
+		<script type="text/javascript">document.write(jscode.footer());</script>
+	</body>
+
+		<script type="text/javascript">
+			$('#cats').selectBuild(options.unshift_array(options.art_fre_cats, {v:'0',n:'全部'}));
+			
+			$("#dgrid").dgrid(
+				{
+					url: 'service/list.php',
+					colModel: [
+						{display: 'ID号'},
+						{display: '文章标题'},
+						{display: '点击次数'},
+						{display: '上传时间'}
+						]
+				}
+			);
+			
+			
+			var catid = getLocationQuery(window.location.href) || 0;
+			$('#cats').selectSetValue(catid);
+			searchArticle(catid);
+			
+			
+			function search(){
+				searchArticle($('#cats').selectGetValue());
+			}
+			
+			function searchArticle(catid){
+				var p = {
+					func:	'getList',
+					catid:	catid,
+					title:	$('#searchTitle').val(),
+					content:$('#searchContent').val()
+				}
+				$("#dgrid").dgridSetParams(p);
+				$("#dgrid").dgridAjax({total:-1, page:1});
+			}
+			
+			
+		</script>
+	
+</html>

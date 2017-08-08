@@ -1,0 +1,42 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv=Content-Type content="text/html; charset=utf-8">
+		<title>系统登录</title>
+		<style type="text/css">
+			body {font-size:12pt; font-family:Arial, "宋体"; padding:5px;}
+			#login_div {background-image:url('./image/backimage/bgImg4.jpg'); width:220px; text-align:center; margin:auto;}
+			#login_div h3 {margin:0px;}
+			
+			span {display:block; margin:10px;}
+			input {width:120px;}
+			
+		</style>
+		<script type="text/javascript" src="../_include/JQuery/jquery.js"></script>
+		<script type="text/javascript" src="./javascript/share.js"></script>
+		<script type="text/javascript">
+			window.onload = function(){
+				document.getElementById('UserName').focus();
+			}
+			
+			function reset(){
+				var oName = document.getElementById("UserName");
+				var oPwd = document.getElementById("UserPwd");
+				oName.value = "";
+				oPwd.value = "";
+				oName.focus();
+			}
+		</script>
+	</head>
+	<body>
+		<div id='login_div'>
+			<h3>系统登录</h3>
+			<span id='span_usr'>用户：<input type="text" id="UserName" onkeypress="loginEnter(this,event)"/></span>
+			<span id='span_pwd'>密码：<input type="password" id="UserPwd" onkeypress="loginEnter(this,event)"/></span>
+			<span>
+				<a href='javascript:login()'>登录</a>
+				<a href="javascript:reset()">重置</a>
+			</span>
+		</div>
+	</body>
+</html>

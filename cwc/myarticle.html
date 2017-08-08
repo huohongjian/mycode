@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>我的文章</title>
+		<script type="text/javascript" src="javascript/jquery.js"></script>
+		<script type="text/javascript" src='javascript/share.js'></script>
+		<script type="text/javascript" src='cache/category_tree.js'></script>
+		<script type="text/javascript" src='include/dtree/dtree.js'></script>
+		<link type="text/css" rel="StyleSheet" href='include/dtree/dtree.css' />
+		
+		<script type="text/javascript">
+			var $categoryid = 1;
+			var $field = '';
+			var $value = '';
+
+			window.onload = function(){
+				$categoryid = window.location.href.getQuery('id') || 1;	//The method getQuery is included the file share.js.
+				create_tree(document.getElementById('tree'));
+				getPages_searchArticle();
+			}
+			
+			function getPages_searchArticle(){
+				var data = "func=getnRows&field="+$field+"&value="+$value+"&categoryid="+$categoryid;
+				XHR('POST', './action/myarticle.php', data, getPages_searchArticle_back);
+			}
+			function getPages_searchArticle_back(obj){
+				var rows = parseInt(obj.responseText);
+				PageBar.CalculatePages(rows);
+				setpagedo(1);
+			}
+			
+			
+			function setpagedo(page){
+				PageBar.page = page;
+				var data = "func=search&field="+$field+"&value="+$value
+						 + "&categoryid="+$categoryid+"&page="+page+"&num="+PageBar.row;
+				XHR('POST', './action/myarticle.php', data);
+			}
+			
+			
+			function clickleaf(treeid, categoryid, categoryname){
+				setValue('article_class',0);
+				$categoryid = categoryid;
+				getPages_searchArticle();
+			}
+			function clicknode(treeid, categoryid, categoryname){
+				clickleaf(treeid, categoryid, categoryname)
+			}
+			
+			
+			function select(index){
+				var objs = document.getElementsByName('aids');
+				var len = objs.length;
+				for (i=0; i<len; i++) {
+					switch(index){
+						case 0:	objs[i].checked = true; break;
+						case 1:	objs[i].checked = false; break;
+						case 2:	objs[i].checked = !objs[i].checked; break;
+					}
+				}
+			}
+			
+			function selectClass(obj){
+				var data = '';
+				switch(obj.value){
+					case '0': clicknode(0, 1, '全部类别'); return;
+					case '1': $field='published'; $value='1'; break;
+					case '2': $field='published'; $value='0'; break;
+					case '3': $field='hidetitle'; $value='1'; break;
+					case '4': $field='hidetitle'; $value='0'; break;
+					case '5': $field='isreply'; $value='1'; break;
+					case '6': $field='isreply'; $value='0'; break;
+				}
+				getPages_searchArticle();
+			}
+			
+			
+			function getIds(){
+				var ids = "";
+				var objs = document.getElementsByName('aids');
+				var len = objs.length;
+				for (i=0; i<len; i++) {
+					if(objs[i].checked) ids += ","+objs[i].value;
+				}
+				return ids.substring(1);
+			}
+			function hideTitle(bool){
+				var ids = getIds();
+				if(ids=='') alert("请选择文章!");
+				XHR('POST', './action/myarticle.php', 'func=hideTitle&ids='+ids+'&hideTitle='+bool);
+			}
+			
+			function published(bool){
+				var ids = getIds();
+				if(ids=='') alert("请选择文章!");
+				XHR('POST', './action/myarticle.php', 'func=published&ids='+ids+'&published='+bool);
+			}
+			
+			function deleteArticle(){
+				var ids = getIds();
+				if(ids=='') alert("请选择文章!");
+				var value = confirm("您将要执行的批量删除文章操作!\n\n文章删除后不可恢复!\n\n是否继续?");
+				if(value) XHR('POST', './action/myarticle.php', 'func=deleteArticle&ids='+ids);
+			}
+		</script>
+		
+		<style type="text/css">
+			.tab {width:900px; margin:5px auto;}
+			.tab_left {overflow:auto; padding:5px; float:left; width:180px; height:400px; border:1px solid #797979; background:_#F6F9E8;}
+			.tab_right {padding:5px; float:right; width:692px; height:400px; background:_#F1F8D1; border:1px solid #797979;}
+
+			#dobar {height:30px; line-height:30px; text-align_:center;}
+			#dobar a {margin:5px;}
+			
+			#list table {width:100%; background:_green; margin:auto; table-layout:fixed; margin-bottom:5px;}
+			#list .t_1 {width:5%;}	/*用px ie中是折行*/
+			#list .t_2 {width:68%;}
+			#list .t_3 {width:5%;}
+			#list .t_4 {width:5%;}
+			#list .t_5 {width:5%;}
+			#list .t_6 {width:12%;}
+			#list table td {border-bottom:1px dotted; text-align:center; background:white; overflow:hidden; white-space:nowrap; word-break:keep-all; text-overflow:ellipsis;}
+			#list table .toleft {text-align:left; padding-left:5px;}
+			#list table .toleft input {margin-right:3px;}
+			#list table tr {height:28px; overflow:hidden;}
+			
+			#search_bar {padding:8px;}
+			#search_category, #search_field, #search_txt {margin:0px 15px 0px 5px;}
+		</style>
+	</head>
+	<body>
+		<script type="text/javascript">Div.header();</script>
+		<div class="tab">
+			<div class="tab_left">
+				<div id="tree"></div>
+			</div>
+			<div class="tab_right">
+				<div id="dobar">
+					<select id="article_class" onchange="selectClass(this)" style="border:1px solid #7F9DB9;">
+						<option value="0">全部文章</option>
+						<option value="1">已发表文章</option>
+						<option value="2">未发表文章</option>
+						<option value="3">已隐藏文章</option>
+						<option value="4">未隐藏文章</option>
+						<option value="5">可回复文章</option>
+						<option value="6">不可复文章</option>
+					</select>
+					<a href="javascript:select(0)">全选</a>
+					<a href="javascript:select(1)">全清</a>
+					<a href="javascript:select(2)">反选</a>
+					<a>|</a>
+					<a href="javascript:hideTitle(1)">隐藏标题</a>
+					<a href="javascript:hideTitle(0)">显示标题</a>
+					<a>|</a>
+					<a href="javascript:published(1)">发表文章</a>
+					<a href="javascript:published(0)">取消发表</a>
+					<a>|</a>
+					<a href="javascript:deleteArticle()">删除文章</a>
+				</div>
+				<div id="list"></div>
+				<script type="text/javascript">document.write(PageBar.Html());</script>
+			</div>
+			<div class="AutoFitHeight"></div>
+		</div>
+		<script type="text/javascript">Div.footer();</script>
+	</body>
+</html>

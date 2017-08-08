@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>文章列表</title>
+		
+		<script type="text/javascript" src="javascript/jquery.js"></script>
+		<script type="text/javascript" src='javascript/share.js'></script>
+		<script type="text/javascript" src='cache/category_tree.js'></script>
+		
+		<script type="text/javascript" src="include/dtree/dtree.js"></script>
+		<link type="text/css" rel="StyleSheet" href="include/dtree/dtree.css" />
+		
+		<style type="text/css">
+			.tab {width:900px; margin:5px auto;}
+			.tab_left {overflow:auto; padding:5px; float:left; width:180px; height:400px; border:1px solid #797979; background:_#F6F9E8;#FFDD88;}
+			.tab_right {padding:5px; float:right; width:692px; height:400px; background:_#F1F8D1; border:1px solid #797979;}
+			
+			.tab_right ul {padding-left:6px; height:30px; line-height:30px;}
+			.tab_right ul li {float:left;}
+			.tab_right ul .adjust {margin-top:0px!important; margin-top:4px;}
+			
+			#list table {padding:0; margin:0px; width:100%; background:_green; margin:auto; table-layout:fixed; margin-bottom:5px;}
+			#list .t_1 {width:5%;}	/*用px ie中是折行*/
+			#list .t_2 {width:68%;}
+			#list .t_3 {width:5%;}
+			#list .t_4 {width:5%;}
+			#list .t_5 {width:5%;}
+			#list .t_6 {width:12%;}
+			#list table td {border-bottom:1px dotted; text-align:center; background:white; overflow:hidden; white-space:nowrap; word-break:keep-all; text-overflow:ellipsis;}
+			#list table .toleft {text-align:left; padding-left:5px;}
+			#list table .toleft input {margin-right:3px;}
+			#list table tr {height:28px; overflow:hidden;}
+			
+			#search_bar {padding:8px;}
+			#search_field {width:100px;}
+			#search_category, #search_field, #search_txt {margin:0px 15px 0px 5px;}
+		</style>
+		
+		<script type="text/javascript">
+			var $searchField = '';
+			var $searchTxt 	 = '';
+			var $categoryid  = 1;
+			
+			window.onload = function(){
+				create_tree(document.getElementById('tree'));
+				$categoryid = window.location.href.getQuery('id') || 1;
+				if ($searchTxt!=-1) {
+					XHR('POST', './action/list.php', 'func=getCategoryName&categoryid='+$categoryid, function(obj){
+						document.getElementById('categoryname').innerHTML = obj.responseText;
+					});
+				}
+				getPages_searchArticle();
+			}
+			
+			
+			function getPages_searchArticle(){
+				var data = 'func=getnRows&categoryid='+$categoryid+'&searchField='+$searchField+'&searchTxt='+$searchTxt;
+				XHR('POST', './action/list.php', data, getPages_searchArticle_back);
+			}
+			function getPages_searchArticle_back(obj){
+				var rows = parseInt(obj.responseText);
+				PageBar.CalculatePages(rows);
+				setpagedo(1);
+			}
+			
+			function setpagedo(page){
+				PageBar.page = page;
+				var number = PageBar.row;
+				var data = "func=search&categoryid="+$categoryid+"&page="+page+"&num="+number+"&searchField="+$searchField+"&searchTxt="+$searchTxt;
+				XHR('POST', './action/list.php', data, setpagedo_back);
+			}
+			function setpagedo_back(obj){
+				document.getElementById('list').innerHTML = obj.responseText;
+			}
+
+			
+			function clickleaf(treeid, categoryid, categoryname){
+				$categoryid = categoryid;
+				getPages_searchArticle();
+				setValue('categoryname', categoryname);
+			}
+			function clicknode(treeid, categoryid, categoryname){
+				clickleaf(treeid, categoryid, categoryname)
+			}
+			
+			
+			function search(){
+				$searchField = getValue('search_field');
+				$searchTxt = getValue('search_txt');
+				getPages_searchArticle();
+			}
+		</script>
+	</head>
+	<body>
+		
+		<script type="text/javascript">Div.header();</script>
+		
+		<div class="tab">
+			<div class="tab_left">
+				<div id="tree"></div>
+			</div>
+			<div class="tab_right">
+				<ul>
+					<li style="width:150px; margin-top:0px!important; margin-top:2px;">
+						当前类别：<span id="categoryname">全部类别</span>
+					</li>	
+					<li>字段:</li>
+					<li class="adjust">
+						<select id='search_field' style="border:1px solid #7F9DB9;">
+							<option value="title">标题</option>
+							<option value="number">文号</option>
+							<option value="author">作者</option>
+							<option value="content">内容</option>
+						</select>
+					</li>
+					<li>内容:</li>
+					<li class="adjust">
+						<input type="text" id='search_txt' style="width:150px; height:18px; border:1px solid #7F9DB9;"/>
+					</li>
+					<li><a href="javascript:search()">查询</a></li>
+				</ul>
+				
+				<div id="list"></div>
+				<script type="text/javascript">document.write(PageBar.Html());</script>
+			</div>
+			<div class="AutoFitHeight"></div>
+		</div>
+		<script type="text/javascript">Div.footer();</script>
+	</body>
+</html>

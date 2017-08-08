@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>报表定义</title>
+	<link type="text/css" rel="stylesheet" href="r_define.css" />
+	<script type='text/javascript' src='r_define.js'></script>
+	
+	<link type="text/css" rel="stylesheet" href="../css/dtree" />
+	<script type='text/javascript' src='../js/dtree.js'></script>
+	
+	<script type='text/javascript' src='../js/XmlHttpPool.js'></script>
+	
+	<link type='text/css' rel='stylesheet' href='../css/report.css' />
+	<script type='text/javascript' src='../js/tag.js'></script>
+	<script type="text/javascript">
+		window.onload = function(){
+			var tags = ["表管理", "标题项", "横表头", "纵表头", "表内公式", "表间公式", "填表说明", "表底说明", "预览"];
+			Tag.LoadTags(tags);
+			Tag.SwitchTag(0);
+		}
+		
+	</script>
+</head>
+<body>
+	<div id="header"><h2>报表定义(Report Defined)</h2></div>
+	<div id="middle">
+		<div id='left'>
+	
+		</div>
+		<div id='splitter'></div>
+		<div id='right'>
+		</div>
+	</div>
+	<div id="footer">版权所有:河北省烟草专卖局（公司）财务处 Copyright@ 2007-2010　　最佳分辨率1024*768</div>
+
+
+	
+</body>
+</html>
+
+<script type="text/javascript">
+	d = new dTree('d');
+	d.add(0,-1,'My example tree');
+	d.add(1,0,'Node 1','example01.html');
+	d.add(2,0,'Node 2','example01.html');
+	d.add(3,1,'Node 1.1','example01.html');
+	d.add(4,0,'Node 3','example01.html');
+	d.add(5,3,'Node 1.1.1','example01.html');
+	d.add(6,5,'Node 1.1.1.1','example01.html');
+	d.add(7,0,'Node 4','example01.html');
+	d.add(8,1,'Node 1.2','example01.html');
+	d.add(9,0,'My Pictures','example01.html','Pictures I\'ve taken over the years','','','../image/dtree/imgfolder.gif');
+	d.add(10,9,'The trip to Iceland','example01.html','Pictures of Gullfoss and Geysir');
+	d.add(11,9,'Mom\'s birthday','example01.html');
+	d.add(12,0,'Recycle Bin','example01.html','','','../image/dtree/trash.gif');
+	document.getElementById('left').innerHTML = d;
+</script>

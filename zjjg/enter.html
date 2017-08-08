@@ -1,0 +1,45 @@
+2.直接在onkeypress里面处理 
+
+我们可以在onkeypress里面直接出来，但判断event.keyCode==13也就是是回车的时候我们直接插入标签，
+这样无论怎么样都不会出现问题的了。以下是代码示例：
+
+<SCRIPT LANGUAGE="javascript">
+	<!--
+	function initeditor(){
+		var sz="";
+		sz+="<BODY ONCONTEXTMENU=\"return false\"></BODY>" 
+		idEditbox.document.designMode="on" 
+	//	idEditbox.document.write(sz) 
+		idEditbox.document.onkeypress=fnKeypress
+	}
+	function fnKeypress(){
+		//注意：如果焦点不在编辑器内该函数就不起作用了；
+		var ev = idEditbox.event;
+		 if(ev.keyCode==13){
+	//	 	insertHTML("<br><!--  -->"); //不知道是我浏览器问题还是其他问题，只插入<br>标签光标不换行，必须附加点其他标签，可以最后一起删除之
+		 	return false;//这样回车就是等于失效了，不会加上讨厌的<p>标签 
+		}
+	}
+	//在光标位置插入html
+	function insertHTML(html){
+		var sel = idEditbox.document.selection;
+		if (sel!=null) {
+			var rng = sel.createRange();
+			if (rng!=null)
+				rng.pasteHTML(html);
+		}
+	}
+	//查看代码
+	function readsource(){
+		document.all.source.value=idEditbox.document.body.innerHTML;
+	}
+	//-->
+	</SCRIPT>
+	<BODY >
+		<iframe width="500" height="400" id="idEditbox"></iframe>
+		<BR>
+		<INPUT TYPE="button" value="查看源代码"  >
+		<BR>
+		<TEXTAREA NAME="source" ROWS="20" COLS="60"></TEXTAREA>
+	</BODY>
+ 

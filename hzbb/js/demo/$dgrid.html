@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>table</title>
+	<style>
+
+		th, td{white-space:nowrap;padding:2px 5px;height:28px; width:120px; background-color:#f2f2f2;}
+		
+		h4{clear:both;margin:0; padding:10px 50px;}
+		ul{margin:0 50px;}
+		li{margin:0;height:15px; padding:10px;float:left; background-color:#f2f2f2;border-bottom:dotted 1px;list-style-type:none;_square;list-style-position:inside;}
+		li:nth-child(1),li:nth-child(2),li:nth-child(3){background-color:lightgreen;text-align:center;font-weight:bold; list-style-type:none;}
+		li:nth-child(2){text-align:left;}
+		li:nth-child(3n+1){width:260px; clear:both;}
+		li:nth-child(3n+2){width:100px; list-style-type:none;}
+		li:nth-child(3n)  {width:600px; list-style-type:none;}
+		
+	</style>
+	
+	<link type='text/css' rel='stylesheet' href='../../css/dgrid.css' />
+	<script type='text/javascript' src='../$df.js'></script>
+	<script type='text/javascript' src='../$tbl.js'></script>
+	<script type='text/javascript' src='../$dgrid.js'></script>
+	<script>
+
+		window.onload=function(){
+			$dgrid.run({}).appendTo('dgrid');
+			
+			
+			
+		}
+		
+		function test(){
+			$dgrid.audit();
+		}
+		
+	</script>
+</head>
+<body>
+	<input type='button' value='clickme' onclick='test()'>
+	<div id='dgrid'></div>
+	
+	<div id='err'></div>
+	
+	
+	<h3>使用说明</h3>
+	<h4>一、运行命令：$dgrid.run({}),参数说明如下：</h4>
+	<ul>
+		<li>方法</li>			<li>参数</li>			<li>说明</li>
+		<li>$dgrid.run({})</li>	<li>id	 	:''</li>		<li>指定将dgrid添加到页面元素的id</li>
+		<li> </li>  				<li>align	:[]</li>		<li>各列的对齐方式</li>
+		<li> </li>　　　　		<li>width	:[]</li> 		<li>各列的宽度，单位：px</li>
+		<li></li>　　　　		<li>headh	:[[]]</li>		<li>横表头</li>
+		<li></li>　　			<li>headv	:[[]]</li>		<li>纵表头</li>
+		<li></li>　				<li>data 	:[[]]</li>		<li>表体数据</li>
+		<li></li>				<li>rtype	:[]</li>		<li>各行数据类型</li>
+		<li></li>				<li>ctype	:[]</li>		<li>各列数据类型</li>
+		<li></li>				<li>rdecimal:[]</li>		<li>各行小数位</li>
+		<li></li>				<li>cdecimal:[]</li>		<li>各列小数位</li>
+		<li></li>				<li>items	:{}</li>		<li>单元格输入时的选择项，以行或列设置</li>
+		<li></li>				<li>height	: n</li>		<li>表体高度(px)</li>
+		<li></li>				<li>heightOff: n</li>		<li>表体top偏离度(px)</li>
+		<li></li>				<li>cellHeight: n</li>		<li>单元格高度</li>
+		<li></li>				<li>cellWidth: n</li>		<li>单元格宽度（默认值）</li>
+		<li></li>				<li>rfloat: boolean</li>	<li>表体是否可行浮动</li>
+		<li></li>				<li>cfloat: boolean</li>	<li>表体是否可列浮动</li>
+		<li></li>				<li>editable:true</li>	<li>表体是否可编辑</li>
+		<li></li>				<li>enterDown:false</li>	<li>回车是否纵向移动</li>
+		<li></li>				<li>auditings:[]</li>		<li>审核公式</li>
+		<li></li>				<li>operations:[]</li>		<li>运算公式</li>
+		<li></li>				<li></li>		<li></li>
+		<li></li>				<li></li>		<li></li>
+		<li></li>				<li></li>		<li></li>
+		<li></li>				<li></li>		<li></li>
+	</ul>
+	<h4>二、创建HTMLTableElement元素</h4>
+	<ul>
+		<li>用法</li>								<li>返回值</li>		<li>说明</li>
+		<li>$tbl().create(thead,tbody,atts)</li>	<li>$table</li>	<li>创建一个HTMLTableElemen元素</li>
+		<li>$tbl().create(2, 5, atts)</li>			<li>$table</li>	<li>创建一个2x5空的HTMLTableElemen元素，没有thead标签</li>
+	</ul>
+			
+
+</body>
+</html>

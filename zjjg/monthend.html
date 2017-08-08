@@ -1,0 +1,311 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv=Content-Type content="text/html; charset=utf-8">
+		<title>河北省烟草专卖局(公司)资金监管中心</title>
+		<link rel="stylesheet" type="text/css" href="css/main.css"/>
+		<link rel="stylesheet" type="text/css" href="javascript/dgrid/dgrid.css"/>
+		<link rel="stylesheet" type="text/css" href="javascript/uiTabs/ui.tabs.css">
+		<script type="text/javascript" src="cache/data.js"></script>
+		<script type="text/javascript" src="javascript/jquery.pack.js"></script>
+		<script type="text/javascript" src="javascript/dgrid/dgrid.js"></script>
+		<script type="text/javascript" src="javascript/jquery.func.js"></script>
+		<script type="text/javascript" src='javascript/function.js'></script>
+		<script src="javascript/uiTabs/ui.tabs.pack.js" type="text/javascript"></script>
+		
+		<style type="text/css">
+			.dgrid {width:630px; margin:auto;}
+			
+			#dgrid0 .c0 {width:50px; text-align:center;}
+			#dgrid0 .c1 {width:150px; text-align:center;}
+			#dgrid0 .c2 {width:120px; text-align:right;}
+			#dgrid0 .c3 {width:120px; text-align:right;}
+			#dgrid0 .c4 {width:120px; text-align:right;}
+			
+			#dgrid1 .c0, #dgrid1 .c0 input {width:50px; text-align:center;}
+			#dgrid1 .c1, #dgrid1 .c1 input {width:100px; text-align:center;}
+			#dgrid1 .c2, #dgrid1 .c2 input {width:80px; text-align:center;}
+			#dgrid1 .c3, #dgrid1 .c3 input {width:242px; text-align:left;}
+			#dgrid1 .c4, #dgrid1 .c4 input {width:120px; text-align:right;}
+			
+			h3 {text-align:center; margin-top:15px;}
+			
+			.tab_left ul {width:220px; margin:auto;}
+			.tab_left ul li {margin:10px 25px; list-style-type:decimal; line-height:20px;}
+			
+			table#unchargeupcats {table-layout:fixed; border-collapse:collapse; margin:10px auto; border-left:1px solid #C0C0C0; border-top:1px solid #C0C0C0;}
+			table#unchargeupcats td {width:180px; height:25px; padding:2px; border-right:1px solid #C0C0C0; border-bottom:1px solid #C0C0C0; overflow:hidden; white-space:nowrap; word-break:keep-all; text-overflow:ellipsis;}
+			
+			ul.neck {padding:8px; height:10px;}
+			ul.neck li {float:left;}
+			ul.neck li.c0 {width:260px;}
+			ul.neck li.c1 {width:120px; background_:green;}
+			ul.neck li.c2 {width:220px; text-align:right;}
+			
+			#category {margin:10px auto; background:#7E7D68;}
+			#category tr {height:28px;}
+			#category th {text-align:center;}
+			#category td {background:white; padding:2px 10px;}
+			#category .c0 {width:150px;}
+			
+			#monthendwork {margin-right:30px}
+			
+			.tab_left h3 {margin-top:32px;}
+			
+			#container-1 {margin-top:6px;}
+			#container-1 > div {width:auto;}
+			
+			ul.yetjb {width:280px; float:left; margin:15px;}
+			ul.yetjb li {float:left; height:25px;}
+			ul.yetjb li.c0 {width:140px; text-align:right;}
+			ul.yetjb li.c1 {width:130px;}
+			ul.yetjb li.c1 input {width:120px; height:18px; padding:0px 2px; text-align:right; background-color:#EBEBE4; border:1px solid #7F9DB9; }
+			input#rjzye, input#dzdye {background:#FFFFFF}
+			ul.yetjb li.line {line-height:1px; height:1px; margin-bottom:5px; border-bottom:1px solid green; width:100%;}
+			ul.yetjb button {margin:0px 5px;}
+		</style>
+		
+		<script type="text/javascript">
+			var ymd = {};
+			
+			
+			$(function(){
+				getUserInfo();
+			
+			});
+			
+			function loginEvent(){	//在login.html中定义
+				getUserInfo();
+				
+			}
+			
+			function getUserInfo(){
+				$.getJSON('service/login.php?func=getUserInfo',
+					function(json){
+						if(json.key==1){
+							var corp = options.getName(options.corporations,json.corid).replace('　','');
+							$('#corp0').html(corp); $('#date0').html(json.date);
+							$('#corp1').html(corp); $('#date1').html(json.date);
+							ymd.y = getYMD($('#date0').html()).y;
+							ymd.m = getYMD($('#date0').html()).m;
+							ymd.d = getYMD($('#date0').html()).d;
+							ymd.md = getYMD($('#date0').html()).md;
+							$("#dgrid0").dgridSetParams(ymd);
+				//			$("#dgrid1").dgridSetParams(ymd);
+							$("#dgrid0").dgridAjax();
+				//			$("#dgrid1").dgridAjax();
+						}else{
+							alert(json.msg);
+						}
+					}
+				);
+			}
+			
+			function saveWdzx(o){
+				alert($("#dgrid1").dgridSerialize());
+				$.post('service/monthend.php',
+				{
+					func: 	'saveWdzx',
+					y:		ymd.y,
+					m:		ymd.m,
+					data: 	$("#dgrid1").dgridSerialize()
+				},
+				function(data){
+					alert(data);
+					$("#dgrid1").dgridAjax(ymd);
+				}
+				);
+			}
+		
+			function delCurRow1_back(data){
+				alert(data)
+			}
+			
+			function alter1(o){
+				if(o.value=='') o.value='1';
+				var opts = options.unchargeupcats_withid;
+				var name = opts[0].n;
+				for(var i=0; i<opts.length; i++){
+					if(opts[i].n.match(o.value)) {
+						name = opts[i].n;
+						break;
+					}
+				}
+				o.value = name;
+			}
+			
+			function formatNmb1(e,o){
+				o.value = nst_convert(o.value);
+			}
+			function formatNmb2(o){
+				o.value = nst_convert(o.value,2,true);
+			}
+			
+		</script>
+	</head>
+	
+	<body>
+		<script type="text/javascript">document.write(jscode.header());</script>
+		<div class="tab">
+			<div class="tab_left">
+				<h3>使用说明</h3>
+				<ul>
+					<li>月末处理各项操作，请以<span style="color:red;">月末最后一天</span>的日期登录。</li>
+					<li>余额结转主要功能：费用支出类余额自动生成已提交类型的额度申请单；其他类别余额自动清零。</li>
+				</ul>
+				
+				<h3>未达账项类别</h3>
+				<table id="unchargeupcats">
+					<script type="text/javascript">
+						var opts = options.unchargeupcats_withid;
+						for(var i=0; i<opts.length; i++){
+							document.write("<tr><td>"+opts[i].n+"</td></tr>");
+						}
+					</script>
+				</table>
+			</div>
+			<div class="tab_right">
+		        <div id="container-1">
+		            <ul>
+		                <li><a href="#fragment-1"><span>余额结转</span></a></li>
+		                <li><a href="#fragment-2"><span>建设中...</span></a></li>
+		                <li><a href="#fragment-3"><span>建设中...</span></a></li>
+		            </ul>
+		            <div id="fragment-1">
+		         		<ul class="neck">
+							<li class="c0">单位：<span id="corp0"></span></li>
+							<li class="c1">日期:<span id="date0"></span></li>
+							<li class="c2">金额单位：元</li>
+						</ul>
+		         		<div id="dgrid0"></div>
+		            </div>
+		
+		            <div id="fragment-2">
+						<!--ul class="neck">
+							<li class="c0">单位：<span id="corp1"></span></li>
+							<li class="c1">日期:<span id="date1"></span></li>
+							<li class="c2">金额单位：元</li>
+						</ul>
+						<div id="dgrid1" class="dgrid"></div-->
+					</div>
+					
+		            <div id="fragment-3">
+		            	<!--div style="clear:both;"></div>
+						<ul class="yetjb">
+							<li class="c0">银行日记账余额：</li><li class="c1"><input type="text" id="rjzye"/></li>
+							<li class="c0">+ 银收企未收：</li><li class="c1"><input type="text" id="rjzye_ys" readonly/></li>
+							<li class="c0">- 银付企未付：</li><li class="c1"><input type="text" id="rjzye_yf" readonly/></li>
+							<li class="line"></li>
+							<li class="c0">= 调整后余额：</li><li class="c1"><input type="text" id="rjzye_tz" readonly/></li>
+						</ul>
+						<ul class="yetjb">
+							<li class="c0">银行对账单余额：</li><li class="c1"><input type="text" id="dzdye"/></li>
+							<li class="c0">+ 企收银未收：</li><li class="c1"><input type="text" id="dzdye_qs" readonly/></li>
+							<li class="c0">- 企付银未付：</li><li class="c1"><input type="text" id="dzdye_qf" readonly/></li>
+							<li class="line"></li>
+							<li class="c0">= 调整后余额：</li><li class="c1"><input type="text" id="dzdye_tz" readonly/></li>
+						</ul>
+						<ul class="yetjb">
+							<li class="c0">系统额度余额：</li><li class="c1"><input type="text" id="xted" readonly/></li>
+							<li class="c0">+ 银付企未付：</li><li class="c1"><input type="text" id="xted_yf" readonly/></li>
+							<li class="line"></li>
+							<li class="c0">= 调整后余额：</li><li class="c1"><input type="text" id="xted_tz" readonly/></li>
+						</ul>
+						<ul class="yetjb">
+							<li class="c0">银行实际额度余额：</li><li class="c1"><input type="text" id="sjed" readonly/></li>
+							<li class="c0">+ 企付银未付：</li><li class="c1"><input type="text" id="sjed_qf" readonly/></li>
+							<li class="line"></li>
+							<li class="c0">= 调整后余额：</li><li class="c1"><input type="text" id="sjed_tz" readonly/></li>
+						</ul>
+						<ul class="yetjb">
+							<li class="c0">企付银未付：</li><li class="c1"><input type="text" id="qfywf" readonly/></li>
+							<li class="c0">- 银付企未付：</li><li class="c1"><input type="text" id="yfqwf" readonly/></li>
+							<li class="line"></li>
+							<li class="c0">= 下月调整额度金额：</li><li class="c1"><input type="text" id="tzed" readonly/></li>
+						</ul>
+						<ul class="yetjb">
+							<li class="c0"><button>1.刷新</button><button>2.计算</button></li>
+							<li class="c1"><button>3.审核</button><button>4.保存</button></li>
+						</ul>
+						<div style="clear:both;">
+							<span style="color:red;">注意事项</span>：
+							首先，录入银行日记账余额和银行对账单余额；
+							其次，依次点击刷新、计算、审核按钮，确认数据无误后，点击保存按钮。
+							省公司资金监管中心将依照相关数据直接增减银行下月额度。
+						</div-->
+		            </div>
+		        </div>
+			</div>
+		</div>
+		<script type="text/javascript">document.write(jscode.footer());</script>
+		<script type="text/javascript">
+			
+			$("#dgrid0").dgrid({
+				url: 'service/monthend.php',
+				colModel: [
+					{display: '序号'},
+					{display: '类别'},
+					{display: '借方', init:formatNumber},
+					{display: '贷方', init:formatNumber},
+					{display: '余额', init:formatNumber}
+					],
+				buttons: [
+					{name:'余额结转', id:'monthendwork', onpress:monthendwork}
+				],
+				params: {
+					func:'getBalance'
+				}
+			}
+			);
+			
+			$('#container-1 > ul').tabs();
+			
+			/*
+				
+			$("#dgrid1").dgrid({
+				url: 'service/monthend.php',
+				autoload: false,
+				colModel: [
+					{display: '序号', readonly:true},
+					{display: '类别', blur:alter1, skip:{left:1,right:0}},
+					{display: '时间', blur:function(o){if(!isDate(o.value)) alert('你登录的日期格式不正确，请重新录入!');}},
+					{display: '摘要'},
+					{display: '金额', keyup:formatNmb1, blur:formatNmb2, skip:{left:0,right:1}, init:formatNumber}
+					],
+				buttons: [
+					{name:'保存', id:'saveBtn', onpress:saveWdzx},
+					{name:'删除无效行', onpress:function(){$("#dgrid1").dgridDelInvRow([3]);}},
+					{name:'删除当前行', onpress:function(){$("#dgrid1").dgridDelCurRow({func:'delCurRow', handle:delCurRow1_back});}},
+					{name:'插入空白行', onpress:function(){$("#dgrid1").dgridInsertRow(1);}}
+				],
+				enterDirect: 'h',
+				editable: true,
+				enterAppendRow: true,
+				invRows:[4],
+				params: {func:'getWdzx'}
+			}
+			);
+	
+			*/
+			
+			
+			
+			
+			function monthendwork(o){
+				alert('建设中...');
+				return;
+				$.post('service/monthend.php',
+				{
+					func: 'monthendwork',
+					data: $("#dgrid0").dgridSerialize([4])
+				},
+				function(data){
+					alert(data);
+					$("#dgrid0").dgridAjax(ymd);
+				}
+				);
+			}
+			
+		</script>
+	</body>
+</html>
